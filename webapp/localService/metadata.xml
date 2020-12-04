@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx"
+	xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData">
+	<edmx:DataServices m:DataServiceVersion="2.0">
+		<Schema Namespace="ZVGT_HPPM_CORE_SRV" xml:lang="en" sap:schema-version="1" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+			<EntityType Name="PlantValueHelp" sap:content-version="1">
+				<Key><PropertyRef Name="Key"/></Key><Property Name="Key" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="Plant" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="Description" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:label="Description"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false"/></EntityType>
+			<EntityType Name="DeliveryHead" sap:content-version="1">
+				<Key><PropertyRef Name="DeliveryKey"/></Key><Property Name="DeliveryKey" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Shipment ID"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="DeliveryType" Type="Edm.String" Nullable="false" MaxLength="4" sap:label="Delivery Type" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="CreatedBy" Type="Edm.String" Nullable="false" MaxLength="12" sap:label="Created by" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Plant" Type="Edm.String" Nullable="false" MaxLength="4" sap:label="Plant" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false"/><Property Name="ShipmentStatus" Type="Edm.String" Nullable="false" sap:label="Shipment Status" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false" sap:filterable="false"/><Property Name="ShipToParty" Type="Edm.String" Nullable="false" MaxLength="10" sap:label="Ship-to party" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="LoadingStatus" Type="Edm.String" Nullable="false" sap:label="Loading Device Status" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="SoldToParty" Type="Edm.String" Nullable="false" MaxLength="10" sap:label="Sold-To Party" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="ShipToPartyText" Type="Edm.String" Nullable="false" MaxLength="35" sap:label="Ship-to party" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="SoldToPartyText" Type="Edm.String" Nullable="false" MaxLength="35" sap:label="Sold-To Party" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><NavigationProperty Name="Files" Relationship="ZVGT_HPPM_CORE_SRV.Files" FromRole="FromRole_Files" ToRole="ToRole_Files"/><NavigationProperty Name="Items" Relationship="ZVGT_HPPM_CORE_SRV.DeliveryItems" FromRole="FromRole_DeliveryItems"
+					ToRole="ToRole_DeliveryItems"/></EntityType>
+			<EntityType Name="DeliveryItem" sap:content-version="1">
+				<Key><PropertyRef Name="DeliveryKey"/><PropertyRef Name="ItemKey"/></Key><Property Name="DeliveryKey" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Shipment ID"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="ItemKey" Type="Edm.String" Nullable="false" MaxLength="6" sap:unicode="false" sap:label="Item" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/></EntityType>
+			<EntityType Name="File" sap:content-version="1">
+				<Key><PropertyRef Name="DocumentId"/></Key><Property Name="DocumentId" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:label="Doc. ID" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/></EntityType>
+			<Association Name="Files" sap:content-version="1" sap:label="Files"><End Type="ZVGT_HPPM_CORE_SRV.DeliveryHead" Multiplicity="*" Role="FromRole_Files"/><End Type="ZVGT_HPPM_CORE_SRV.File" Multiplicity="*" Role="ToRole_Files"/></Association>
+			<Association Name="DeliveryItems" sap:content-version="1" sap:label="DeliveryItems"><End Type="ZVGT_HPPM_CORE_SRV.DeliveryHead" Multiplicity="*" Role="FromRole_DeliveryItems"/><End Type="ZVGT_HPPM_CORE_SRV.DeliveryItem" Multiplicity="*" Role="ToRole_DeliveryItems"/></Association>
+			<EntityContainer Name="ZVGT_HPPM_CORE_SRV_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx"><EntitySet Name="PlantValueHelpSet" EntityType="ZVGT_HPPM_CORE_SRV.PlantValueHelp" sap:creatable="false" sap:updatable="false"
+				sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/><EntitySet Name="DeliveryHeadSet" EntityType="ZVGT_HPPM_CORE_SRV.DeliveryHead" sap:creatable="false" sap:updatable="false"
+				sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/><EntitySet Name="DeliveryItemSet" EntityType="ZVGT_HPPM_CORE_SRV.DeliveryItem" sap:creatable="false" sap:updatable="false"
+				sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/><EntitySet Name="FileSet" EntityType="ZVGT_HPPM_CORE_SRV.File" sap:creatable="false" sap:updatable="false" sap:deletable="false"
+				sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+				<AssociationSet Name="DeliveryItems_AssocSet" Association="ZVGT_HPPM_CORE_SRV.DeliveryItems" sap:creatable="false" sap:updatable="false"
+					sap:deletable="false" sap:content-version="1"><End EntitySet="DeliveryHeadSet" Role="FromRole_DeliveryItems"/><End EntitySet="DeliveryItemSet" Role="ToRole_DeliveryItems"/></AssociationSet>
+				<AssociationSet Name="Files_AssocSet" Association="ZVGT_HPPM_CORE_SRV.Files" sap:creatable="false" sap:updatable="false"
+					sap:deletable="false" sap:content-version="1"><End EntitySet="DeliveryHeadSet" Role="FromRole_Files"/><End EntitySet="FileSet" Role="ToRole_Files"/></AssociationSet>
+			</EntityContainer><atom:link rel="self" href="https://vpavd800.vetropack.corporate.ads:8001/sap/opu/odata/sap/ZVGT_HPPM_DELIVERY_LIST_SRV/$metadata"
+				xmlns:atom="http://www.w3.org/2005/Atom"/><atom:link rel="latest-version" href="https://vpavd800.vetropack.corporate.ads:8001/sap/opu/odata/sap/ZVGT_HPPM_DELIVERY_LIST_SRV/$metadata"
+				xmlns:atom="http://www.w3.org/2005/Atom"/></Schema>
+	</edmx:DataServices>
+</edmx:Edmx>

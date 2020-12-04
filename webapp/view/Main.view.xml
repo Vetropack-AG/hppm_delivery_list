@@ -1,0 +1,131 @@
+<mvc:View controllerName="zvgt.hppm.delivery_list.controller.Main" 
+	xmlns:mvc="sap.ui.core.mvc"  
+	xmlns:core="sap.ui.core"
+	xmlns="sap.m" 
+	xmlns:smartFilterBar="sap.ui.comp.smartfilterbar" 
+	xmlns:smartTable="sap.ui.comp.smarttable" 
+	xmlns:tnt="sap.tnt"
+	displayBlock="true">
+	<Page title="{i18n>title}">
+		<content>
+			
+			<smartFilterBar:SmartFilterBar 
+				id="smartFilterBar" 
+				entitySet="DeliveryHeadSet" 
+				persistencyKey="SmartFilter_Explored"
+				showFilterConfiguration="false">
+				
+				<smartFilterBar:controlConfiguration>
+					<smartFilterBar:ControlConfiguration key="DeliveryKey" visibleInAdvancedArea="true" hasValueHelpDialog="false" index="0" />
+					<smartFilterBar:ControlConfiguration key="Plant" visibleInAdvancedArea="true" hasValueHelpDialog="true" index="1" displayBehaviour="descriptionAndId"
+						preventInitialDataFetchInValueHelpDialog="false"/>
+						<smartFilterBar:ControlConfiguration key="DeliveryDate" visibleInAdvancedArea="true" index="2" 
+						conditionType="sap.ui.comp.config.condition.DateRangeType"/>
+					<smartFilterBar:ControlConfiguration key="TruckNumber" visibleInAdvancedArea="true" hasValueHelpDialog="false" index="3" />
+					<smartFilterBar:ControlConfiguration key="CustomerDelivery" visibleInAdvancedArea="true" hasValueHelpDialog="false" index="3" />
+				</smartFilterBar:controlConfiguration>
+				
+			<!-- layout data used to make the table growing but the filter bar fixed -->
+				<smartFilterBar:layoutData>
+					<FlexItemData shrinkFactor="0"/>
+				</smartFilterBar:layoutData>
+			</smartFilterBar:SmartFilterBar>
+			
+			<smartTable:SmartTable 
+				id="SmartTable"
+				entitySet="DeliveryHeadSet" 
+				ignoredFields="" 
+				initiallyVisibleFields="" 
+				requestAtLeastFields="ShipToPartyText,SoldToPartyText"
+				smartFilterId="smartFilterBar" 
+				tableType="ResponsiveTable" 
+				useExportToExcel="false" 
+				useVariantManagement="false"
+				useTablePersonalisation="false" 
+				header="{i18n>main.shipments}" 
+				showRowCount="true" 
+				persistencyKey="SmartTableAnalytical_Explored"
+				enableAutoBinding="true" 
+				demandPopin="true" 
+				placeToolbarInTable="true"
+				class="sapUiResponsiveContentPadding">
+				
+				<smartTable:customToolbar>
+					<Toolbar>
+						<ToolbarSpacer />
+						<Button icon="sap-icon://print" tooltip="{i18n>main.printDelivery}" press="onPrintDeliveryPress" />
+						<Button icon="sap-icon://notes" tooltip="{i18n>main.printProtocol}" />
+						<Button icon="sap-icon://cancel" tooltip="{i18n>main.cancelDelivery}" />
+					</Toolbar>
+				</smartTable:customToolbar>
+				
+				<Table mode="SingleSelectLeft" sticky="ColumnHeaders,HeaderToolbar">
+
+					<columns>
+						
+						<Column id="ShipmentStatus" width="10%">
+							<customData>
+								<core:CustomData key="p13nData"
+									value='\{	"columnKey": "ShipmentStatus", 
+												"maxLength": "20",
+												"columnIndex":"2", 
+												"leadingProperty": "ShipmentStatus", 
+												"type": "string" }'/>
+							</customData>
+							<Text text="{/#DeliveryHead/ShipmentStatus/@sap:label}"/>
+						</Column>
+				
+					
+					<Column id="LoadingStatus" width="15%">
+							<customData>
+								<core:CustomData key="p13nData"
+									value='\{	"columnKey": "LoadingStatus", 
+												"maxLength": "20",
+												"columnIndex":"2", 
+												"leadingProperty": "LoadingStatus", 
+												"type": "string" }'/>
+							</customData>
+							<Text text="{/#DeliveryHead/LoadingStatus/@sap:label}"/>
+						</Column>
+			
+					
+						<Column id="ShipToParty">
+							<customData>
+								<core:CustomData key="p13nData"
+									value='\{	"columnKey": "ShipToParty", 
+												"maxLength": "100",
+												"columnIndex":"5", 
+												"leadingProperty": "ShipToParty", 
+												"type": "string" }'/>
+							</customData>
+							<Text text="{/#DeliveryHead/ShipToParty/@sap:label}"/>
+						</Column>
+						
+						<Column id="SoldToParty">
+							<customData>
+								<core:CustomData key="p13nData"
+									value='\{	"columnKey": "SoldToParty", 
+												"maxLength": "100",
+												"columnIndex":"6", 
+												"leadingProperty": "SoldToParty", 
+												"type": "string" }'/>
+							</customData>
+							<Text text="{/#DeliveryHead/SoldToParty/@sap:label}"/>
+						</Column>
+					</columns>
+					
+					<items>
+						<ColumnListItem type="Navigation">
+							<cells>
+								<tnt:InfoLabel text="{ShipmentStatus}" displayOnly="true" colorScheme= "{ path: 'ShipmentStatus', formatter: '.formatter.shipmentStatusColorScheme' }" />
+								<tnt:InfoLabel text="{LoadingStatus}" displayOnly="true" colorScheme= "{ path: 'LoadingStatus', formatter: '.formatter.loadingStatusColorScheme' }" />
+								<Text text="{ShipToPartyText} ({ShipToParty})"/>
+								<Text text="{SoldToPartyText} ({SoldToParty})"/>
+							</cells>
+							</ColumnListItem>
+					</items>
+				</Table>
+			</smartTable:SmartTable>
+		</content>
+	</Page>
+</mvc:View>
