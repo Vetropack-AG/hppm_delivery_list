@@ -13,16 +13,20 @@
 				id="smartFilterBar" 
 				entitySet="DeliveryHeadSet" 
 				persistencyKey="SmartFilter_Explored"
-				showFilterConfiguration="false">
+				showFilterConfiguration="true">
 				
 				<smartFilterBar:controlConfiguration>
-					<smartFilterBar:ControlConfiguration key="DeliveryKey" visibleInAdvancedArea="true" hasValueHelpDialog="false" index="0" />
-					<smartFilterBar:ControlConfiguration key="Plant" visibleInAdvancedArea="true" hasValueHelpDialog="true" index="1" displayBehaviour="descriptionAndId"
+					<smartFilterBar:ControlConfiguration key="DeliveryKey" visibleInAdvancedArea="true" hasValueHelpDialog="false" />
+					<smartFilterBar:ControlConfiguration key="Plant" visibleInAdvancedArea="true" hasValueHelpDialog="true" displayBehaviour="descriptionAndId"
 						preventInitialDataFetchInValueHelpDialog="false"/>
 						<smartFilterBar:ControlConfiguration key="DeliveryDate" visibleInAdvancedArea="true" index="2" 
 						conditionType="sap.ui.comp.config.condition.DateRangeType"/>
-					<smartFilterBar:ControlConfiguration key="TruckNumber" visibleInAdvancedArea="true" hasValueHelpDialog="false" index="3" />
-					<smartFilterBar:ControlConfiguration key="CustomerDelivery" visibleInAdvancedArea="true" hasValueHelpDialog="false" index="3" />
+					<smartFilterBar:ControlConfiguration key="TruckNumber" visibleInAdvancedArea="true" hasValueHelpDialog="false"  />
+					<smartFilterBar:ControlConfiguration key="CustomerDelivery" visibleInAdvancedArea="true" hasValueHelpDialog="false"  />
+					<smartFilterBar:ControlConfiguration key="ShipToParty" visibleInAdvancedArea="true" hasValueHelpDialog="true" displayBehaviour="descriptionAndId" preventInitialDataFetchInValueHelpDialog="false" />
+					<smartFilterBar:ControlConfiguration key="SoldToParty" visibleInAdvancedArea="true" hasValueHelpDialog="true" displayBehaviour="descriptionAndId" preventInitialDataFetchInValueHelpDialog="false" />
+					<smartFilterBar:ControlConfiguration key="MaterialGroup" visibleInAdvancedArea="true" hasValueHelpDialog="true" preventInitialDataFetchInValueHelpDialog="false"
+						controlType="dropDownList" displayBehaviour="descriptionOnly" />
 				</smartFilterBar:controlConfiguration>
 				
 			<!-- layout data used to make the table growing but the filter bar fixed -->
@@ -34,8 +38,6 @@
 			<smartTable:SmartTable 
 				id="SmartTable"
 				entitySet="DeliveryHeadSet" 
-				ignoredFields="" 
-				initiallyVisibleFields="" 
 				requestAtLeastFields="ShipToPartyText,SoldToPartyText"
 				smartFilterId="smartFilterBar" 
 				tableType="ResponsiveTable" 
@@ -46,7 +48,6 @@
 				showRowCount="true" 
 				persistencyKey="SmartTableAnalytical_Explored"
 				enableAutoBinding="true" 
-				demandPopin="true" 
 				placeToolbarInTable="true"
 				class="sapUiResponsiveContentPadding">
 				
@@ -63,7 +64,19 @@
 
 					<columns>
 						
-						<Column id="ShipmentStatus" width="10%">
+						<Column id="DeliveryKey" width="10%" demandPopin="false">
+							<customData>
+								<core:CustomData key="p13nData"
+									value='\{	"columnKey": "DeliveryKey", 
+												"maxLength": "20",
+												"columnIndex":"1", 
+												"leadingProperty": "DeliveryKey", 
+												"type": "string" }'/>
+							</customData>
+							<Text text="{/#DeliveryHead/DeliveryKey/@sap:label}"/>
+						</Column>
+						
+						<Column id="ShipmentStatus" width="10%" demandPopin="true" minScreenWidth="Desktop" popinDisplay="Inline">
 							<customData>
 								<core:CustomData key="p13nData"
 									value='\{	"columnKey": "ShipmentStatus", 
@@ -76,20 +89,32 @@
 						</Column>
 				
 					
-					<Column id="LoadingStatus" width="15%">
+						<Column id="LoadingStatus" width="15%" demandPopin="true" minScreenWidth="Desktop" popinDisplay="Inline">
 							<customData>
 								<core:CustomData key="p13nData"
 									value='\{	"columnKey": "LoadingStatus", 
 												"maxLength": "20",
-												"columnIndex":"2", 
+												"columnIndex":"3", 
 												"leadingProperty": "LoadingStatus", 
 												"type": "string" }'/>
 							</customData>
 							<Text text="{/#DeliveryHead/LoadingStatus/@sap:label}"/>
 						</Column>
+						
+						<Column id="CreatedBy" width="10%" demandPopin="true" minScreenWidth="Desktop" popinDisplay="Inline">
+							<customData>
+								<core:CustomData key="p13nData"
+									value='\{	"columnKey": "CreatedBy", 
+												"maxLength": "20",
+												"columnIndex":"4", 
+												"leadingProperty": "CreatedBy", 
+												"type": "string" }'/>
+							</customData>
+							<Text text="{/#DeliveryHead/CreatedBy/@sap:label}"/>
+						</Column>
 			
 					
-						<Column id="ShipToParty">
+						<Column id="ShipToParty" demandPopin="true" minScreenWidth="Desktop" popinDisplay="Inline">
 							<customData>
 								<core:CustomData key="p13nData"
 									value='\{	"columnKey": "ShipToParty", 
@@ -101,7 +126,7 @@
 							<Text text="{/#DeliveryHead/ShipToParty/@sap:label}"/>
 						</Column>
 						
-						<Column id="SoldToParty">
+						<Column id="SoldToParty" demandPopin="true" minScreenWidth="Desktop" popinDisplay="Inline">
 							<customData>
 								<core:CustomData key="p13nData"
 									value='\{	"columnKey": "SoldToParty", 
@@ -117,8 +142,10 @@
 					<items>
 						<ColumnListItem type="Navigation">
 							<cells>
+								<Text text="{DeliveryKey}"/>
 								<tnt:InfoLabel text="{ShipmentStatus}" displayOnly="true" colorScheme= "{ path: 'ShipmentStatus', formatter: '.formatter.shipmentStatusColorScheme' }" />
 								<tnt:InfoLabel text="{LoadingStatus}" displayOnly="true" colorScheme= "{ path: 'LoadingStatus', formatter: '.formatter.loadingStatusColorScheme' }" />
+								<Text text="{CreatedBy}"/>
 								<Text text="{ShipToPartyText} ({ShipToParty})"/>
 								<Text text="{SoldToPartyText} ({SoldToParty})"/>
 							</cells>

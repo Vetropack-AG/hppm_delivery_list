@@ -81,7 +81,7 @@
 				"settings": {
 					"defaultOperationMode": "Server",
 					"defaultBindingMode": "OneWay",
-					"defaultCountMode": "Request",
+					"defaultCountMode": "None",
 					"useBatch": true
 				},
 				"dataSource": "ZVGT_HPPM_DELIVERY_LIST_SRV",
@@ -135,5 +135,9 @@
 				}
 			}
 		}
+	},
+	"sap.platform.abap": {
+		"uri": "/sap/bc/ui5_ui5/sap/zvgt_del_list/webapp",
+		"_version": "1.1.0"
 	}
 }
