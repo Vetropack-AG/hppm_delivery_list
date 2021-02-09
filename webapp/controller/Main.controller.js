@@ -7,24 +7,44 @@ sap.ui.define([
 	return BaseController.extend("zvgt.hppm.delivery_list.controller.Main", {
 		formatter: formatter,
 
+		/* =========================================================== */
+		/* lifecycle methods                                           */
+		/* =========================================================== */
+
 		onInit: function () {
 
 		},
+
+		/* =========================================================== */
+		/* event handlers                                              */
+		/* =========================================================== */
 
 		onPrintDeliveryPress: function () {
 			var sDeliveryKey = this._getSelectedDeliveryKey();
 			console.log(sDeliveryKey);
 		},
 
+		onItemPress: function (oEvent) {
+			var oItem = oEvent.getParameter("listItem");
+			var oContext = oItem.getBindingContext();
+			this.navTo("Registration", {
+				DeliveryKey: oContext.getModel().getProperty(oContext.getPath() + "/DeliveryKey")
+			});
+		},
+
+		/* =========================================================== */
+		/* private methods                                             */
+		/* =========================================================== */
+
 		_getSelectedDeliveryKey: function () {
 			var oData = this._getSelectedDelivery();
-			return oData ? oData.DeliveryKey : undefined; 
+			return oData ? oData.DeliveryKey : undefined;
 		},
 
 		_getSelectedDelivery: function () {
 			var oTable = this._getTable();
 			var aContexts = oTable.getSelectedContexts();
-			if(aContexts[0]) {
+			if (aContexts[0]) {
 				return aContexts[0].getModel().getProperty(aContexts[0].getPath());
 			}
 			return undefined;

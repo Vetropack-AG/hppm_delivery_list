@@ -1,0 +1,29 @@
+<core:FragmentDefinition xmlns:m="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:layout="sap.ui.layout">
+	<layout:VerticalLayout>
+		<m:ObjectStatus title="{i18n>details.loadAt}" text="{SoldToPartyText}"/>
+		<m:ObjectStatus title="{i18n>details.unloadAt}" text="{ShipToPartyText}"/>
+		<m:ObjectStatus title="{i18n>details.customerAccount}" text="{CustomerDelivery}"/>
+		<m:ObjectStatus title="{i18n>details.vetropackAccount}" text="{VetropackAccount}"/>
+	</layout:VerticalLayout>
+	<layout:VerticalLayout>
+		<m:ObjectStatus title="{i18n>details.truckNumber}" text="{TruckNumber}"/>
+		<m:ObjectStatus title="{i18n>details.deliveryNote}" text="{}"/>
+		<m:ObjectStatus title="{i18n>details.deliveryDate}" text="{DeliveryDate}"/>
+		<m:ObjectStatus title="{i18n>details.sapNo}" text="{}"/>
+	</layout:VerticalLayout>
+	<layout:VerticalLayout>
+		<m:ObjectStatus text="{i18n>details.qualityCheck}" state="Success" icon="sap-icon://accept"/>
+		<m:ObjectStatus title="{i18n>details.by}" text="Herbert kaintz"/>
+		<m:ObjectStatus title="{i18n>details.on}" text="1.1.2021"/>
+	</layout:VerticalLayout>
+	<layout:VerticalLayout>
+		<m:ObjectStatus text="{i18n>details.quantityCheck}" state="Error" icon="sap-icon://decline"/>
+		<m:ObjectStatus title="{i18n>details.by}" text=""/>
+		<m:ObjectStatus title="{i18n>details.on}" text=""/>
+	</layout:VerticalLayout>
+	<layout:VerticalLayout>
+		<m:ObjectStatus text="{i18n>details.booked}" state="Error" icon="sap-icon://decline"/>
+		<m:ObjectStatus title="{i18n>details.by}" text=""/>
+		<m:ObjectStatus title="{i18n>details.on}" text=""/>
+	</layout:VerticalLayout>
+</core:FragmentDefinition>

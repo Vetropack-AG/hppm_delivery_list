@@ -19,9 +19,7 @@
 				"type": "OData",
 				"settings": {
 					"localUri": "localService/metadata.xml",
-					"annotations": [
-						"annotation0"
-					]
+					"annotations": ["annotation0"]
 				}
 			},
 			"annotation0": {
@@ -80,7 +78,7 @@
 				"type": "sap.ui.model.odata.v2.ODataModel",
 				"settings": {
 					"defaultOperationMode": "Server",
-					"defaultBindingMode": "OneWay",
+					"defaultBindingMode": "TwoWay",
 					"defaultCountMode": "None",
 					"useBatch": true
 				},
@@ -93,11 +91,9 @@
 			}
 		},
 		"resources": {
-			"css": [
-				{
-					"uri": "css/style.css"
-				}
-			]
+			"css": [{
+				"uri": "css/style.css"
+			}]
 		},
 		"routing": {
 			"config": {
@@ -112,15 +108,23 @@
 					"target": []
 				}
 			},
-			"routes": [
-				{
-					"name": "RouteMain",
-					"pattern": "",
-					"target": [
-						"Main"
-					]
-				}
-			],
+			"routes": [{
+				"name": "RouteMain",
+				"pattern": "",
+				"target": ["Main"]
+			}, {
+				"name": "Registration",
+				"pattern": "Registration/{DeliveryKey}",
+				"titleTarget": "",
+				"greedy": false,
+				"target": ["Registration"]
+			}, {
+				"name": "Detail",
+				"pattern": "Detail/{DeliveryKey}",
+				"titleTarget": "",
+				"greedy": false,
+				"target": ["Detail"]
+			}],
 			"targets": {
 				"App": {
 					"viewType": "XML",
@@ -132,6 +136,16 @@
 					"clearControlAggregation": false,
 					"viewName": "Main",
 					"viewId": "Main"
+				},
+				"Registration": {
+					"viewType": "XML",
+					"viewName": "Registration",
+					"viewId": "Registration"
+				},
+				"Detail": {
+					"viewType": "XML",
+					"viewName": "Detail",
+					"viewId": "Detail"
 				}
 			}
 		}

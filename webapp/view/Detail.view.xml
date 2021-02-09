@@ -1,0 +1,37 @@
+<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" controllerName="zvgt.hppm.delivery_list.controller.Detail" xmlns="sap.uxap"
+	xmlns:m="sap.m">
+	<ObjectPageLayout id="ObjectPageLayout" upperCaseAnchorBar="false" >
+		<headerTitle>
+			<ObjectPageHeader objectTitle="{i18n>details.delivery}: {DeliveryKey}" objectSubtitle="{i18n>details.protocolNumber}: 123456789">
+				<actions>
+					<ObjectPageHeaderActionButton icon="sap-icon://post" text="i18n>details.comment}" tooltip="i18n>details.comment}"/>
+					<ObjectPageHeaderActionButton icon="sap-icon://pdf-attachment" text="{i18n>details.downloadPDF}" tooltip="{i18n>details.downloadPDF}"/>
+					<ObjectPageHeaderActionButton icon="sap-icon://print" text="{i18n>details.print}" tooltip="{i18n>details.print}"/>
+				</actions>
+			</ObjectPageHeader>
+		</headerTitle>
+		<headerContent>
+			<core:Fragment fragmentName="zvgt.hppm.delivery_list.view.fragment.DetailHeader" type="XML"/>
+		</headerContent>
+		<sections>
+			<ObjectPageSection titleUppercase="false" title="{i18n>details.items}">
+				<subSections>
+					<ObjectPageSubSection titleUppercase="false" >
+						<blocks>
+							<core:Fragment fragmentName="zvgt.hppm.delivery_list.view.fragment.ItemList" type="XML"/>
+						</blocks>
+					</ObjectPageSubSection>
+				</subSections>
+			</ObjectPageSection>
+			<ObjectPageSection titleUppercase="false" title="{i18n>details.documents}">
+				<subSections>
+					<ObjectPageSubSection titleUppercase="false">
+						<blocks>
+							<m:ObjectAttribute title="Label" text="In Stock"/>
+						</blocks>
+					</ObjectPageSubSection>
+				</subSections>
+			</ObjectPageSection>
+		</sections>
+	</ObjectPageLayout>
+</mvc:View>

@@ -157,6 +157,10 @@ sap.ui.define([
 			return oBundle.getText(sText, aParams);
 		},
 
+		navTo: function (sRoute, mParams, bReplace) {
+			this.getOwnerComponent().getRouter().navTo(sRoute, mParams, bReplace);
+		},
+
 		/* =========================================================== */
 		/* private methods                                             */
 		/* =========================================================== */

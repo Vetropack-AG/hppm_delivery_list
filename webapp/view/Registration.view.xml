@@ -1,0 +1,93 @@
+<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m"
+	controllerName="zvgt.hppm.delivery_list.controller.Registration" xmlns:uxap="sap.uxap" xmlns:f="sap.ui.layout.form">
+	<Page title="{i18n>registration.title}">
+		<content>
+			<uxap:ObjectPageLayout upperCaseAnchorBar="false">
+				<uxap:sections>
+					<uxap:ObjectPageSection titleUppercase="false" title="{i18n>registration.pod}">
+						<uxap:subSections>
+							<uxap:ObjectPageSubSection titleUppercase="false">
+								<uxap:blocks>
+									<VBox>
+										<f:Form editable="true">
+											<f:layout>
+												<f:ResponsiveGridLayout labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0"
+													emptySpanL="4" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="2" singleContainerFullSize="false"/>
+											</f:layout>
+											<f:formContainers>
+												<f:FormContainer >
+													<f:formElements>
+														<f:FormElement label="{i18n>registration.shipmentArrival}">
+															<f:fields>
+																<DatePicker value="{ path: 'ArrivalDate', type: 'sap.ui.model.odata.type.Date', formatOptions: { style: 'short' } }"/>
+																<TimePicker value="{ path: 'ArrivalTime', type: 'sap.ui.model.odata.type.Time' }" />
+															</f:fields>
+														</f:FormElement>
+														<f:FormElement label="{i18n>registration.confirmedBy}">
+															<f:fields>
+																<Input value="{ConfirmedBy}" />
+															</f:fields>
+														</f:FormElement>
+													</f:formElements>
+												</f:FormContainer>
+												<f:FormContainer >
+													<f:formElements>
+														<f:FormElement label="{i18n>registration.truckNumber}">
+															<f:fields>
+																<Input value="{TruckNumber}"/>
+															</f:fields>
+														</f:FormElement>
+														<f:FormElement label="{i18n>registration.customerDeliver}">
+															<f:fields>
+																<Input value="{CustomerDelivery}" />
+															</f:fields>
+														</f:FormElement>
+													</f:formElements>
+												</f:FormContainer>
+											</f:formContainers>
+										</f:Form>
+										<f:Form editable="true">
+											<f:layout>
+												<f:ResponsiveGridLayout labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0"
+													emptySpanL="2" emptySpanM="0" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1" singleContainerFullSize="false"/>
+											</f:layout>
+											<f:formContainers>
+												<f:FormContainer >
+													<f:formElements>
+														<f:FormElement label="{i18n>registration.comments}">
+															<f:fields>
+																<TextArea value="{Comment}" />
+															</f:fields>
+														</f:FormElement>
+													</f:formElements>
+												</f:FormContainer>
+											</f:formContainers>
+										</f:Form>
+									</VBox>
+								</uxap:blocks>
+							</uxap:ObjectPageSubSection>
+						</uxap:subSections>
+					</uxap:ObjectPageSection>
+					<uxap:ObjectPageSection titleUppercase="false" title="{i18n>general.documents}" showTitle="false">
+						<uxap:subSections>
+							<uxap:ObjectPageSubSection titleUppercase="false">
+								<uxap:blocks>
+									<!--<core:Fragment fragmentName="zvgt.hppm.delivery_create.view.fragment.Documents" type="XML"/>-->
+								</uxap:blocks>
+							</uxap:ObjectPageSubSection>
+						</uxap:subSections>
+					</uxap:ObjectPageSection>
+				</uxap:sections>
+			</uxap:ObjectPageLayout>
+		</content>
+		<footer>
+			<Bar>
+				<contentRight>
+				
+					<Button text="{i18n>general.save}" type="Emphasized" press="onSavePress" />
+						<Button text="{i18n>general.cancel}" type="Reject" press="onCancelPress" />
+				</contentRight>
+			</Bar>
+		</footer>
+	</Page>
+</mvc:View>

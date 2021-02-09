@@ -41,9 +41,9 @@
 				requestAtLeastFields="ShipToPartyText,SoldToPartyText"
 				smartFilterId="smartFilterBar" 
 				tableType="ResponsiveTable" 
-				useExportToExcel="false" 
-				useVariantManagement="false"
-				useTablePersonalisation="false" 
+				useExportToExcel="true" 
+				useVariantManagement="true"
+				useTablePersonalisation="true" 
 				header="{i18n>main.shipments}" 
 				showRowCount="true" 
 				persistencyKey="SmartTableAnalytical_Explored"
@@ -53,14 +53,19 @@
 				
 				<smartTable:customToolbar>
 					<Toolbar>
+							<ToolbarSeparator />
+							<Button  text="{i18n>main.createDelivery}" class="hppmTableHeaderButton" />
 						<ToolbarSpacer />
+					
+						<ToolbarSeparator />
 						<Button icon="sap-icon://print" tooltip="{i18n>main.printDelivery}" press="onPrintDeliveryPress" />
 						<Button icon="sap-icon://notes" tooltip="{i18n>main.printProtocol}" />
 						<Button icon="sap-icon://cancel" tooltip="{i18n>main.cancelDelivery}" />
+							<ToolbarSeparator />
 					</Toolbar>
 				</smartTable:customToolbar>
 				
-				<Table mode="SingleSelectLeft" sticky="ColumnHeaders,HeaderToolbar">
+				<Table mode="SingleSelectLeft" sticky="ColumnHeaders,HeaderToolbar" itemPress="onItemPress">
 
 					<columns>
 						
@@ -137,6 +142,18 @@
 							</customData>
 							<Text text="{/#DeliveryHead/SoldToParty/@sap:label}"/>
 						</Column>
+						
+						<Column id="Claim" demandPopin="true" minScreenWidth="Desktop" popinDisplay="Inline">
+							<customData>
+								<core:CustomData key="p13nData"
+									value='\{	"columnKey": "Claim", 
+												"maxLength": "100",
+												"columnIndex":"7", 
+												"leadingProperty": "Claim", 
+												"type": "boolean" }'/>
+							</customData>
+							<Text text="{/#DeliveryHead/Claim/@sap:label}"/>
+						</Column>
 					</columns>
 					
 					<items>
@@ -148,6 +165,7 @@
 								<Text text="{CreatedBy}"/>
 								<Text text="{ShipToPartyText} ({ShipToParty})"/>
 								<Text text="{SoldToPartyText} ({SoldToParty})"/>
+								<Text text="{= ${Claim} ? ${i18n>general.yes} : ${i18n>general.no} }" />
 							</cells>
 							</ColumnListItem>
 					</items>
