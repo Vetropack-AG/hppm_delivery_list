@@ -19,12 +19,26 @@ sap.ui.define([
 		init: function () {
 			// call the base component's init function
 			UIComponent.prototype.init.apply(this, arguments);
-
-			// enable routing
 			this.getRouter().initialize();
-
-			// set the device model
 			this.setModel(models.createDeviceModel(), "device");
-		}
+			this._registerMessageManager();
+			this.getModel().attachRequestFailed(function() {
+				sap.ui.core.BusyIndicator.hide();	
+			});
+		},
+
+		/**
+		 * Registers the messsage manager to the app.
+		 * @private
+		 * @name zvgt.hppm.delivery_create.Component#_registerMessageManager
+		 * @method
+		 */
+		_registerMessageManager: function () {
+			var oMessageManager = sap.ui.getCore().getMessageManager();
+			oMessageManager.registerObject(this, true);
+			var oMessageProcessor = new sap.ui.core.message.ControlMessageProcessor();
+			oMessageManager.registerMessageProcessor(oMessageProcessor);
+			this.setModel(sap.ui.getCore().getMessageManager().getMessageModel(), "message");
+		},
 	});
 });

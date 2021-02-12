@@ -96,7 +96,7 @@
 					<Button text="{i18n>details.sapPosting}" type="Emphasized" />
 				</contentLeft>
 				<contentRight>
-					<Button text="{i18n>general.save}" type="Accept" />
+					<Button text="{i18n>general.save}" type="Accept" press="onSavePress" />
 					<Button text="{i18n>general.cancel}" type="Reject" />
 				</contentRight>
 			</Bar>

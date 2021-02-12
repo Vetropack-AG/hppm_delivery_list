@@ -25,6 +25,21 @@ sap.ui.define([
 			}.bind(this));
 		},
 
+		onSavePress: function () {
+			var oModel = this.getView().getModel();
+			if (oModel.hasPendingChanges()) {
+				sap.ui.core.BusyIndicator.show(0);
+				oModel.submitChanges({
+					success: function () {
+						sap.ui.core.BusyIndicator.hide();
+			//			this.navBack();
+					}.bind(this)
+				});
+			} else {
+			//	this.navBack();
+			}
+		},
+
 		/* =========================================================== */
 		/* private methods                                             */
 		/* =========================================================== */

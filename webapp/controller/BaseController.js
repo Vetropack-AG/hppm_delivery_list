@@ -1,8 +1,9 @@
 sap.ui.define([
 	"sap/ui/core/mvc/Controller",
 	"sap/m/MessageBox",
-	"sap/base/i18n/ResourceBundle"
-], function (Controller, MessageBox, ResourceBundle) {
+	"sap/base/i18n/ResourceBundle",
+	"sap/ui/core/routing/History"
+], function (Controller, MessageBox, ResourceBundle, History) {
 	"use strict";
 
 	/**
@@ -159,6 +160,17 @@ sap.ui.define([
 
 		navTo: function (sRoute, mParams, bReplace) {
 			this.getOwnerComponent().getRouter().navTo(sRoute, mParams, bReplace);
+		},
+
+		navBack: function () {
+			var oHistory = History.getInstance();
+			var sPreviousHash = oHistory.getPreviousHash();
+			if (sPreviousHash) {
+				window.history.go(-1);
+			} else {
+				var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+				oRouter.navTo("", {}, true);
+			}
 		},
 
 		/* =========================================================== */
