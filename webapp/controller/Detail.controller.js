@@ -21,7 +21,18 @@ sap.ui.define([
 
 		onRoutePatternMatched: function (oEvent) {
 			var sDeliveryKey = oEvent.getParameter("arguments").DeliveryKey;
-			this._bindView(sDeliveryKey);
+			this.getOwnerComponent().getModel().metadataLoaded(true).then(function () {
+				this._bindView(sDeliveryKey);
+			}.bind(this));
+		},
+
+		onDetailItemPress: function (oEvent) {
+			var oItem = oEvent.getParameter("listItem");
+			var oContext = oItem.getBindingContext();
+			this.navTo("ItemDetail", {
+				DeliveryKey: oContext.getProperty("DeliveryKey"),
+				ItemKey: oContext.getProperty("ItemKey")
+			});
 		},
 
 		/* =========================================================== */
@@ -39,16 +50,17 @@ sap.ui.define([
 				DeliveryKey: sDeliveryKey
 			});
 			this.getView().bindElement(sPath);
-			
+
 			this._bindItemList(sDeliveryKey);
 		},
-		
-		_bindItemList: function(sDeliveryKey) {
+
+		_bindItemList: function (sDeliveryKey) {
 			var oList = this.getView().byId("ItemList");
 			var oTemplate = new sap.m.StandardListItem({
-				title:"{ItemKey} - {ItemText}",
-				description:"{MaterialNumber} - {MaterialText}",
-				info:"{InspectionStatus}" 
+				title: "{ItemKey} - {ItemText}",
+				description: "{MaterialNumber} - {MaterialText}",
+				info: "{InspectionStatus}",
+				type: "Active"
 			});
 			oList.bindAggregation("items", {
 				path: "/DeliveryItemSet",

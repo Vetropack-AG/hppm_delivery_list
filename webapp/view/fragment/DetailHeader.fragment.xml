@@ -8,7 +8,7 @@
 	<layout:VerticalLayout>
 		<m:ObjectStatus title="{i18n>details.truckNumber}" text="{TruckNumber}"/>
 		<m:ObjectStatus title="{i18n>details.deliveryNote}" text="{}"/>
-		<m:ObjectStatus title="{i18n>details.deliveryDate}" text="{DeliveryDate}"/>
+		<m:ObjectStatus title="{i18n>details.deliveryDate}" text="{ path: 'DeliveryDate', type: 'sap.ui.model.odata.type.Date', formatOptions: { style: 'short' } }"/>
 		<m:ObjectStatus title="{i18n>details.sapNo}" text="{}"/>
 	</layout:VerticalLayout>
 	<layout:VerticalLayout>

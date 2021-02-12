@@ -19,7 +19,9 @@ sap.ui.define([
 
 		onRoutePatternMatched: function (oEvent) {
 			var sDeliveryKey = oEvent.getParameter("arguments").DeliveryKey;
-			this._bindView(sDeliveryKey);
+			this.getOwnerComponent().getModel().metadataLoaded(true).then(function () {
+				this._bindView(sDeliveryKey);
+			}.bind(this));
 		},
 
 		onSavePress: function () {

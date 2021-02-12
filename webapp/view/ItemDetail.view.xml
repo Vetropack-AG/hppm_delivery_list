@@ -1,0 +1,105 @@
+<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" 	xmlns:uxap="sap.uxap"
+	xmlns="sap.m" controllerName="zvgt.hppm.delivery_list.controller.ItemDetail" 	xmlns:f="sap.ui.layout.form" 	xmlns:l="sap.ui.layout">
+		<uxap:ObjectPageLayout upperCaseAnchorBar="false" showFooter="true">
+		<uxap:headerTitle>
+			<uxap:ObjectPageHeader objectTitle="{i18n>details.delivery}: {DeliveryKey} / {ItemKey}" objectSubtitle="{ItemText}">
+				<uxap:actions>
+					<uxap:ObjectPageHeaderActionButton icon="sap-icon://print" text="{i18n>details.print}" tooltip="{i18n>details.print}" type="Transparent" />
+				</uxap:actions>
+			</uxap:ObjectPageHeader>
+		</uxap:headerTitle>
+		<uxap:headerContent>
+			<core:Fragment fragmentName="zvgt.hppm.delivery_list.view.fragment.ItemDetailHeader" type="XML"/>
+		</uxap:headerContent>
+		<uxap:sections>
+			<uxap:ObjectPageSection showTitle="false">
+				<uxap:subSections>
+					<uxap:ObjectPageSubSection titleUppercase="false" >
+						<uxap:blocks>
+							<f:SimpleForm 
+								editable="true"
+								layout="ResponsiveGridLayout"
+								labelSpanXL="12"
+								labelSpanL="12"
+								labelSpanM="12"
+								labelSpanS="12"
+								adjustLabelSpan="false"
+								emptySpanXL="4"
+								emptySpanL="4"
+								emptySpanM="4"
+								emptySpanS="0"
+								columnsXL="3"
+								columnsL="3"
+								columnsM="3"
+								singleContainerFullSize="false" >
+								<f:content>
+									<Label text="{i18n>details.material}" />
+									<ComboBox items="{ path: '/LoadCarrierTypeValueHelpSet', templateShareable: false}" 
+											selectedKey="{MaterialNumber}" 
+											showSecondaryValues="false" 
+											filterSecondaryValues="true">
+												<core:ListItem key="{Key}" text="{Key} - {Description}" additionalText="{Key}" />
+									</ComboBox>
+									
+									<Label text="{i18n>details.dimension}" />
+									<Input value="{Unit}" />
+										
+									<Label text="{i18n>details.deliveryQuantity}" />
+									<StepInput value="{ path:'Quantity', type:'sap.ui.model.odata.type.Decimal' }" />
+									
+									<Label text="{i18n>details.actualQuantity}" />
+									<StepInput value="{ path:'ActualQuantity', type:'sap.ui.model.odata.type.Decimal' }" />
+									
+									<Label text="{i18n>details.claimQuantity}" />
+									<StepInput value="{ path:'ClaimQuantity', type:'sap.ui.model.odata.type.Decimal' }" />
+									
+									<Toolbar visible="false" />
+									
+									<Label text="{i18n>details.freeOfDefects}" />
+									<StepInput value="{ path:'OkQuantity', type:'sap.ui.model.odata.type.Decimal' }" />
+									
+									<Label text="{i18n>details.needRepairQuantity}" />
+									<StepInput value="{ path:'NeedRepairQuantity', type:'sap.ui.model.odata.type.Decimal' }" />
+									
+									<Label text="{i18n>details.repairQuantityWithinTolerance}" />
+									<StepInput value="{ path:'RepairQuantity', type:'sap.ui.model.odata.type.Decimal' }" />
+									
+									<Label text="{i18n>details.claimRepairAboveTolerance}" />
+									<StepInput value="{ path:'RepairQuantityAboveTolerance', type:'sap.ui.model.odata.type.Decimal' }" />
+									
+									<Label text="{i18n>details.totalClaimQuantity}" />
+									<StepInput value="{ path:'TotalClaimQuantity', type:'sap.ui.model.odata.type.Decimal' }" />
+									
+									<Toolbar visible="false" />
+									
+									<Label text="{i18n>details.claimScrapWithinTolerance}" />
+									<StepInput value="{ path:'ScrapQuantity', type:'sap.ui.model.odata.type.Decimal' }" />
+									
+									<Label text="{i18n>details.scrapAboveTolerance}" />
+									<StepInput value="{ path:'ScrapQuantityAboveTolerance', type:'sap.ui.model.odata.type.Decimal' }" />
+									
+									<Label text="{i18n>details.checkQuantity}" />
+									<StepInput value="{ path:'PcsToBeChecked', type:'sap.ui.model.odata.type.Decimal' }" />
+									
+									<Label text="{i18n>details.bookedQuantity}" />
+									<StepInput value="{ path:'QtyPosted', type:'sap.ui.model.odata.type.Decimal' }" />
+								</f:content>
+							</f:SimpleForm>
+						</uxap:blocks>
+					</uxap:ObjectPageSubSection>
+				</uxap:subSections>
+			</uxap:ObjectPageSection>
+		</uxap:sections>
+		<uxap:footer>
+			<Bar>
+				<contentLeft>
+					<Button text="{i18n>details.sapPosting}" type="Emphasized" />
+				</contentLeft>
+				<contentRight>
+					<Button text="{i18n>general.save}" type="Accept" />
+					<Button text="{i18n>general.cancel}" type="Reject" />
+				</contentRight>
+			</Bar>
+		</uxap:footer>
+	</uxap:ObjectPageLayout>
+</mvc:View>

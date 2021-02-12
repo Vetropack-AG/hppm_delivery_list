@@ -14,8 +14,8 @@
 			"version": "0.0.0"
 		},
 		"dataSources": {
-			"ZVGT_HPPM_DELIVERY_LIST_SRV": {
-				"uri": "/sap/opu/odata/sap/ZVGT_HPPM_DELIVERY_LIST_SRV/",
+			"ZVGT_UI_HPPM_DELIVERY_LIST_SRV": {
+				"uri": "/sap/opu/odata/sap/ZVGT_UI_HPPM_DELIVERY_LIST_SRV/",
 				"type": "OData",
 				"settings": {
 					"localUri": "localService/metadata.xml",
@@ -82,7 +82,7 @@
 					"defaultCountMode": "None",
 					"useBatch": true
 				},
-				"dataSource": "ZVGT_HPPM_DELIVERY_LIST_SRV",
+				"dataSource": "ZVGT_UI_HPPM_DELIVERY_LIST_SRV",
 				"preload": true
 			},
 			"@i18n": {
@@ -124,6 +124,12 @@
 				"titleTarget": "",
 				"greedy": false,
 				"target": ["Detail"]
+			}, {
+				"name": "ItemDetail",
+				"pattern": "Detail/{DeliveryKey}/Item/{ItemKey}",
+				"titleTarget": "",
+				"greedy": false,
+				"target": ["ItemDetail"]
 			}],
 			"targets": {
 				"App": {
@@ -146,6 +152,10 @@
 					"viewType": "XML",
 					"viewName": "Detail",
 					"viewId": "Detail"
+				},
+				"ItemDetail": {
+					"viewType": "XML",
+					"viewName": "ItemDetail"
 				}
 			}
 		}
