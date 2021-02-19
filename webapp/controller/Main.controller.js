@@ -20,8 +20,7 @@ sap.ui.define([
 		/* =========================================================== */
 
 		onPrintDeliveryPress: function () {
-			var sDeliveryKey = this._getSelectedDeliveryKey();
-			console.log(sDeliveryKey);
+			// var sDeliveryKey = this._getSelectedDeliveryKey();
 		},
 
 		onItemPress: function (oEvent) {

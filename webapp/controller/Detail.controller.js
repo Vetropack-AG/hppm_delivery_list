@@ -35,6 +35,38 @@ sap.ui.define([
 			});
 		},
 
+		onAddItemPress: function () {
+			var oDialog = this.getFragment("AddDetailDialog", this);
+			var oContext = this.getView().getModel().createEntry("/DeliveryItemSet", {
+				properties: {
+					DeliveryKey: this.getView().getBindingContext().getProperty("DeliveryKey")
+				}
+			});
+			oDialog.setBindingContext(oContext);
+			oDialog.open();
+		},
+
+		onAddItemDialogSavePress: function (oEvent) {
+			var oDialog = oEvent.getSource().getParent();
+			oDialog.setBusy(true);
+			this.getView().getModel().submitChanges({
+				success: function () {
+					oDialog.setBusy(false);
+					oDialog.close();
+				},
+				error: function () {
+					oDialog.setBusy(false);
+				}
+			});
+		},
+
+		onAddItemDialogClosePress: function (oEvent) {
+			var oDialog = oEvent.getSource().getParent();
+			var oContext = oDialog.getBindingContext();
+			this.getView().getModel().deleteCreatedEntry(oContext);
+			oDialog.close();
+		},
+
 		/* =========================================================== */
 		/* private methods                                             */
 		/* =========================================================== */

@@ -1,0 +1,56 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:l="sap.ui.layout">
+	<VBox>
+		<f:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12"
+			adjustLabelSpan="false" emptySpanXL="4" emptySpanL="4" emptySpanM="4" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1"
+			singleContainerFullSize="false">
+			<f:content>
+				<Label text="{i18n>details.material}"/>
+				<ComboBox items="{ path: '/LoadCarrierTypeValueHelpSet', templateShareable: false}" selectedKey="{MaterialNumber}"
+					showSecondaryValues="false" filterSecondaryValues="true">
+					<core:ListItem key="{Key}" text="{Key} - {Description}" additionalText="{Key}"/>
+					<layoutData>
+						<l:GridData span="XL4 L4 M4 S4"/>
+					</layoutData>
+				</ComboBox>
+			</f:content>
+		</f:SimpleForm>
+		<f:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12"
+			adjustLabelSpan="false" emptySpanXL="4" emptySpanL="4" emptySpanM="4" emptySpanS="0" columnsXL="3" columnsL="3" columnsM="3"
+			singleContainerFullSize="false">
+			<f:content>
+				<!--<Label text="{i18n>details.dimension}" />-->
+				<!--<Input value="{Unit}" />-->
+				<Label text="{i18n>details.deliveryQuantity}"/>
+				<StepInput value="{ path:'Quantity', type:'sap.ui.model.odata.type.Decimal' }"/>
+				<Label text="{i18n>details.actualQuantity}"/>
+				<StepInput value="{ path:'ActualQuantity', type:'sap.ui.model.odata.type.Decimal' }"/>
+				<Label text="{i18n>details.claimQuantity}"/>
+				<StepInput value="{ path:'ClaimQuantity', type:'sap.ui.model.odata.type.Decimal' }"/>
+				<Label text="{i18n>details.freeOfDefects}"/>
+				<StepInput value="{ path:'OkQuantity', type:'sap.ui.model.odata.type.Decimal' }"/>
+				
+				<Toolbar visible="false"/>
+				
+				<Label text="{i18n>details.needRepairQuantity}"/>
+				<StepInput value="{ path:'NeedRepairQuantity', type:'sap.ui.model.odata.type.Decimal' }"/>
+				<Label text="{i18n>details.repairQuantityWithinTolerance}"/>
+				<StepInput value="{ path:'RepairQuantity', type:'sap.ui.model.odata.type.Decimal' }"/>
+				<Label text="{i18n>details.claimRepairAboveTolerance}"/>
+				<StepInput value="{ path:'RepairQuantityAboveTolerance', type:'sap.ui.model.odata.type.Decimal' }"/>
+				<Label text="{i18n>details.totalClaimQuantity}"/>
+				<StepInput value="{ path:'TotalClaimQuantity', type:'sap.ui.model.odata.type.Decimal' }"/>
+				
+				<Toolbar visible="false"/>
+				
+				<Label text="{i18n>details.claimScrapWithinTolerance}"/>
+				<StepInput value="{ path:'ScrapQuantity', type:'sap.ui.model.odata.type.Decimal' }"/>
+				<Label text="{i18n>details.scrapAboveTolerance}"/>
+				<StepInput value="{ path:'ScrapQuantityAboveTolerance', type:'sap.ui.model.odata.type.Decimal' }"/>
+				<Label text="{i18n>details.checkQuantity}"/>
+				<StepInput value="{ path:'PcsToBeChecked', type:'sap.ui.model.odata.type.Decimal' }"/>
+				<Label text="{i18n>details.bookedQuantity}"/>
+				<StepInput value="{ path:'QtyPosted', type:'sap.ui.model.odata.type.Decimal' }"/>
+			</f:content>
+		</f:SimpleForm>
+	</VBox>
+</core:FragmentDefinition>

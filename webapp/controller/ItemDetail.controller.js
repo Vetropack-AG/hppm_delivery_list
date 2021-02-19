@@ -1,5 +1,5 @@
 sap.ui.define([
-	"zvgt/hppm/delivery_list/controller/BaseController",
+	"zvgt/hppm/delivery_list/controller/BaseController"
 ], function (BaseController) {
 	"use strict";
 
@@ -32,11 +32,11 @@ sap.ui.define([
 				oModel.submitChanges({
 					success: function () {
 						sap.ui.core.BusyIndicator.hide();
-			//			this.navBack();
+						this.navBack();
 					}.bind(this)
 				});
 			} else {
-			//	this.navBack();
+				this.navBack();
 			}
 		},
 
@@ -51,7 +51,7 @@ sap.ui.define([
 				ItemKey: sItemKey
 			});
 			this.getView().bindElement(sPath);
-		},
+		}
 
 	});
 

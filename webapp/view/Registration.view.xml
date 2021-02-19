@@ -82,7 +82,7 @@
 		<uxap:footer>
 			<Bar>
 				<contentRight>
-					<Button text="{i18n>general.save}" type="Accept" press="onSavePress"/>
+					<Button text="{i18n>general.next}" type="Emphasized" press="onSavePress"/>
 					<Button text="{i18n>general.cancel}" type="Reject" press="onCancelPress"/>
 				</contentRight>
 			</Bar>

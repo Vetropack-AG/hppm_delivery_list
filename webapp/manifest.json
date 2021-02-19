@@ -82,7 +82,8 @@
 					"defaultOperationMode": "Server",
 					"defaultBindingMode": "TwoWay",
 					"defaultCountMode": "None",
-					"useBatch": true
+					"useBatch": true,
+					"refreshAfterChange": true
 				},
 				"dataSource": "ZVGT_UI_HPPM_DELIVERY_LIST_SRV",
 				"preload": true

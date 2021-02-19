@@ -1,0 +1,9 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+	<Dialog draggable="true" title="{i18n>addItemDialog.title}">
+		<core:Fragment fragmentName="zvgt.hppm.delivery_list.view.fragment.ItemDetailData" type="XML"/>
+		<buttons>
+			<Button text="{i18n>general.save}" type="Emphasized" press="onAddItemDialogSavePress"/>
+			<Button text="{i18n>general.cancel}" press="onAddItemDialogClosePress"/>
+		</buttons>
+	</Dialog>
+</core:FragmentDefinition>
