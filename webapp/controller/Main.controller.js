@@ -21,6 +21,11 @@ sap.ui.define([
 
 		onPrintDeliveryPress: function () {
 			// var sDeliveryKey = this._getSelectedDeliveryKey();
+			this.showSuccessMessage("test");
+		},
+
+		onPrintProtocolPress: function () {
+			this.showErrorMessage("test123");
 		},
 
 		onItemPress: function (oEvent) {

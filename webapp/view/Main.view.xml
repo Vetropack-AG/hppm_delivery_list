@@ -6,7 +6,7 @@
 	xmlns:smartTable="sap.ui.comp.smarttable" 
 	xmlns:tnt="sap.tnt"
 	displayBlock="true">
-	<Page title="{i18n>title}">
+	<Page title="{i18n>title}" floatingFooter="true">
 		<content>
 			
 			<smartFilterBar:SmartFilterBar 
@@ -59,9 +59,9 @@
 					
 						<ToolbarSeparator />
 						<Button icon="sap-icon://print" tooltip="{i18n>main.printDelivery}" press="onPrintDeliveryPress" />
-						<Button icon="sap-icon://notes" tooltip="{i18n>main.printProtocol}" />
+						<Button icon="sap-icon://notes" tooltip="{i18n>main.printProtocol}" press="onPrintProtocolPress" />
 						<Button icon="sap-icon://cancel" tooltip="{i18n>main.cancelDelivery}" />
-							<ToolbarSeparator />
+						<ToolbarSeparator />
 					</Toolbar>
 				</smartTable:customToolbar>
 				
@@ -172,5 +172,14 @@
 				</Table>
 			</smartTable:SmartTable>
 		</content>
+		<footer>
+			<OverflowToolbar>
+				<Button
+					icon="{ path: 'message>/', formatter: '.formatter.messageButtonIconFormatter' }"
+					type="{ path: 'message>/', formatter: '.formatter.messageButtonTypeFormatter' }"
+					text="{= ${message>/}.length}"
+					press="onMessagePopoverPress"/>
+			</OverflowToolbar>
+		</footer>
 	</Page>
 </mvc:View>

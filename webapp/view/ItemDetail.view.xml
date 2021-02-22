@@ -24,6 +24,11 @@
 		</uxap:sections>
 		<uxap:footer>
 			<OverflowToolbar>
+				<Button
+					icon="{ path: 'message>/', formatter: '.formatter.messageButtonIconFormatter' }"
+					type="{ path: 'message>/', formatter: '.formatter.messageButtonTypeFormatter' }"
+					text="{= ${message>/}.length}"
+					press="onMessagePopoverPress"/>
 				<ToolbarSpacer/>
 				<Button text="{i18n>details.sapPosting}" type="Emphasized"/>
 				<Button text="{i18n>general.save}" type="Accept" press="onSavePress"/>

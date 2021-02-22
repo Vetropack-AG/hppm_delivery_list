@@ -27,6 +27,11 @@ sap.ui.define([
 
 	return Controller.extend("zvgt.hppm.delivery_list.controller.BaseController", {
 
+		onMessagePopoverPress: function (oEvent) {
+			var oMessagePopover = this.getFragment("MessagePopover", this);
+			oMessagePopover.toggle(oEvent.getSource());
+		},
+
 		/* =========================================================== */
 		/* public methods                                              */
 		/* =========================================================== */

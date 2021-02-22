@@ -80,12 +80,16 @@
 			</uxap:ObjectPageSection>
 		</uxap:sections>
 		<uxap:footer>
-			<Bar>
-				<contentRight>
-					<Button text="{i18n>general.next}" type="Emphasized" press="onSavePress"/>
-					<Button text="{i18n>general.cancel}" type="Reject" press="onCancelPress"/>
-				</contentRight>
-			</Bar>
+			<OverflowToolbar>
+				<Button
+					icon="{ path: 'message>/', formatter: '.formatter.messageButtonIconFormatter' }"
+					type="{ path: 'message>/', formatter: '.formatter.messageButtonTypeFormatter' }"
+					text="{= ${message>/}.length}"
+					press="onMessagePopoverPress"/>
+				<ToolbarSpacer />
+				<Button text="{i18n>general.next}" type="Emphasized" press="onSavePress"/>
+				<Button text="{i18n>general.cancel}" type="Reject" press="onCancelPress"/>
+			</OverflowToolbar>
 		</uxap:footer>
 	</uxap:ObjectPageLayout>
 </mvc:View>

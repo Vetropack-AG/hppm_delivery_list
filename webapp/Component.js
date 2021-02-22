@@ -39,6 +39,6 @@ sap.ui.define([
 			var oMessageProcessor = new sap.ui.core.message.ControlMessageProcessor();
 			oMessageManager.registerMessageProcessor(oMessageProcessor);
 			this.setModel(sap.ui.getCore().getMessageManager().getMessageModel(), "message");
-		},
+		}
 	});
 });

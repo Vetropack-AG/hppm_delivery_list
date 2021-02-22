@@ -34,11 +34,15 @@
 			</ObjectPageSection>
 		</sections>
 		<footer>
-			<m:Bar>
-				<m:contentRight>
-					<m:Button text="{i18n>details.sapPosting}" type="Emphasized"/>
-				</m:contentRight>
-			</m:Bar>
+			<m:OverflowToolbar>
+				<m:Button
+					icon="{ path: 'message>/', formatter: '.formatter.messageButtonIconFormatter' }"
+					type="{ path: 'message>/', formatter: '.formatter.messageButtonTypeFormatter' }"
+					text="{= ${message>/}.length}"
+					press="onMessagePopoverPress"/>
+				<m:ToolbarSpacer /> 
+				<m:Button text="{i18n>details.sapPosting}" type="Emphasized"/>
+			</m:OverflowToolbar>
 		</footer>
 	</ObjectPageLayout>
 </mvc:View>

@@ -1,11 +1,13 @@
 sap.ui.define([
 	"zvgt/hppm/delivery_list/controller/BaseController",
 	"sap/ui/model/Filter",
-	"sap/ui/model/FilterOperator"
-], function (BaseController, Filter, FilterOperator) {
+	"sap/ui/model/FilterOperator",
+	"zvgt/hppm/delivery_list/model/formatter"
+], function (BaseController, Filter, FilterOperator, formatter) {
 	"use strict";
 
 	return BaseController.extend("zvgt.hppm.delivery_list.controller.Detail", {
+		formatter: formatter,
 
 		/* =========================================================== */
 		/* lifecycle methods                                           */

@@ -1,9 +1,11 @@
 sap.ui.define([
-	"zvgt/hppm/delivery_list/controller/BaseController"
-], function (BaseController) {
+	"zvgt/hppm/delivery_list/controller/BaseController",
+	"zvgt/hppm/delivery_list/model/formatter"
+], function (BaseController, formatter) {
 	"use strict";
 
 	return BaseController.extend("zvgt.hppm.delivery_list.controller.Registration", {
+		formatter: formatter,
 
 		/* =========================================================== */
 		/* lifecycle methods                                           */
