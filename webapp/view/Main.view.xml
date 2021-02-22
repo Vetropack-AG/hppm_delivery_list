@@ -52,8 +52,8 @@
 				
 				<smartTable:customToolbar>
 					<Toolbar>
-							<ToolbarSeparator />
-							<Button  text="{i18n>main.createDelivery}" class="hppmTableHeaderButton" />
+						<ToolbarSeparator />
+						<Button  text="{i18n>main.createDelivery}" class="hppmTableHeaderButton" press="onNavToCreateDeliveryPress" />
 						<ToolbarSpacer />
 					
 						<ToolbarSeparator />

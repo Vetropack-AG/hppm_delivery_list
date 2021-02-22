@@ -1,4 +1,4 @@
-function initModel() {
+function initModel() { // eslint-disable-line
 	var sUrl = "/sap/opu/odata/sap/ZVGT_HPPM_UTILS_SRV/";
 	var oModel = new sap.ui.model.odata.ODataModel(sUrl, true);
 	sap.ui.getCore().setModel(oModel);

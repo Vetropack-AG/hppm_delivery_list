@@ -36,6 +36,18 @@ sap.ui.define([
 			});
 		},
 
+		onNavToCreateDeliveryPress: function () {
+			var oCrossAppNav = sap.ushell.Container.getService("CrossApplicationNavigation");
+			if (oCrossAppNav) {
+				oCrossAppNav.toExternal({ // eslint-disable-line
+					target: {
+						semanticObject: "delivery_create",
+						action: "display"
+					}
+				});
+			}
+		},
+
 		/* =========================================================== */
 		/* private methods                                             */
 		/* =========================================================== */
