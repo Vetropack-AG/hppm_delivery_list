@@ -27,6 +27,8 @@ sap.ui.define([
 		},
 
 		onSavePress: function () {
+			this._setStatusRegistered();
+
 			var oModel = this.getView().getModel();
 			if (oModel.hasPendingChanges()) {
 				sap.ui.core.BusyIndicator.show(0);
@@ -47,9 +49,21 @@ sap.ui.define([
 		/* private methods                                             */
 		/* =========================================================== */
 
-		_getCurrentDeliveryKey: function () {
+		_setStatusRegistered: function () {
+			this._setProperty("ShipmentStatus", "POD");
+		},
+
+		_getProperty: function (sProperty) {
+			return this.getView().getBindingContext().getProperty(sProperty);
+		},
+
+		_setProperty: function (sProperty, value) {
 			var oContext = this.getView().getBindingContext();
-			return oContext.getProperty("DeliveryKey");
+			return oContext.getModel().setProperty(oContext.getPath() + "/" + sProperty, value);
+		},
+
+		_getCurrentDeliveryKey: function () {
+			return this._getProperty("DeliveryKey");
 		},
 
 		_bindView: function (sDeliveryKey) {
