@@ -36,6 +36,15 @@ sap.ui.define([
 		/* public methods                                              */
 		/* =========================================================== */
 
+		getDeliveryProperty: function (sProperty) {
+			return this.getView().getBindingContext().getProperty(sProperty);
+		},
+
+		setDeliveryProperty: function (sProperty, value) {
+			var oContext = this.getView().getBindingContext();
+			return oContext.getModel().setProperty(oContext.getPath() + "/" + sProperty, value);
+		},
+
 		/**
 		 * Adds a message to the message manager.
 		 * @param {object} mSettings The settings for the message.

@@ -2,28 +2,21 @@
 	<layout:VerticalLayout>
 		<m:ObjectStatus title="{i18n>details.loadAt}" text="{SoldToPartyText}"/>
 		<m:ObjectStatus title="{i18n>details.unloadAt}" text="{ShipToPartyText}"/>
-		<m:ObjectStatus title="{i18n>details.customerAccount}" text="{CustomerDelivery}"/>
-		<m:ObjectStatus title="{i18n>details.vetropackAccount}" text="{VetropackAccount}"/>
 	</layout:VerticalLayout>
 	<layout:VerticalLayout>
 		<m:ObjectStatus title="{i18n>details.truckNumber}" text="{TruckNumber}"/>
-		<m:ObjectStatus title="{i18n>details.deliveryNote}" text="{}"/>
-		<m:ObjectStatus title="{i18n>details.deliveryDate}" text="{ path: 'DeliveryDate', type: 'sap.ui.model.odata.type.Date', formatOptions: { style: 'short' } }"/>
-		<m:ObjectStatus title="{i18n>details.sapNo}" text="{}"/>
+		<m:ObjectStatus title="{i18n>details.deliveryDate}"
+			text="{ path: 'DeliveryDate', type: 'sap.ui.model.odata.type.Date', formatOptions: { style: 'short' } }"/>
 	</layout:VerticalLayout>
 	<layout:VerticalLayout>
-		<m:ObjectStatus text="{i18n>details.qualityCheck}" state="Success" icon="sap-icon://accept"/>
-		<m:ObjectStatus title="{i18n>details.by}" text="Herbert kaintz"/>
-		<m:ObjectStatus title="{i18n>details.on}" text="1.1.2021"/>
+		<m:ObjectStatus title="{i18n>details.status}" text="{InspectionStatus}"
+			state="{ path: 'InspectionStatus', formatter: '.formatter.itemInspectionStatusState' }"/>
+		<m:ObjectStatus title="{i18n>details.by}"
+			text="{ChangedBy} {i18n>details.on} { path: 'ChangedOn', type: 'sap.ui.model.odata.type.Date', formatOptions: { style: 'short' } }"/>
 	</layout:VerticalLayout>
 	<layout:VerticalLayout>
-		<m:ObjectStatus text="{i18n>details.quantityCheck}" state="Error" icon="sap-icon://decline"/>
-		<m:ObjectStatus title="{i18n>details.by}" text=""/>
-		<m:ObjectStatus title="{i18n>details.on}" text=""/>
-	</layout:VerticalLayout>
-	<layout:VerticalLayout>
-		<m:ObjectStatus text="{i18n>details.booked}" state="Error" icon="sap-icon://decline"/>
-		<m:ObjectStatus title="{i18n>details.by}" text=""/>
-		<m:ObjectStatus title="{i18n>details.on}" text=""/>
+		<m:ObjectStatus title="{i18n>details.progress}"/>
+		<m:ProgressIndicator percentValue="{ path: 'Progress', type: 'sap.ui.model.odata.type.String' }" displayValue="{ path: 'Progress' } %"
+			state="{ path: 'Progress', formatter: '.formatter.progressState' }"/>
 	</layout:VerticalLayout>
 </core:FragmentDefinition>

@@ -1,7 +1,8 @@
 sap.ui.define([
 	"zvgt/hppm/delivery_list/controller/BaseController",
-	"zvgt/hppm/delivery_list/model/formatter"
-], function (BaseController, formatter) {
+	"zvgt/hppm/delivery_list/model/formatter",
+	"zvgt/hppm/delivery_list/model/constants"
+], function (BaseController, formatter, constants) {
 	"use strict";
 
 	return BaseController.extend("zvgt.hppm.delivery_list.controller.ItemDetail", {
@@ -28,23 +29,38 @@ sap.ui.define([
 		},
 
 		onSavePress: function () {
+			this._setNextStatus();
 			var oModel = this.getView().getModel();
 			if (oModel.hasPendingChanges()) {
 				sap.ui.core.BusyIndicator.show(0);
 				oModel.submitChanges({
 					success: function () {
 						sap.ui.core.BusyIndicator.hide();
-						this.navBack();
+						// this.navBack();
 					}.bind(this)
 				});
 			} else {
-				this.navBack();
+				// this.navBack();
 			}
 		},
 
 		/* =========================================================== */
 		/* private methods                                             */
 		/* =========================================================== */
+
+		_setNextStatus: function () {
+			// OPEN -> QUALITY -> QUANTITY
+			var sCurrentStatus = this.getDeliveryProperty("InspectionStatus");
+			switch (sCurrentStatus) {
+			case constants.INSPECTION_STATUS.OPEN:
+				this.setDeliveryProperty("InspectionStatus", "QUALITY");
+				break;
+			case constants.INSPECTION_STATUS.QUALITY:
+				this.setDeliveryProperty("InspectionStatus", "QUANTITY");
+				break;
+			default: // to nothing
+			}
+		},
 
 		_bindView: function (sDeliveryKey, sItemKey) {
 			var oModel = this.getOwnerComponent().getModel();

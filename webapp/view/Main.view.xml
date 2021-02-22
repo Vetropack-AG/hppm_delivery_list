@@ -6,13 +6,13 @@
 	xmlns:smartTable="sap.ui.comp.smarttable" 
 	xmlns:tnt="sap.tnt"
 	displayBlock="true">
-	<Page title="{i18n>title}" floatingFooter="true">
+	<Page showHeader="false" floatingFooter="true">
 		<content>
 			
 			<smartFilterBar:SmartFilterBar 
 				id="smartFilterBar" 
 				entitySet="DeliveryHeadSet" 
-				persistencyKey="SmartFilter_Explored"
+				persistencyKey="DELIVERY_LIST_FILTERBAR"
 				showFilterConfiguration="true">
 				
 				<smartFilterBar:controlConfiguration>
@@ -45,7 +45,7 @@
 				useTablePersonalisation="true" 
 				header="{i18n>main.shipments}" 
 				showRowCount="true" 
-				persistencyKey="SmartTableAnalytical_Explored"
+				persistencyKey="DELIVERY_LIST_TABLE"
 				enableAutoBinding="true" 
 				placeToolbarInTable="true"
 				class="sapUiResponsiveContentPadding">

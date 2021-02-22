@@ -1,14 +1,59 @@
-sap.ui.define([], function () {
+sap.ui.define([
+	"zvgt/hppm/delivery_list/model/constants"
+], function (constants) {
 	"use strict";
 
 	return {
 
 		shipmentStatusColorScheme: function (sStatus) {
-			return 8;
+			switch (sStatus) {
+			case constants.SHIPMENT_STATUS.NEW:
+				return 2;
+			case constants.SHIPMENT_STATUS.PLANNED:
+				return 5;
+			case constants.SHIPMENT_STATUS.POD:
+				return 8;
+			default:
+				return 2;
+			}
 		},
 
 		inspectionStatusColorScheme: function (sStatus) {
-			return 8;
+			switch (sStatus) {
+			case constants.INSPECTION_STATUS.OPEN:
+				return 2;
+			case constants.INSPECTION_STATUS.LOADED:
+				return 9;
+			case constants.INSPECTION_STATUS.UNLOADED:
+				return 5;
+			case constants.INSPECTION_STATUS.QUALITY:
+				return 6;
+			case constants.INSPECTION_STATUS.QUANTITY:
+				return 7;
+			case constants.INSPECTION_STATUS.POSTED:
+				return 8;
+			default:
+				return 2;
+			}
+		},
+
+		itemInspectionStatusIcon: function (sStatus) {
+			switch (sStatus) {
+			case constants.INSPECTION_STATUS.OPEN:
+				return "sap-icon://away";
+			case constants.INSPECTION_STATUS.LOADED:
+				return "sap-icon://circle-task";
+			case constants.INSPECTION_STATUS.UNLOADED:
+				return "sap-icon://circle-task2";
+			case constants.INSPECTION_STATUS.QUALITY:
+				return "sap-icon://activities";
+			case constants.INSPECTION_STATUS.QUANTITY:
+				return "sap-icon://activities";
+			case constants.INSPECTION_STATUS.POSTED:
+				return "sap-icon://accept";
+			default:
+				return "sap-icon://away";
+			}
 		},
 
 		// Display the button type according to the message with the highest severity
@@ -18,7 +63,7 @@ sap.ui.define([], function () {
 			aMessages.forEach(function (sMessage) {
 				switch (sMessage.type) {
 				case "Error":
-					sHighestSeverityIcon = sap.m.ButtonType.Reject;	// eslint-disable-line
+					sHighestSeverityIcon = sap.m.ButtonType.Reject; // eslint-disable-line
 					break;
 				case "Warning":
 					sHighestSeverityIcon = sHighestSeverityIcon !== "Reject" ? sap.m.ButtonType.Critical : sHighestSeverityIcon;
@@ -55,6 +100,40 @@ sap.ui.define([], function () {
 				}
 			});
 			return sIcon;
+		},
+
+		itemInspectionStatusState: function (sStatus) {
+			switch (sStatus) {
+			case constants.INSPECTION_STATUS.OPEN:
+				return "Error";
+			case constants.INSPECTION_STATUS.LOADED:
+				return "Warning";
+			case constants.INSPECTION_STATUS.UNLOADED:
+				return "Warning";
+			case constants.INSPECTION_STATUS.QUALITY:
+				return "Warning";
+			case constants.INSPECTION_STATUS.QUANTITY:
+				return "Warning";
+			case constants.INSPECTION_STATUS.POSTED:
+				return "Success";
+			default:
+				return "Warning";
+			}
+		},
+
+		progressState: function (iValue) {
+			if (iValue) {
+				if (iValue < 50) {
+					return "Error";
+				} else if (iValue <= 75) {
+					return "Warning";
+				} else if (iValue === 100) {
+					return "Success";
+				} else {
+					return "Information";
+				}
+			}
+			return "None";
 		}
 
 	};

@@ -55,7 +55,8 @@ sap.ui.define([
 				success: function () {
 					oDialog.setBusy(false);
 					oDialog.close();
-				},
+					this.getView().getModel().refresh(true);
+				}.bind(this),
 				error: function () {
 					oDialog.setBusy(false);
 				}
@@ -84,6 +85,7 @@ sap.ui.define([
 				DeliveryKey: sDeliveryKey
 			});
 			this.getView().bindElement(sPath);
+			this.getView().getModel().refresh(true);
 
 			this._bindItemList(sDeliveryKey);
 		},
@@ -93,7 +95,11 @@ sap.ui.define([
 			var oTemplate = new sap.m.StandardListItem({
 				title: "{ItemKey} - {ItemText}",
 				description: "{MaterialNumber} - {MaterialText}",
-				info: "{InspectionStatus}",
+				info: "{InspectionStatusText}",
+				infoState: {
+					path: "InspectionStatus",
+					formatter: formatter.itemInspectionStatusState
+				},
 				type: "Active"
 			});
 			oList.bindAggregation("items", {

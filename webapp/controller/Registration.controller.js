@@ -50,20 +50,7 @@ sap.ui.define([
 		/* =========================================================== */
 
 		_setStatusRegistered: function () {
-			this._setProperty("ShipmentStatus", "POD");
-		},
-
-		_getProperty: function (sProperty) {
-			return this.getView().getBindingContext().getProperty(sProperty);
-		},
-
-		_setProperty: function (sProperty, value) {
-			var oContext = this.getView().getBindingContext();
-			return oContext.getModel().setProperty(oContext.getPath() + "/" + sProperty, value);
-		},
-
-		_getCurrentDeliveryKey: function () {
-			return this._getProperty("DeliveryKey");
+			this.setDeliveryProperty("ShipmentStatus", "POD");
 		},
 
 		_bindView: function (sDeliveryKey) {
@@ -77,7 +64,7 @@ sap.ui.define([
 		_navToDetails: function () {
 			sap.ui.core.BusyIndicator.hide();
 			this.navTo("Detail", {
-				DeliveryKey: this._getCurrentDeliveryKey()
+				DeliveryKey: this.getDeliveryProperty("DeliveryKey")
 			});
 		}
 
