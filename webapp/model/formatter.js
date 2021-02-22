@@ -7,7 +7,7 @@ sap.ui.define([], function () {
 			return 8;
 		},
 
-		loadingStatusColorScheme: function (sStatus) {
+		inspectionStatusColorScheme: function (sStatus) {
 			return 8;
 		},
 

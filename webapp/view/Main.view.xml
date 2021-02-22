@@ -16,17 +16,16 @@
 				showFilterConfiguration="true">
 				
 				<smartFilterBar:controlConfiguration>
-					<smartFilterBar:ControlConfiguration key="DeliveryKey" visibleInAdvancedArea="true" hasValueHelpDialog="false" />
-					<smartFilterBar:ControlConfiguration key="Plant" visibleInAdvancedArea="true" hasValueHelpDialog="true" displayBehaviour="descriptionAndId"
-						preventInitialDataFetchInValueHelpDialog="false"/>
+					<smartFilterBar:ControlConfiguration key="DeliveryKey" visibleInAdvancedArea="true" hasValueHelpDialog="true" />
 						<smartFilterBar:ControlConfiguration key="DeliveryDate" visibleInAdvancedArea="true" index="2" 
 						conditionType="sap.ui.comp.config.condition.DateRangeType"/>
-					<smartFilterBar:ControlConfiguration key="TruckNumber" visibleInAdvancedArea="true" hasValueHelpDialog="false"  />
-					<smartFilterBar:ControlConfiguration key="CustomerDelivery" visibleInAdvancedArea="true" hasValueHelpDialog="false"  />
+					<smartFilterBar:ControlConfiguration key="TruckNumber" visibleInAdvancedArea="true" hasValueHelpDialog="true"  />
+					<smartFilterBar:ControlConfiguration key="CustomerDelivery" visibleInAdvancedArea="true" hasValueHelpDialog="true"  />
 					<smartFilterBar:ControlConfiguration key="ShipToParty" visibleInAdvancedArea="true" hasValueHelpDialog="true" displayBehaviour="descriptionAndId" preventInitialDataFetchInValueHelpDialog="false" />
 					<smartFilterBar:ControlConfiguration key="SoldToParty" visibleInAdvancedArea="true" hasValueHelpDialog="true" displayBehaviour="descriptionAndId" preventInitialDataFetchInValueHelpDialog="false" />
-					<smartFilterBar:ControlConfiguration key="MaterialGroup" visibleInAdvancedArea="true" hasValueHelpDialog="true" preventInitialDataFetchInValueHelpDialog="false"
-						controlType="dropDownList" displayBehaviour="descriptionOnly" />
+					<smartFilterBar:ControlConfiguration key="MaterialGroup" visibleInAdvancedArea="true" controlType="dropDownList" displayBehaviour="descriptionOnly" />
+					<smartFilterBar:ControlConfiguration key="ShipmentStatus" visibleInAdvancedArea="true" controlType="dropDownList" displayBehaviour="descriptionOnly" />
+					<smartFilterBar:ControlConfiguration key="InspectionStatus" visibleInAdvancedArea="true" controlType="dropDownList" displayBehaviour="descriptionOnly" />
 				</smartFilterBar:controlConfiguration>
 				
 			<!-- layout data used to make the table growing but the filter bar fixed -->
@@ -38,7 +37,7 @@
 			<smartTable:SmartTable 
 				id="SmartTable"
 				entitySet="DeliveryHeadSet" 
-				requestAtLeastFields="ShipToPartyText,SoldToPartyText"
+				requestAtLeastFields="ShipToPartyText,SoldToPartyText,ShipToPartyPostalCode,ShipToPartyCity,ShipToPartyStreet,ShipToPartyCountry,SoldToPartyPostalCode,SoldToPartyCity,SoldToPartyStreet,SoldToPartyCountry"
 				smartFilterId="smartFilterBar" 
 				tableType="ResponsiveTable" 
 				useExportToExcel="true" 
@@ -94,16 +93,16 @@
 						</Column>
 				
 					
-						<Column id="LoadingStatus" width="15%" demandPopin="true" minScreenWidth="Desktop" popinDisplay="Inline">
+						<Column id="InspectionStatus" width="10%" demandPopin="true" minScreenWidth="Desktop" popinDisplay="Inline">
 							<customData>
 								<core:CustomData key="p13nData"
-									value='\{	"columnKey": "LoadingStatus", 
+									value='\{	"columnKey": "InspectionStatus", 
 												"maxLength": "20",
 												"columnIndex":"3", 
-												"leadingProperty": "LoadingStatus", 
+												"leadingProperty": "InspectionStatus", 
 												"type": "string" }'/>
 							</customData>
-							<Text text="{/#DeliveryHead/LoadingStatus/@sap:label}"/>
+							<Text text="{/#DeliveryHead/InspectionStatus/@sap:label}"/>
 						</Column>
 						
 						<Column id="CreatedBy" width="10%" demandPopin="true" minScreenWidth="Desktop" popinDisplay="Inline">
@@ -143,7 +142,7 @@
 							<Text text="{/#DeliveryHead/SoldToParty/@sap:label}"/>
 						</Column>
 						
-						<Column id="Claim" demandPopin="true" minScreenWidth="Desktop" popinDisplay="Inline">
+						<Column id="Claim" width="8%" demandPopin="true" minScreenWidth="Desktop" popinDisplay="Inline">
 							<customData>
 								<core:CustomData key="p13nData"
 									value='\{	"columnKey": "Claim", 
@@ -161,10 +160,20 @@
 							<cells>
 								<Text text="{DeliveryKey}"/>
 								<tnt:InfoLabel text="{ShipmentStatus}" displayOnly="true" colorScheme= "{ path: 'ShipmentStatus', formatter: '.formatter.shipmentStatusColorScheme' }" />
-								<tnt:InfoLabel text="{LoadingStatus}" displayOnly="true" colorScheme= "{ path: 'LoadingStatus', formatter: '.formatter.loadingStatusColorScheme' }" />
+								<tnt:InfoLabel text="{InspectionStatus}" displayOnly="true" colorScheme= "{ path: 'InspectionStatus', formatter: '.formatter.inspectionStatusColorScheme' }" />
 								<Text text="{CreatedBy}"/>
-								<Text text="{ShipToPartyText} ({ShipToParty})"/>
-								<Text text="{SoldToPartyText} ({SoldToParty})"/>
+								<VBox>
+									<Text text="{ShipToPartyText} ({ShipToParty})"/>
+									<Text text="{ShipToPartyCountry}-{ShipToPartyPostalCode}"/>
+									<Text text="{ShipToPartyCity}"/>
+								</VBox>
+								<VBox>
+									<Text text="{SoldToPartyText} ({SoldToParty})"/>
+									<Text text="{SoldToPartyCountry}-{SoldToPartyPostalCode}"/>
+									<Text text="{SoldToPartyCity}"/>
+								</VBox>
+								
+
 								<Text text="{= ${Claim} ? ${i18n>general.yes} : ${i18n>general.no} }" />
 							</cells>
 							</ColumnListItem>

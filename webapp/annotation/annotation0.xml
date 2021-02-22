@@ -29,7 +29,7 @@
 			<Annotations Target="Metadata.DeliveryHead/ShipToParty">
 				<Annotation Term="Common.ValueList">
 					<Record Type="Common.ValueListType">
-						<PropertyValue Property="CollectionPath" String="LoadingPlaceValueHelpSet"/>
+						<PropertyValue Property="CollectionPath" String="UnloadingPlaceValueHelpSet"/>
 						<PropertyValue Property="Parameters">
 							<Collection>
 								<Record Type="Common.ValueListParameterInOut">
@@ -57,7 +57,7 @@
 			<Annotations Target="Metadata.DeliveryHead/SoldToParty">
 				<Annotation Term="Common.ValueList">
 					<Record Type="Common.ValueListType">
-						<PropertyValue Property="CollectionPath" String="UnloadingPlaceValueHelpSet"/>
+						<PropertyValue Property="CollectionPath" String="LoadingPlaceValueHelpSet"/>
 						<PropertyValue Property="Parameters">
 							<Collection>
 								<Record Type="Common.ValueListParameterInOut">
@@ -98,6 +98,42 @@
 							</Collection>
 						</PropertyValue>
 						<PropertyValue Property="SearchSupported" Bool="false"/>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="Metadata.DeliveryHead/InspectionStatus">
+				<Annotation Term="Common.ValueList">
+					<Record Type="Common.ValueListType">
+						<PropertyValue Property="CollectionPath" String="InspectionStatusValueHelpSet"/>
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterInOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="InspectionStatus"/>
+									<PropertyValue Property="ValueListProperty" String="Key"/>
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="Text"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="Metadata.DeliveryHead/ShipmentStatus">
+				<Annotation Term="Common.ValueList">
+					<Record Type="Common.ValueListType">
+						<PropertyValue Property="CollectionPath" String="ShipmentStatusValueHelpSet"/>
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterInOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="ShipmentStatus"/>
+									<PropertyValue Property="ValueListProperty" String="Key"/>
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="Text"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
 					</Record>
 				</Annotation>
 			</Annotations>
