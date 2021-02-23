@@ -4,7 +4,7 @@
 		<uxap:headerTitle>
 			<uxap:ObjectPageHeader objectTitle="{i18n>details.delivery}: {DeliveryKey} / {ItemKey}" objectSubtitle="{ItemText}">
 				<uxap:actions>
-					<uxap:ObjectPageHeaderActionButton icon="sap-icon://print" text="{i18n>details.print}" tooltip="{i18n>details.print}" type="Transparent"/>
+					<uxap:ObjectPageHeaderActionButton icon="sap-icon://print" text="{i18n>details.print}" tooltip="{i18n>details.print}" type="Transparent" press="onPrintItemPress" />
 				</uxap:actions>
 			</uxap:ObjectPageHeader>
 		</uxap:headerTitle>

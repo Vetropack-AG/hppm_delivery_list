@@ -91,6 +91,14 @@ sap.ui.define([
 			oEvent.getSource().getParent().close();
 		},
 
+		onPrintDeliveryPress: function () {
+			var sDeliveryKey = this.getDeliveryProperty("DeliveryKey");
+			this.createLabel(sDeliveryKey)
+				.then(function () {
+					this.showTranslatedMessageToast("message.deliveryPrinted", [sDeliveryKey]);
+				}.bind(this));
+		},
+
 		/* =========================================================== */
 		/* private methods                                             */
 		/* =========================================================== */

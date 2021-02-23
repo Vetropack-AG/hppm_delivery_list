@@ -4,7 +4,6 @@
 	xmlns="sap.m" 
 	xmlns:smartFilterBar="sap.ui.comp.smartfilterbar" 
 	xmlns:smartTable="sap.ui.comp.smarttable" 
-	xmlns:tnt="sap.tnt"
 	displayBlock="true">
 	<Page showHeader="false" floatingFooter="true">
 		<content>
@@ -59,7 +58,7 @@
 						<ToolbarSeparator />
 						<Button icon="sap-icon://print" tooltip="{i18n>main.printDelivery}" press="onPrintDeliveryPress" />
 						<Button icon="sap-icon://notes" tooltip="{i18n>main.printProtocol}" press="onPrintProtocolPress" />
-						<Button icon="sap-icon://cancel" tooltip="{i18n>main.cancelDelivery}" />
+						<Button icon="sap-icon://cancel" tooltip="{i18n>main.cancelDelivery}" press="onCancelDeliveryPress" />
 						<ToolbarSeparator />
 					</Toolbar>
 				</smartTable:customToolbar>
@@ -161,9 +160,6 @@
 								<Text text="{DeliveryKey}"/>
 								<ObjectStatus text="{ShipmentStatusText}" state= "{ path: 'ShipmentStatus', formatter: '.formatter.shipmentStatusState' }"/>
 								<ObjectStatus text="{InspectionStatusText}"	state= "{ path: 'InspectionStatus', formatter: '.formatter.inspectionStatusState' }" />
-			
-								<!--<tnt:InfoLabel text="{ShipmentStatusText}" displayOnly="true" colorScheme= "{ path: 'ShipmentStatus', formatter: '.formatter.shipmentStatusColorScheme' }" />-->
-								<!--<tnt:InfoLabel text="{InspectionStatusText}" displayOnly="true" colorScheme= "{ path: 'InspectionStatus', formatter: '.formatter.inspectionStatusColorScheme' }" />-->
 								<Text text="{CreatedBy}"/>
 								<VBox>
 									<Text text="{ShipToPartyText} ({ShipToParty})"/>
@@ -175,8 +171,6 @@
 									<Text text="{SoldToPartyCountry}-{SoldToPartyPostalCode}"/>
 									<Text text="{SoldToPartyCity}"/>
 								</VBox>
-								
-
 								<Text text="{= ${Claim} ? ${i18n>general.yes} : ${i18n>general.no} }" />
 							</cells>
 							</ColumnListItem>

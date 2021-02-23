@@ -52,6 +52,59 @@ sap.ui.define([
 			}.bind(this));
 		},
 
+		createLabel: function (sDeliveryKey) {
+			return new Promise(function (resolve, reject) {
+				this.getView().getModel().callFunction("/CreateLabel", {
+					urlParameters: {
+						DeliveryKey: sDeliveryKey
+					},
+					groupId: "CreateLabel",
+					success: resolve,
+					error: reject
+				});
+			}.bind(this));
+		},
+
+		printProtocol: function (sDeliveryKey) {
+			return new Promise(function (resolve, reject) {
+				this.getView().getModel().callFunction("/PrintProtocol", {
+					urlParameters: {
+						DeliveryKey: sDeliveryKey
+					},
+					groupId: "PrintProtocol",
+					success: resolve,
+					error: reject
+				});
+			}.bind(this));
+		},
+
+		cancelDelivery: function (sDeliveryKey) {
+			return new Promise(function (resolve, reject) {
+				this.getView().getModel().callFunction("/CancelDelivery", {
+					urlParameters: {
+						DeliveryKey: sDeliveryKey
+					},
+					groupId: "CancelDelivery",
+					success: resolve,
+					error: reject
+				});
+			}.bind(this));
+		},
+
+		printItem: function (sDeliveryKey, sItemKey) {
+			return new Promise(function (resolve, reject) {
+				this.getView().getModel().callFunction("/CreateItemLabel", {
+					urlParameters: {
+						DeliveryKey: sDeliveryKey,
+						ItemKey: sItemKey
+					},
+					groupId: "CreateItemLabel",
+					success: resolve,
+					error: reject
+				});
+			}.bind(this));
+		},
+
 		getDeliveryProperty: function (sProperty) {
 			return this.getView().getBindingContext().getProperty(sProperty);
 		},

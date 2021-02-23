@@ -60,6 +60,15 @@ sap.ui.define([
 			oEvent.getSource().getParent().close();
 		},
 
+		onPrintItemPress: function () {
+			var sDeliveryKey = this.getDeliveryProperty("DeliveryKey");
+			var sItemKey = this.getDeliveryProperty("ItemKey");
+			this.printItem(sDeliveryKey, sItemKey)
+				.then(function () {
+					this.showTranslatedMessageToast("message.itemPrinted", [sItemKey]);
+				}.bind(this));
+		},
+
 		/* =========================================================== */
 		/* private methods                                             */
 		/* =========================================================== */

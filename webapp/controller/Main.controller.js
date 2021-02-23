@@ -20,12 +20,27 @@ sap.ui.define([
 		/* =========================================================== */
 
 		onPrintDeliveryPress: function () {
-			// var sDeliveryKey = this._getSelectedDeliveryKey();
-			this.showSuccessMessage("test");
+			var sDeliveryKey = this._getSelectedDeliveryKey();
+			this.createLabel(sDeliveryKey)
+				.then(function () {
+					this.showTranslatedMessageToast("message.deliveryPrinted", [sDeliveryKey]);
+				}.bind(this));
 		},
 
 		onPrintProtocolPress: function () {
-			this.showErrorMessage("test123");
+			var sDeliveryKey = this._getSelectedDeliveryKey();
+			this.printProtocol(sDeliveryKey)
+				.then(function () {
+					this.showTranslatedMessageToast("message.protocolPrinted", [sDeliveryKey]);
+				}.bind(this));
+		},
+
+		onCancelDeliveryPress: function () {
+			var sDeliveryKey = this._getSelectedDeliveryKey();
+			this.cancelDelivery(sDeliveryKey)
+				.then(function () {
+					this.showTranslatedMessageToast("message.deliveryCanceled", [sDeliveryKey]);
+				}.bind(this));
 		},
 
 		onItemPress: function (oEvent) {
