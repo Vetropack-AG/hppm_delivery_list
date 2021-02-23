@@ -30,7 +30,7 @@
 					text="{= ${message>/}.length}"
 					press="onMessagePopoverPress"/>
 				<ToolbarSpacer/>
-				<Button text="{i18n>details.sapPosting}" type="Emphasized"/>
+				<Button text="{i18n>details.sapPosting}" type="Emphasized" press="onSapPostingPress" />
 				<Button text="{i18n>general.confirm}" type="Accept" press="onSavePress"/>
 				<Button text="{i18n>general.cancel}" type="Reject"/>
 			</OverflowToolbar>

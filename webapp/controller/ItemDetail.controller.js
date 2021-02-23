@@ -36,6 +36,7 @@ sap.ui.define([
 				oModel.submitChanges({
 					success: function () {
 						sap.ui.core.BusyIndicator.hide();
+						this.showTranslatedMessageToast("message.itemSaved", [this.getDeliveryProperty("ItemKey")]);
 						// this.navBack();
 					}.bind(this)
 				});
@@ -44,9 +45,36 @@ sap.ui.define([
 			}
 		},
 
+		onSapPostingPress: function () {
+			this.getFragment("PostItemDialog", this).open();
+		},
+
+		onPostItemDialogSavePress: function (oEvent) {
+			var oDialog = this.getFragment("PostItemDialog", this);
+			oDialog.close();
+			var sQuantity = oDialog.getContent()[0].getValue().toString();
+			this._handlePostGoodsMovement(sQuantity);
+		},
+
+		onPostItemCancelSavePress: function (oEvent) {
+			oEvent.getSource().getParent().close();
+		},
+
 		/* =========================================================== */
 		/* private methods                                             */
 		/* =========================================================== */
+
+		_handlePostGoodsMovement: function (sQuantity) {
+			this.postGoodsMovement({
+				DeliveryKey: this.getDeliveryProperty("DeliveryKey"),
+				ItemKey: this.getDeliveryProperty("ItemKey"),
+				Quantity: sQuantity
+			}).then(this._showItemPosted.bind(this));
+		},
+
+		_showItemPosted: function () {
+			this.showTranslatedMessageToast("message.itemPosted", [this.getDeliveryProperty("ItemKey")]);
+		},
 
 		_setNextStatus: function () {
 			// OPEN -> QUALITY -> QUANTITY

@@ -41,7 +41,7 @@
 					text="{= ${message>/}.length}"
 					press="onMessagePopoverPress"/>
 				<m:ToolbarSpacer /> 
-				<m:Button text="{i18n>details.sapPosting}" type="Emphasized"/>
+				<m:Button text="{i18n>details.sapPosting}" type="Emphasized" press="onSapPostingPress" />
 			</m:OverflowToolbar>
 		</footer>
 	</ObjectPageLayout>

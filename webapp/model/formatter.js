@@ -5,35 +5,35 @@ sap.ui.define([
 
 	return {
 
-		shipmentStatusColorScheme: function (sStatus) {
+		shipmentStatusState: function (sStatus) {
 			switch (sStatus) {
 			case constants.SHIPMENT_STATUS.NEW:
-				return 2;
+				return "Error";
 			case constants.SHIPMENT_STATUS.PLANNED:
-				return 5;
+				return "Warning";
 			case constants.SHIPMENT_STATUS.POD:
-				return 8;
+				return "Success";
 			default:
-				return 2;
+				return "Error";
 			}
 		},
 
-		inspectionStatusColorScheme: function (sStatus) {
+		inspectionStatusState: function (sStatus) {
 			switch (sStatus) {
 			case constants.INSPECTION_STATUS.OPEN:
-				return 2;
+				return "Error";
 			case constants.INSPECTION_STATUS.LOADED:
-				return 9;
+				return "Warning";
 			case constants.INSPECTION_STATUS.UNLOADED:
-				return 5;
+				return "Warning";
 			case constants.INSPECTION_STATUS.QUALITY:
-				return 6;
+				return "Information";
 			case constants.INSPECTION_STATUS.QUANTITY:
-				return 7;
+				return "Information";
 			case constants.INSPECTION_STATUS.POSTED:
-				return 8;
+				return "Success";
 			default:
-				return 2;
+				return "Error";
 			}
 		},
 

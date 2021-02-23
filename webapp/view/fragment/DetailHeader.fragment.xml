@@ -9,7 +9,7 @@
 			text="{ path: 'DeliveryDate', type: 'sap.ui.model.odata.type.Date', formatOptions: { style: 'short' } }"/>
 	</layout:VerticalLayout>
 	<layout:VerticalLayout>
-		<m:ObjectStatus title="{i18n>details.status}" text="{InspectionStatus}"
+		<m:ObjectStatus title="{i18n>details.status}" text="{InspectionStatusText}"
 			state="{ path: 'InspectionStatus', formatter: '.formatter.itemInspectionStatusState' }"/>
 		<m:ObjectStatus title="{i18n>details.by}"
 			text="{ChangedBy} {i18n>details.on} { path: 'ChangedOn', type: 'sap.ui.model.odata.type.Date', formatOptions: { style: 'short' } }"/>

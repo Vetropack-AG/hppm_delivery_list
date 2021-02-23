@@ -6,7 +6,7 @@
 			<f:content>
 				<Label text="{i18n>details.material}"/>
 				<ComboBox items="{ path: '/LoadCarrierTypeValueHelpSet', templateShareable: false}" selectedKey="{MaterialNumber}"
-					showSecondaryValues="false" filterSecondaryValues="true">
+					showSecondaryValues="false" filterSecondaryValues="true" required="true" >
 					<core:ListItem key="{Key}" text="{Key} - {Description}" additionalText="{Key}"/>
 					<layoutData>
 						<l:GridData span="XL4 L4 M4 S4"/>
@@ -21,7 +21,7 @@
 				<!--<Label text="{i18n>details.dimension}" />-->
 				<!--<Input value="{Unit}" />-->
 				<Label text="{i18n>details.deliveryQuantity}"/>
-				<StepInput value="{ path:'Quantity', type:'sap.ui.model.odata.type.Decimal' }"/>
+				<StepInput value="{ path:'Quantity', type:'sap.ui.model.odata.type.Decimal' }" min="1" />
 				<Label text="{i18n>details.actualQuantity}"/>
 				<StepInput value="{ path:'ActualQuantity', type:'sap.ui.model.odata.type.Decimal' }"/>
 				<Label text="{i18n>details.claimQuantity}"/>

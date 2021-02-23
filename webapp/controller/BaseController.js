@@ -2,8 +2,9 @@ sap.ui.define([
 	"sap/ui/core/mvc/Controller",
 	"sap/m/MessageBox",
 	"sap/base/i18n/ResourceBundle",
-	"sap/ui/core/routing/History"
-], function (Controller, MessageBox, ResourceBundle, History) {
+	"sap/ui/core/routing/History",
+	"sap/m/MessageToast",
+], function (Controller, MessageBox, ResourceBundle, History, MessageToast) {
 	"use strict";
 
 	/**
@@ -35,6 +36,21 @@ sap.ui.define([
 		/* =========================================================== */
 		/* public methods                                              */
 		/* =========================================================== */
+
+		postGoodsMovement: function (oData) {
+			return new Promise(function (resolve, reject) {
+				this.getView().getModel().callFunction("/PostGoodsMovement", {
+					urlParameters: {
+						DeliveryKey: oData.DeliveryKey,
+						ItemKey: oData.ItemKey,
+						Quantity: oData.Quantity
+					},
+					groupId: "PostGoodsMovement",
+					success: resolve,
+					error: reject
+				});
+			}.bind(this));
+		},
 
 		getDeliveryProperty: function (sProperty) {
 			return this.getView().getBindingContext().getProperty(sProperty);
@@ -131,6 +147,40 @@ sap.ui.define([
 					onClose: resolve
 				});
 			});
+		},
+
+		showTranslatedSuccessMessage: function (sMessage, aParams, bPreventAddToMessageContainer) {
+			if (!bPreventAddToMessageContainer) {
+				this.addSuccessMessage(this.translateText(sMessage, aParams));
+			}
+			return new Promise(function (resolve) {
+				MessageBox.success(this.translateText(sMessage, aParams), {
+					onClose: resolve
+				});
+			}.bind(this));
+		},
+
+		showTranslatedErrorMessage: function (sMessage, aParams, bPreventAddToMessageContainer) {
+			if (!bPreventAddToMessageContainer) {
+				this.addSuccessMessage(this.translateText(sMessage, aParams));
+			}
+			return new Promise(function (resolve) {
+				MessageBox.error(this.translateText(sMessage, aParams), {
+					onClose: resolve
+				});
+			}.bind(this));
+		},
+
+		showTranslatedMessageToast: function (sMessage, aParams, bPreventAddToMessageContainer) {
+			if (!bPreventAddToMessageContainer) {
+				this.addSuccessMessage(this.translateText(sMessage, aParams));
+			}
+			return new Promise(function (resolve) {
+				MessageToast.show(this.translateText(sMessage, aParams), {
+					onClose: resolve,
+					closeOnBrowserNavigation: false
+				});
+			}.bind(this));
 		},
 
 		showRequestErrorMessage: function (oError) {

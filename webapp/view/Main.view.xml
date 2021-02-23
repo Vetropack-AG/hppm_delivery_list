@@ -37,7 +37,7 @@
 			<smartTable:SmartTable 
 				id="SmartTable"
 				entitySet="DeliveryHeadSet" 
-				requestAtLeastFields="ShipToPartyText,SoldToPartyText,ShipToPartyPostalCode,ShipToPartyCity,ShipToPartyStreet,ShipToPartyCountry,SoldToPartyPostalCode,SoldToPartyCity,SoldToPartyStreet,SoldToPartyCountry"
+				requestAtLeastFields="ShipToPartyText,SoldToPartyText,ShipToPartyPostalCode,ShipToPartyCity,ShipToPartyStreet,ShipToPartyCountry,SoldToPartyPostalCode,SoldToPartyCity,SoldToPartyStreet,SoldToPartyCountry,ShipmentStatus,InspectionStatus"
 				smartFilterId="smartFilterBar" 
 				tableType="ResponsiveTable" 
 				useExportToExcel="true" 
@@ -80,26 +80,26 @@
 							<Text text="{/#DeliveryHead/DeliveryKey/@sap:label}"/>
 						</Column>
 						
-						<Column id="ShipmentStatus" width="10%" demandPopin="true" minScreenWidth="Desktop" popinDisplay="Inline">
+						<Column id="ShipmentStatusText" width="12%" demandPopin="true" minScreenWidth="Desktop" popinDisplay="Inline">
 							<customData>
 								<core:CustomData key="p13nData"
-									value='\{	"columnKey": "ShipmentStatus", 
+									value='\{	"columnKey": "ShipmentStatusText", 
 												"maxLength": "20",
 												"columnIndex":"2", 
-												"leadingProperty": "ShipmentStatus", 
+												"leadingProperty": "ShipmentStatusText", 
 												"type": "string" }'/>
 							</customData>
 							<Text text="{/#DeliveryHead/ShipmentStatus/@sap:label}"/>
 						</Column>
 				
 					
-						<Column id="InspectionStatus" width="10%" demandPopin="true" minScreenWidth="Desktop" popinDisplay="Inline">
+						<Column id="InspectionStatusText" width="12%" demandPopin="true" minScreenWidth="Desktop" popinDisplay="Inline">
 							<customData>
 								<core:CustomData key="p13nData"
-									value='\{	"columnKey": "InspectionStatus", 
+									value='\{	"columnKey": "InspectionStatusText", 
 												"maxLength": "20",
 												"columnIndex":"3", 
-												"leadingProperty": "InspectionStatus", 
+												"leadingProperty": "InspectionStatusText", 
 												"type": "string" }'/>
 							</customData>
 							<Text text="{/#DeliveryHead/InspectionStatus/@sap:label}"/>
@@ -142,7 +142,7 @@
 							<Text text="{/#DeliveryHead/SoldToParty/@sap:label}"/>
 						</Column>
 						
-						<Column id="Claim" width="8%" demandPopin="true" minScreenWidth="Desktop" popinDisplay="Inline">
+						<Column id="Claim" width="5%" demandPopin="true" minScreenWidth="Desktop" popinDisplay="Inline">
 							<customData>
 								<core:CustomData key="p13nData"
 									value='\{	"columnKey": "Claim", 
@@ -159,8 +159,11 @@
 						<ColumnListItem type="Navigation">
 							<cells>
 								<Text text="{DeliveryKey}"/>
-								<tnt:InfoLabel text="{ShipmentStatus}" displayOnly="true" colorScheme= "{ path: 'ShipmentStatus', formatter: '.formatter.shipmentStatusColorScheme' }" />
-								<tnt:InfoLabel text="{InspectionStatus}" displayOnly="true" colorScheme= "{ path: 'InspectionStatus', formatter: '.formatter.inspectionStatusColorScheme' }" />
+								<ObjectStatus text="{ShipmentStatusText}" state= "{ path: 'ShipmentStatus', formatter: '.formatter.shipmentStatusState' }"/>
+								<ObjectStatus text="{InspectionStatusText}"	state= "{ path: 'InspectionStatus', formatter: '.formatter.inspectionStatusState' }" />
+			
+								<!--<tnt:InfoLabel text="{ShipmentStatusText}" displayOnly="true" colorScheme= "{ path: 'ShipmentStatus', formatter: '.formatter.shipmentStatusColorScheme' }" />-->
+								<!--<tnt:InfoLabel text="{InspectionStatusText}" displayOnly="true" colorScheme= "{ path: 'InspectionStatus', formatter: '.formatter.inspectionStatusColorScheme' }" />-->
 								<Text text="{CreatedBy}"/>
 								<VBox>
 									<Text text="{ShipToPartyText} ({ShipToParty})"/>

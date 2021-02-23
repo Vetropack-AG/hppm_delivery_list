@@ -2,8 +2,9 @@ sap.ui.define([
 	"zvgt/hppm/delivery_list/controller/BaseController",
 	"sap/ui/model/Filter",
 	"sap/ui/model/FilterOperator",
-	"zvgt/hppm/delivery_list/model/formatter"
-], function (BaseController, Filter, FilterOperator, formatter) {
+	"zvgt/hppm/delivery_list/model/formatter",
+	"zvgt/hppm/delivery_list/model/constants"
+], function (BaseController, Filter, FilterOperator, formatter, constants) {
 	"use strict";
 
 	return BaseController.extend("zvgt.hppm.delivery_list.controller.Detail", {
@@ -41,7 +42,8 @@ sap.ui.define([
 			var oDialog = this.getFragment("AddDetailDialog", this);
 			var oContext = this.getView().getModel().createEntry("/DeliveryItemSet", {
 				properties: {
-					DeliveryKey: this.getView().getBindingContext().getProperty("DeliveryKey")
+					DeliveryKey: this.getView().getBindingContext().getProperty("DeliveryKey"),
+					Quantity: "1"
 				}
 			});
 			oDialog.setBindingContext(oContext);
@@ -55,6 +57,7 @@ sap.ui.define([
 				success: function () {
 					oDialog.setBusy(false);
 					oDialog.close();
+					this.showTranslatedMessageToast("message.itemAdded");
 					this.getView().getModel().refresh(true);
 				}.bind(this),
 				error: function () {
@@ -70,9 +73,71 @@ sap.ui.define([
 			oDialog.close();
 		},
 
+		onSapPostingPress: function () {
+			this._bindPostItemsDialog();
+			this.getFragment("PostItemsDialog", this).open();
+		},
+
+		onPostItemsDialogSavePress: function (oEvent) {
+			var oDialog = this.getFragment("PostItemsDialog", this);
+			oDialog.close();
+			var oList = oDialog.getContent()[0];
+			oList.getItems()
+				.map(this._mapListItemToGoodsMovementItemData, this)
+				.forEach(this._handlePostGoodsMovement, this);
+		},
+
+		onPostItemsCancelSavePress: function (oEvent) {
+			oEvent.getSource().getParent().close();
+		},
+
 		/* =========================================================== */
 		/* private methods                                             */
 		/* =========================================================== */
+
+		_handlePostGoodsMovement: function (oItem) {
+			this.postGoodsMovement(oItem)
+				.then(this._showItemsPosted.bind(this));
+		},
+
+		_mapListItemToGoodsMovementItemData: function (oListItem) {
+			return {
+				Quantity: oListItem.getContent()[0].getValue().toString(),
+				ItemKey: oListItem.getCustomData()[0].getValue(),
+				DeliveryKey: this.getDeliveryProperty("DeliveryKey")
+			};
+		},
+
+		_bindPostItemsDialog: function () {
+			var oList = this.getFragment("PostItemsDialog", this).getContent()[0];
+			var sDeliveryKey = this.getDeliveryProperty("DeliveryKey");
+			oList.bindAggregation("items", {
+				path: "/DeliveryItemSet",
+				template: this._createPostItemsDialogTemplate(),
+				filters: [
+					new Filter("DeliveryKey", FilterOperator.EQ, sDeliveryKey),
+					new Filter("InspectionStatus", FilterOperator.NE, constants.INSPECTION_STATUS.POSTED)
+				]
+			});
+		},
+
+		_createPostItemsDialogTemplate: function () {
+			return new sap.m.InputListItem({
+				label: "{ItemKey} - {ItemText} / {MaterialNumber} - {MaterialText}",
+				content: new sap.m.StepInput({
+					min: 1,
+					width: "8rem"
+				}),
+				customData: new sap.ui.core.CustomData({
+					key: "ItemKey",
+					value: "{ItemKey}"
+				})
+			});
+		},
+
+		_showItemsPosted: function (oData) {
+			this.showTranslatedMessageToast("message.itemPosted", [oData.ItemKey]);
+		},
 
 		_getCurrentDeliveryKey: function () {
 			var oContext = this.getView().getBindingContext();
