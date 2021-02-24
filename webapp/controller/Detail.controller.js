@@ -54,11 +54,15 @@ sap.ui.define([
 			var oDialog = oEvent.getSource().getParent();
 			oDialog.setBusy(true);
 			this.getView().getModel().submitChanges({
-				success: function () {
-					oDialog.setBusy(false);
-					oDialog.close();
-					this.showTranslatedMessageToast("message.itemAdded");
-					this.getView().getModel().refresh(true);
+				success: function (oData) {
+					if (!this.isSubmitError(oData)) {
+						oDialog.setBusy(false);
+						oDialog.close();
+						this.showTranslatedMessageToast("message.itemAdded");
+						this.getView().getModel().refresh(true);
+					} else {
+						this.getView().getModel().resetChanges();
+					}
 				}.bind(this),
 				error: function () {
 					oDialog.setBusy(false);

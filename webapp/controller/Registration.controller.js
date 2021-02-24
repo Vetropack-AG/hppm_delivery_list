@@ -33,7 +33,11 @@ sap.ui.define([
 			if (oModel.hasPendingChanges()) {
 				sap.ui.core.BusyIndicator.show(0);
 				oModel.submitChanges({
-					success: this._navToDetails.bind(this)
+					success: function (oData) {
+						if (!this.isSubmitError(oData)) {
+							this._navToDetails();
+						}
+					}.bind(this)
 				});
 			} else {
 				this._navToDetails();

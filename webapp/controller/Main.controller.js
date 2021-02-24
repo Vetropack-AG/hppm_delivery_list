@@ -1,7 +1,8 @@
 sap.ui.define([
 	"zvgt/hppm/delivery_list/controller/BaseController",
-	"zvgt/hppm/delivery_list/model/formatter"
-], function (BaseController, formatter) {
+	"zvgt/hppm/delivery_list/model/formatter",
+		"zvgt/hppm/delivery_list/model/constants"
+], function (BaseController, formatter, constants) {
 	"use strict";
 
 	return BaseController.extend("zvgt.hppm.delivery_list.controller.Main", {
@@ -46,7 +47,8 @@ sap.ui.define([
 		onItemPress: function (oEvent) {
 			var oItem = oEvent.getParameter("listItem");
 			var oContext = oItem.getBindingContext();
-			this.navTo("Registration", {
+			var sTarget = oContext.getProperty("ShipmentStatus") === constants.SHIPMENT_STATUS.NEW ? "Registration" : "Detail";
+			this.navTo(sTarget, {
 				DeliveryKey: oContext.getModel().getProperty(oContext.getPath() + "/DeliveryKey")
 			});
 		},

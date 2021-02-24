@@ -1,8 +1,9 @@
 sap.ui.define([
 	"sap/ui/core/UIComponent",
 	"sap/ui/Device",
-	"zvgt/hppm/delivery_list/model/models"
-], function (UIComponent, Device, models) {
+	"zvgt/hppm/delivery_list/model/models",
+	"sap/m/MessageBox"
+], function (UIComponent, Device, models, MessageBox) {
 	"use strict";
 
 	return UIComponent.extend("zvgt.hppm.delivery_list.Component", {
@@ -22,9 +23,31 @@ sap.ui.define([
 			this.getRouter().initialize();
 			this.setModel(models.createDeviceModel(), "device");
 			this._registerMessageManager();
-			this.getModel().attachRequestFailed(function() {
-				sap.ui.core.BusyIndicator.hide();	
-			});
+			this.getModel().attachRequestFailed(function (oEvent) {
+				sap.ui.core.BusyIndicator.hide();
+				this._showServerErrorMessage(oEvent);
+			}.bind(this));
+		},
+
+		_showServerErrorMessage: function (oEvent) {
+			var sMessage;
+			try {
+				var oResponse = oEvent.getParameter("response");
+				var oResponseText = JSON.parse(oResponse.responseText);
+				sMessage = oResponseText.error.message.value;
+				if (!sMessage || sMessage === "") {
+					sMessage = oEvent.getParameter("response").message;
+				}
+			} catch (err) {
+				sMessage = oEvent.getParameter("response").message;
+			}
+			MessageBox.error(sMessage);
+			sap.ui.getCore().getMessageManager().addMessages(
+				new sap.ui.core.message.Message({
+					message: sMessage,
+					type: "Error"
+				})
+			);
 		},
 
 		/**

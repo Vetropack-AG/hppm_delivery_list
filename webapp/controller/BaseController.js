@@ -37,6 +37,10 @@ sap.ui.define([
 		/* public methods                                              */
 		/* =========================================================== */
 
+		isSubmitError: function (oData) {
+			return !(oData.__batchResponses && oData.__batchResponses.__changeResponses);
+		},
+
 		postGoodsMovement: function (oData) {
 			return new Promise(function (resolve, reject) {
 				this.getView().getModel().callFunction("/PostGoodsMovement", {

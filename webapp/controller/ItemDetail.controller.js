@@ -34,15 +34,20 @@ sap.ui.define([
 			if (oModel.hasPendingChanges()) {
 				sap.ui.core.BusyIndicator.show(0);
 				oModel.submitChanges({
-					success: function () {
-						sap.ui.core.BusyIndicator.hide();
-						this.showTranslatedMessageToast("message.itemSaved", [this.getDeliveryProperty("ItemKey")]);
-						// this.navBack();
+					success: function (oData) {
+						if (!this.isSubmitError(oData)) {
+							sap.ui.core.BusyIndicator.hide();
+							this.showTranslatedMessageToast("message.itemSaved", [this.getDeliveryProperty("ItemKey")]);
+						} else {
+							this.getView().getModel().resetChanges();
+						}
 					}.bind(this)
 				});
-			} else {
-				// this.navBack();
 			}
+		},
+
+		onCancelPress: function () {
+			this.getView().getModel().resetChanges();
 		},
 
 		onSapPostingPress: function () {
