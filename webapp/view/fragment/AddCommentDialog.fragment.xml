@@ -1,0 +1,14 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+	<Dialog draggable="true" title="{i18n>addCommentDialog.title}" contentWidth="50%" class="sapUiContentPadding">
+		<VBox>
+			<Label text="{i18n>addCommentDialog.history}:"/>
+			<TextArea value="{ExistingComment}" width="100%" rows="10" editable="false" class="sapUiMediumMarginBottom" />
+			<Label text="{i18n>addCommentDialog.comment}:"/>
+			<TextArea value="{Comment}" width="100%" rows="5"/>
+		</VBox>
+		<buttons>
+			<Button text="{i18n>general.save}" type="Emphasized" press="onAddCommentDialogSavePress"/>
+			<Button text="{i18n>general.close}" press="onAddCommentDialogClosePress"/>
+		</buttons>
+	</Dialog>
+</core:FragmentDefinition>

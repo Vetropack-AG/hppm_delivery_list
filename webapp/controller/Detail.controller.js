@@ -95,12 +95,17 @@ sap.ui.define([
 			oEvent.getSource().getParent().close();
 		},
 
-		onPrintDeliveryPress: function () {
-			var sDeliveryKey = this.getDeliveryProperty("DeliveryKey");
-			this.createLabel(sDeliveryKey)
-				.then(function () {
-					this.showTranslatedMessageToast("message.deliveryPrinted", [sDeliveryKey]);
-				}.bind(this));
+		onAddCommentPress: function () {
+			this.getFragment("AddCommentDialog", this).open();
+		},
+
+		onAddCommentDialogSavePress: function (oEvent) {
+			this.getView().getModel().submitChanges();
+		},
+
+		onAddCommentDialogClosePress: function (oEvent) {
+			oEvent.getSource().getParent().close();
+			this.getView().getModel().resetChanges();
 		},
 
 		/* =========================================================== */

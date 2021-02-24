@@ -4,9 +4,8 @@
 		<headerTitle>
 			<ObjectPageHeader objectTitle="{i18n>details.delivery}: {DeliveryKey}" objectSubtitle="{i18n>details.protocolNumber}: {DeliveryKey}">
 				<actions>
-					<ObjectPageHeaderActionButton icon="sap-icon://post" text="i18n>details.comment}" tooltip="i18n>details.comment}"/>
+					<ObjectPageHeaderActionButton icon="sap-icon://post" text="i18n>details.comment}" tooltip="i18n>details.comment}" press="onAddCommentPress" />
 					<ObjectPageHeaderActionButton icon="sap-icon://pdf-attachment" text="{i18n>details.downloadPDF}" tooltip="{i18n>details.downloadPDF}"/>
-					<ObjectPageHeaderActionButton icon="sap-icon://print" text="{i18n>details.print}" tooltip="{i18n>details.print}" press="onPrintDeliveryPress" />
 				</actions>
 			</ObjectPageHeader>
 		</headerTitle>

@@ -27,6 +27,9 @@ sap.ui.define([
 				sap.ui.core.BusyIndicator.hide();
 				this._showServerErrorMessage(oEvent);
 			}.bind(this));
+			this.getModel().attachRequestCompleted(function (oEvent) {
+				sap.ui.core.BusyIndicator.hide();
+			}.bind(this));
 		},
 
 		_showServerErrorMessage: function (oEvent) {

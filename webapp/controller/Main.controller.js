@@ -20,14 +20,6 @@ sap.ui.define([
 		/* event handlers                                              */
 		/* =========================================================== */
 
-		onPrintDeliveryPress: function () {
-			var sDeliveryKey = this._getSelectedDeliveryKey();
-			this.createLabel(sDeliveryKey)
-				.then(function () {
-					this.showTranslatedMessageToast("message.deliveryPrinted", [sDeliveryKey]);
-				}.bind(this));
-		},
-
 		onPrintProtocolPress: function () {
 			var sDeliveryKey = this._getSelectedDeliveryKey();
 			this.printProtocol(sDeliveryKey)

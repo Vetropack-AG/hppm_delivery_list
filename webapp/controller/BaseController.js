@@ -38,7 +38,7 @@ sap.ui.define([
 		/* =========================================================== */
 
 		isSubmitError: function (oData) {
-			return !(oData.__batchResponses && oData.__batchResponses.__changeResponses);
+			return !(oData.__batchResponses && oData.__batchResponses[0].__changeResponses);
 		},
 
 		postGoodsMovement: function (oData) {
@@ -55,20 +55,7 @@ sap.ui.define([
 				});
 			}.bind(this));
 		},
-
-		createLabel: function (sDeliveryKey) {
-			return new Promise(function (resolve, reject) {
-				this.getView().getModel().callFunction("/CreateLabel", {
-					urlParameters: {
-						DeliveryKey: sDeliveryKey
-					},
-					groupId: "CreateLabel",
-					success: resolve,
-					error: reject
-				});
-			}.bind(this));
-		},
-
+		
 		printProtocol: function (sDeliveryKey) {
 			return new Promise(function (resolve, reject) {
 				this.getView().getModel().callFunction("/PrintProtocol", {

@@ -56,7 +56,6 @@
 						<ToolbarSpacer />
 					
 						<ToolbarSeparator />
-						<Button icon="sap-icon://print" tooltip="{i18n>main.printDelivery}" press="onPrintDeliveryPress" />
 						<Button icon="sap-icon://notes" tooltip="{i18n>main.printProtocol}" press="onPrintProtocolPress" />
 						<Button icon="sap-icon://cancel" tooltip="{i18n>main.cancelDelivery}" press="onCancelDeliveryPress" />
 						<ToolbarSeparator />
