@@ -153,6 +153,7 @@ sap.ui.define([
 		},
 
 		_showItemsPosted: function (oData) {
+			this.getView().getModel().refresh(true);
 			this.showTranslatedMessageToast("message.itemPosted", [oData.ItemKey]);
 		},
 
