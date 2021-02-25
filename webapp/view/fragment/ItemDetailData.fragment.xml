@@ -21,7 +21,7 @@
 				<!--<Label text="{i18n>details.dimension}" />-->
 				<!--<Input value="{Unit}" />-->
 				<Label text="{i18n>details.deliveryQuantity}"/>
-				<StepInput value="{ path:'Quantity', type:'sap.ui.model.odata.type.Decimal' }" min="1" />
+				<StepInput value="{ path:'Quantity', type:'sap.ui.model.odata.type.Decimal' }" min="1" editable="false"/>
 				<Label text="{i18n>details.actualQuantity}"/>
 				<StepInput value="{ path:'ActualQuantity', type:'sap.ui.model.odata.type.Decimal' }"/>
 				<Label text="{i18n>details.claimQuantity}"/>

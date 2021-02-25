@@ -47,7 +47,8 @@ sap.ui.define([
 					urlParameters: {
 						DeliveryKey: oData.DeliveryKey,
 						ItemKey: oData.ItemKey,
-						Quantity: oData.Quantity
+						Quantity: oData.Quantity,
+						ManualPost: false
 					},
 					groupId: "PostGoodsMovement",
 					success: resolve,
@@ -87,7 +88,8 @@ sap.ui.define([
 				this.getView().getModel().callFunction("/CreateItemLabel", {
 					urlParameters: {
 						DeliveryKey: sDeliveryKey,
-						ItemKey: sItemKey
+						ItemKey: sItemKey,
+						Quantity: "5"
 					},
 					groupId: "CreateItemLabel",
 					success: resolve,
