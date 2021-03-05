@@ -3,12 +3,15 @@ sap.ui.define([
 	"sap/ui/model/Filter",
 	"sap/ui/model/FilterOperator",
 	"zvgt/hppm/delivery_list/model/formatter",
-	"zvgt/hppm/delivery_list/model/constants"
-], function (BaseController, Filter, FilterOperator, formatter, constants) {
+	"zvgt/hppm/delivery_list/model/constants",
+	"zvgt/hppm/delivery_list/model/quantityCalculator",
+		"zvgt/hppm/delivery_list/model/models"
+], function (BaseController, Filter, FilterOperator, formatter, constants, quantityCalculator, models) {
 	"use strict";
 
 	return BaseController.extend("zvgt.hppm.delivery_list.controller.Detail", {
 		formatter: formatter,
+		quantityCalculator: quantityCalculator,
 
 		/* =========================================================== */
 		/* lifecycle methods                                           */

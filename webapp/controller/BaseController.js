@@ -3,7 +3,7 @@ sap.ui.define([
 	"sap/m/MessageBox",
 	"sap/base/i18n/ResourceBundle",
 	"sap/ui/core/routing/History",
-	"sap/m/MessageToast",
+	"sap/m/MessageToast"
 ], function (Controller, MessageBox, ResourceBundle, History, MessageToast) {
 	"use strict";
 
@@ -56,7 +56,7 @@ sap.ui.define([
 				});
 			}.bind(this));
 		},
-		
+
 		printProtocol: function (sDeliveryKey) {
 			return new Promise(function (resolve, reject) {
 				this.getView().getModel().callFunction("/PrintProtocol", {

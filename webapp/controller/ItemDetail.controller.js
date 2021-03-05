@@ -1,12 +1,14 @@
 sap.ui.define([
 	"zvgt/hppm/delivery_list/controller/BaseController",
 	"zvgt/hppm/delivery_list/model/formatter",
-	"zvgt/hppm/delivery_list/model/constants"
-], function (BaseController, formatter, constants) {
+	"zvgt/hppm/delivery_list/model/constants",
+	"zvgt/hppm/delivery_list/model/quantityCalculator"
+], function (BaseController, formatter, constants, quantityCalculator) {
 	"use strict";
 
 	return BaseController.extend("zvgt.hppm.delivery_list.controller.ItemDetail", {
 		formatter: formatter,
+		quantityCalculator:quantityCalculator,
 
 		/* =========================================================== */
 		/* lifecycle methods                                           */
