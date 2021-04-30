@@ -83,13 +83,13 @@ sap.ui.define([
 			}.bind(this));
 		},
 
-		printItem: function (sDeliveryKey, sItemKey) {
+		printItem: function (sDeliveryKey, sItemKey, iAmount) {
 			return new Promise(function (resolve, reject) {
 				this.getView().getModel().callFunction("/CreateItemLabel", {
 					urlParameters: {
 						DeliveryKey: sDeliveryKey,
 						ItemKey: sItemKey,
-						Quantity: "5"
+						Quantity: iAmount
 					},
 					groupId: "CreateItemLabel",
 					success: resolve,
