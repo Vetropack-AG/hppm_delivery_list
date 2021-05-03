@@ -5,7 +5,7 @@ sap.ui.define([
 	"zvgt/hppm/delivery_list/model/formatter",
 	"zvgt/hppm/delivery_list/model/constants",
 	"zvgt/hppm/delivery_list/model/quantityCalculator",
-		"zvgt/hppm/delivery_list/model/models"
+	"zvgt/hppm/delivery_list/model/models"
 ], function (BaseController, Filter, FilterOperator, formatter, constants, quantityCalculator, models) {
 	"use strict";
 
@@ -111,9 +111,43 @@ sap.ui.define([
 			this.getView().getModel().resetChanges();
 		},
 
+		onLoadPress: function () {
+			this._navToCountPalletsApp("LOAD");
+		},
+
+		onUnloadPress: function () {
+			this._navToCountPalletsApp("UNLOAD");
+		},
+
 		/* =========================================================== */
 		/* private methods                                             */
 		/* =========================================================== */
+
+		_navToCountPalletsApp: function (sContext) {
+			var oCrossAppNav = sap.ushell.Container.getService("CrossApplicationNavigation");
+			if (oCrossAppNav && this._getSelectedDeliveryItem()) {
+				oCrossAppNav.toExternal({ // eslint-disable-line
+					target: {
+						semanticObject: "pallet_count",
+						action: "display"
+					},
+					params: {
+						DeliveryKey: this._getSelectedDeliveryItem().DeliveryKey,
+						ItemKey: this._getSelectedDeliveryItem().ItemKey,
+						Context: sContext
+					}
+				});
+			}
+		},
+
+		_getSelectedDeliveryItem: function () {
+			var oList = this.getView().byId("ItemList");
+			var oItem = oList.getSelectedItem();
+			if (oItem) {
+				return oItem.getBindingContext().getModel().getProperty(oItem.getBindingContext().getPath() + "/");
+			}
+			return undefined;
+		},
 
 		_handlePostGoodsMovement: function (oItem) {
 			this.postGoodsMovement(oItem)

@@ -1,9 +1,12 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
-	<List id="ItemList" itemPress="onDetailItemPress">
+	<List id="ItemList" itemPress="onDetailItemPress" mode="SingleSelectLeft">
 		<headerToolbar>
 			<OverflowToolbar>
 				<ToolbarSpacer/>
-				<Button icon="sap-icon://add" press="onAddItemPress" />
+				<Button icon="sap-icon://BusinessSuiteInAppSymbols/icon-truck-load" tooltip="{i18n>main.load}" press="onLoadPress"/>
+				<Button icon="sap-icon://BusinessSuiteInAppSymbols/icon-truck-unload" tooltip="{i18n>main.unload}" press="onUnloadPress"/>
+				<ToolbarSeparator />
+				<Button icon="sap-icon://add" press="onAddItemPress"/>
 			</OverflowToolbar>
 		</headerToolbar>
 	</List>

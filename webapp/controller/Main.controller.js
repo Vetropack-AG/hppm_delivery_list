@@ -1,7 +1,7 @@
 sap.ui.define([
 	"zvgt/hppm/delivery_list/controller/BaseController",
 	"zvgt/hppm/delivery_list/model/formatter",
-		"zvgt/hppm/delivery_list/model/constants"
+	"zvgt/hppm/delivery_list/model/constants"
 ], function (BaseController, formatter, constants) {
 	"use strict";
 
