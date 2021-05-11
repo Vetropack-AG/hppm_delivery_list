@@ -34,11 +34,13 @@ sap.ui.define([
 
 		onDetailItemPress: function (oEvent) {
 			var oItem = oEvent.getParameter("listItem");
-			var oContext = oItem.getBindingContext();
-			this.navTo("ItemDetail", {
-				DeliveryKey: oContext.getProperty("DeliveryKey"),
-				ItemKey: oContext.getProperty("ItemKey")
-			});
+			this._getDeliveryType().then(function (sDeliveryType) {
+				if (sDeliveryType === "ZRET") {
+					this._navToDetail(oItem);
+				} else if (sDeliveryType === "ZLB") {
+					this._handleInternalDeliveryNavigation();
+				}
+			}.bind(this));
 		},
 
 		onAddItemPress: function () {
@@ -123,6 +125,30 @@ sap.ui.define([
 		/* private methods                                             */
 		/* =========================================================== */
 
+		_handleInternalDeliveryNavigation: function () {
+			var sStatus = this.getView().getBindingContext().getProperty("InspectionStatus");
+			if (sStatus === "NEW") {
+				this._navToLoadPalletsApp();
+			} else if (sStatus === "LOADED") {
+				this._navToUnloadPalletsApp();
+			}
+		},
+
+		_getDeliveryType: function () {
+			return new Promise(function (resolve, reject) {
+				var oModel = this.getView().getModel();
+				var sKey = oModel.createKey("/DeliveryHeadSet", {
+					DeliveryKey: this.getView().getBindingContext().getProperty("DeliveryKey")
+				});
+				oModel.read(sKey, {
+					success: function (oData) {
+						resolve(oData.DeliveryType);
+					},
+					error: reject
+				});
+			}.bind(this));
+		},
+
 		_navToLoadPalletsApp: function () {
 			var oCrossAppNav = sap.ushell.Container.getService("CrossApplicationNavigation");
 			if (oCrossAppNav && this._getSelectedDeliveryItem()) {
@@ -153,6 +179,14 @@ sap.ui.define([
 					}
 				});
 			}
+		},
+
+		_navToDetail: function (oItem) {
+			var oContext = oItem.getBindingContext();
+			this.navTo("ItemDetail", {
+				DeliveryKey: oContext.getProperty("DeliveryKey"),
+				ItemKey: oContext.getProperty("ItemKey")
+			});
 		},
 
 		_getSelectedDeliveryItem: function () {
