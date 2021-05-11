@@ -112,29 +112,44 @@ sap.ui.define([
 		},
 
 		onLoadPress: function () {
-			this._navToCountPalletsApp("LOAD");
+			this._navToLoadPalletsApp();
 		},
 
 		onUnloadPress: function () {
-			this._navToCountPalletsApp("UNLOAD");
+			this._navToUnloadPalletsApp();
 		},
 
 		/* =========================================================== */
 		/* private methods                                             */
 		/* =========================================================== */
 
-		_navToCountPalletsApp: function (sContext) {
+		_navToLoadPalletsApp: function () {
 			var oCrossAppNav = sap.ushell.Container.getService("CrossApplicationNavigation");
 			if (oCrossAppNav && this._getSelectedDeliveryItem()) {
 				oCrossAppNav.toExternal({ // eslint-disable-line
 					target: {
-						semanticObject: "pallet_count",
-						action: "display"
+						semanticObject: "pallet",
+						action: "load"
 					},
 					params: {
 						DeliveryKey: this._getSelectedDeliveryItem().DeliveryKey,
-						ItemKey: this._getSelectedDeliveryItem().ItemKey,
-						Context: sContext
+						ItemKey: this._getSelectedDeliveryItem().ItemKey
+					}
+				});
+			}
+		},
+
+		_navToUnloadPalletsApp: function () {
+			var oCrossAppNav = sap.ushell.Container.getService("CrossApplicationNavigation");
+			if (oCrossAppNav && this._getSelectedDeliveryItem()) {
+				oCrossAppNav.toExternal({ // eslint-disable-line
+					target: {
+						semanticObject: "pallet",
+						action: "unload"
+					},
+					params: {
+						DeliveryKey: this._getSelectedDeliveryItem().DeliveryKey,
+						ItemKey: this._getSelectedDeliveryItem().ItemKey
 					}
 				});
 			}
