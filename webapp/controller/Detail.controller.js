@@ -3,10 +3,10 @@ sap.ui.define([
 	"sap/ui/model/Filter",
 	"sap/ui/model/FilterOperator",
 	"zvgt/hppm/delivery_list/model/formatter",
-	"zvgt/hppm/delivery_list/model/constants",
+	"zvgt/hppm/library",
 	"zvgt/hppm/delivery_list/model/quantityCalculator",
 	"zvgt/hppm/delivery_list/model/models"
-], function (BaseController, Filter, FilterOperator, formatter, constants, quantityCalculator, models) {
+], function (BaseController, Filter, FilterOperator, formatter, hppm, quantityCalculator, models) {
 	"use strict";
 
 	return BaseController.extend("zvgt.hppm.delivery_list.controller.Detail", {
@@ -168,10 +168,10 @@ sap.ui.define([
 
 		_getNextPalletStatus: function (sCurrentStatus) {
 			switch (sCurrentStatus) {
-			case constants.INSPECTION_STATUS.QUALITY:
-				return constants.INSPECTION_STATUS.LOADED;
-			case constants.INSPECTION_STATUS.LOADED:
-				return constants.INSPECTION_STATUS.UNLOADED;
+			case hppm.INSPECTION_STATUS.QUALITY:
+				return hppm.INSPECTION_STATUS.LOADED;
+			case hppm.INSPECTION_STATUS.LOADED:
+				return hppm.INSPECTION_STATUS.UNLOADED;
 			default:
 				throw new Error("Status invalid");
 			}
@@ -319,7 +319,7 @@ sap.ui.define([
 				template: this._createPostItemsDialogTemplate(),
 				filters: [
 					new Filter("DeliveryKey", FilterOperator.EQ, sDeliveryKey),
-					new Filter("InspectionStatus", FilterOperator.NE, constants.INSPECTION_STATUS.POSTED)
+					new Filter("InspectionStatus", FilterOperator.NE, hppm.INSPECTION_STATUS.POSTED)
 				]
 			});
 		},

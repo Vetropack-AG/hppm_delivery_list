@@ -1,17 +1,17 @@
 sap.ui.define([
-	"zvgt/hppm/delivery_list/model/constants"
-], function (constants) {
+	"zvgt/hppm/library"
+], function (hppm) {
 	"use strict";
 
 	return {
 
 		shipmentStatusState: function (sStatus) {
 			switch (sStatus) {
-			case constants.SHIPMENT_STATUS.NEW:
+			case hppm.SHIPMENT_STATUS.NEW:
 				return "Error";
-			case constants.SHIPMENT_STATUS.PLANNED:
+			case hppm.SHIPMENT_STATUS.PLANNED:
 				return "Warning";
-			case constants.SHIPMENT_STATUS.POD:
+			case hppm.SHIPMENT_STATUS.POD:
 				return "Success";
 			default:
 				return "Error";
@@ -20,17 +20,17 @@ sap.ui.define([
 
 		inspectionStatusState: function (sStatus) {
 			switch (sStatus) {
-			case constants.INSPECTION_STATUS.OPEN:
+			case hppm.INSPECTION_STATUS.OPEN:
 				return "Error";
-			case constants.INSPECTION_STATUS.LOADED:
+			case hppm.INSPECTION_STATUS.LOADED:
 				return "Warning";
-			case constants.INSPECTION_STATUS.UNLOADED:
+			case hppm.INSPECTION_STATUS.UNLOADED:
 				return "Warning";
-			case constants.INSPECTION_STATUS.QUALITY:
+			case hppm.INSPECTION_STATUS.QUALITY:
 				return "Information";
-			case constants.INSPECTION_STATUS.QUANTITY:
+			case hppm.INSPECTION_STATUS.QUANTITY:
 				return "Information";
-			case constants.INSPECTION_STATUS.POSTED:
+			case hppm.INSPECTION_STATUS.POSTED:
 				return "Success";
 			default:
 				return "Error";
@@ -39,17 +39,17 @@ sap.ui.define([
 
 		itemInspectionStatusIcon: function (sStatus) {
 			switch (sStatus) {
-			case constants.INSPECTION_STATUS.OPEN:
+			case hppm.INSPECTION_STATUS.OPEN:
 				return "sap-icon://away";
-			case constants.INSPECTION_STATUS.LOADED:
+			case hppm.INSPECTION_STATUS.LOADED:
 				return "sap-icon://circle-task";
-			case constants.INSPECTION_STATUS.UNLOADED:
+			case hppm.INSPECTION_STATUS.UNLOADED:
 				return "sap-icon://circle-task2";
-			case constants.INSPECTION_STATUS.QUALITY:
+			case hppm.INSPECTION_STATUS.QUALITY:
 				return "sap-icon://activities";
-			case constants.INSPECTION_STATUS.QUANTITY:
+			case hppm.INSPECTION_STATUS.QUANTITY:
 				return "sap-icon://activities";
-			case constants.INSPECTION_STATUS.POSTED:
+			case hppm.INSPECTION_STATUS.POSTED:
 				return "sap-icon://accept";
 			default:
 				return "sap-icon://away";
@@ -104,17 +104,17 @@ sap.ui.define([
 
 		itemInspectionStatusState: function (sStatus) {
 			switch (sStatus) {
-			case constants.INSPECTION_STATUS.OPEN:
+			case hppm.INSPECTION_STATUS.OPEN:
 				return "Error";
-			case constants.INSPECTION_STATUS.LOADED:
+			case hppm.INSPECTION_STATUS.LOADED:
 				return "Warning";
-			case constants.INSPECTION_STATUS.UNLOADED:
+			case hppm.INSPECTION_STATUS.UNLOADED:
 				return "Warning";
-			case constants.INSPECTION_STATUS.QUALITY:
+			case hppm.INSPECTION_STATUS.QUALITY:
 				return "Warning";
-			case constants.INSPECTION_STATUS.QUANTITY:
+			case hppm.INSPECTION_STATUS.QUANTITY:
 				return "Warning";
-			case constants.INSPECTION_STATUS.POSTED:
+			case hppm.INSPECTION_STATUS.POSTED:
 				return "Success";
 			default:
 				return "Warning";

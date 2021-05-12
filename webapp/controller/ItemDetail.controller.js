@@ -1,9 +1,9 @@
 sap.ui.define([
 	"zvgt/hppm/delivery_list/controller/BaseController",
 	"zvgt/hppm/delivery_list/model/formatter",
-	"zvgt/hppm/delivery_list/model/constants",
+	"zvgt/hppm/library",
 	"zvgt/hppm/delivery_list/model/quantityCalculator"
-], function (BaseController, formatter, constants, quantityCalculator) {
+], function (BaseController, formatter, hppm, quantityCalculator) {
 	"use strict";
 
 	return BaseController.extend("zvgt.hppm.delivery_list.controller.ItemDetail", {
@@ -107,10 +107,10 @@ sap.ui.define([
 			// OPEN -> QUALITY -> QUANTITY
 			var sCurrentStatus = this.getDeliveryProperty("InspectionStatus");
 			switch (sCurrentStatus) {
-			case constants.INSPECTION_STATUS.OPEN:
+			case hppm.INSPECTION_STATUS.OPEN:
 				this.setDeliveryProperty("InspectionStatus", "QUALITY");
 				break;
-			case constants.INSPECTION_STATUS.QUALITY:
+			case hppm.INSPECTION_STATUS.QUALITY:
 				this.setDeliveryProperty("InspectionStatus", "QUANTITY");
 				break;
 			default: // to nothing

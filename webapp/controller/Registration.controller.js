@@ -34,7 +34,6 @@ sap.ui.define([
 				sap.ui.core.BusyIndicator.show(0);
 				oModel.submitChanges({
 					success: function (oData) {
-						console.log(oData)
 						if (!this.isSubmitError(oData)) {
 							this._navToDetails();
 						}
