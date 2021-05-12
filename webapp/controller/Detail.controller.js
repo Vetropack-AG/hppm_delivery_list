@@ -150,22 +150,23 @@ sap.ui.define([
 
 		_setNextPalletStatus: function (oPallet) {
 			return new Promise(function (resolve, reject) {
-				var oModel = this.getView().getModel();
-				oModel.callFunction("/SetPalletStatus", {
-					urlParameters: {
-						DeliveryKey: oPallet.DeliveryKey,
-						ItemKey: oPallet.ItemKey,
-						PalletNumber: oPallet.PalletNumber,
-						Status: this._getNextPalletStatus()
-					},
-					success: resolve,
-					error: reject
-				});
+				this._getDeliveryItemStatus(oPallet.DeliveryKey, oPallet.ItemKey).then(function (sCurrentStatus) {
+					var oModel = this.getView().getModel();
+					oModel.callFunction("/SetPalletStatus", {
+						urlParameters: {
+							DeliveryKey: oPallet.DeliveryKey,
+							ItemKey: oPallet.ItemKey,
+							PalletNumber: oPallet.PalletNumber,
+							Status: this._getNextPalletStatus(sCurrentStatus)
+						},
+						success: resolve,
+						error: reject
+					});
+				}.bind(this));
 			}.bind(this));
 		},
 
-		_getNextPalletStatus: function () {
-			var sCurrentStatus = this.getView().getBindingContext().getProperty("InspectionStatus");
+		_getNextPalletStatus: function (sCurrentStatus) {
 			switch (sCurrentStatus) {
 			case constants.INSPECTION_STATUS.QUALITY:
 				return constants.INSPECTION_STATUS.LOADED;
@@ -226,6 +227,22 @@ sap.ui.define([
 				oModel.read(sKey, {
 					success: function (oData) {
 						resolve(oData.DeliveryType);
+					},
+					error: reject
+				});
+			}.bind(this));
+		},
+
+		_getDeliveryItemStatus: function (sDeliveryKey, sItemKey) {
+			return new Promise(function (resolve, reject) {
+				var oModel = this.getView().getModel();
+				var sKey = oModel.createKey("/DeliveryItemSet", {
+					DeliveryKey: sDeliveryKey,
+					ItemKey: sItemKey
+				});
+				oModel.read(sKey, {
+					success: function (oData) {
+						resolve(oData.InspectionStatus);
 					},
 					error: reject
 				});
