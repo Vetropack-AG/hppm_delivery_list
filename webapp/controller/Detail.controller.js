@@ -19,11 +19,25 @@ sap.ui.define([
 
 		onInit: function () {
 			this.getOwnerComponent().getRouter().getRoute("Detail").attachPatternMatched(this.onRoutePatternMatched, this);
+			this.getView().setModel(new sap.ui.model.json.JSONModel({
+				LastScannedPallets: []
+			}), "ViewSettings");
 		},
 
 		/* =========================================================== */
 		/* event handlers                                              */
 		/* =========================================================== */
+
+		onPalletSearch: function (oEvent) {
+			var sQuery = oEvent.getParameter("query");
+			this._handlePalletScan(sQuery);
+			this._addToLastScannedPallets(sQuery);
+			oEvent.getSource().setValue("");
+		},
+
+		onPalletSuggest: function (oEvent) {
+			oEvent.getSource().suggest();
+		},
 
 		onRoutePatternMatched: function (oEvent) {
 			var sDeliveryKey = oEvent.getParameter("arguments").DeliveryKey;
@@ -124,6 +138,75 @@ sap.ui.define([
 		/* =========================================================== */
 		/* private methods                                             */
 		/* =========================================================== */
+
+		_handlePalletScan: function (sScan) {
+			var oPallet = this._parsePalletScan(sScan);
+			this._setNextPalletStatus(oPallet).then(this._showPalletStatusSuccessMessage.bind(this));
+		},
+
+		_showPalletStatusSuccessMessage: function (oData) {
+			this.showTranslatedMessageToast("message.palletStatusSet", [oData.CaseNumber, oData.Status]);
+		},
+
+		_setNextPalletStatus: function (oPallet) {
+			return new Promise(function (resolve, reject) {
+				var oModel = this.getView().getModel();
+				oModel.callFunction("/SetPalletStatus", {
+					urlParameters: {
+						DeliveryKey: oPallet.DeliveryKey,
+						ItemKey: oPallet.ItemKey,
+						PalletNumber: oPallet.PalletNumber,
+						Status: this._getNextPalletStatus()
+					},
+					success: resolve,
+					error: reject
+				});
+			}.bind(this));
+		},
+
+		_getNextPalletStatus: function () {
+			var sCurrentStatus = this.getView().getBindingContext().getProperty("InspectionStatus");
+			switch (sCurrentStatus) {
+			case constants.INSPECTION_STATUS.QUALITY:
+				return constants.INSPECTION_STATUS.LOADED;
+			case constants.INSPECTION_STATUS.LOADED:
+				return constants.INSPECTION_STATUS.UNLOADED;
+			default:
+				throw new Error("Status invalid");
+			}
+		},
+
+		_parsePalletScan: function (sScan) {
+			if (!this._isPalletScan(sScan)) {
+				throw new Error("Scan not valid");
+			}
+			var aParts = sScan.split("-");
+			return {
+				DeliveryKey: aParts[0],
+				ItemKey: aParts[1],
+				PalletNumber: aParts[2]
+			};
+		},
+
+		_isPalletScan: function (sScan) {
+			var aParts = sScan.split("-");
+			if (aParts.length !== 3) {
+				return false;
+			}
+			return aParts[0].length === 10 && aParts[1].length === 6 && aParts[2].length === 3;
+		},
+
+		_addToLastScannedPallets: function (sQuery) {
+			var aLastScanned = this.getView().getModel("ViewSettings").getProperty("/LastScannedPallets");
+			if (aLastScanned.findIndex(function (oScan) {
+					return oScan.Scan === sQuery;
+				}) === -1) {
+				aLastScanned.unshift({
+					Scan: sQuery
+				});
+			}
+			this.getView().getModel("ViewSettings").setProperty("/LastScannedPallets", aLastScanned);
+		},
 
 		_handleInternalDeliveryNavigation: function () {
 			var sStatus = this.getView().getBindingContext().getProperty("InspectionStatus");

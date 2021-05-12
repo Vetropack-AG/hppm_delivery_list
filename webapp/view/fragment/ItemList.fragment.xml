@@ -2,6 +2,12 @@
 	<List id="ItemList" itemPress="onDetailItemPress" mode="SingleSelectLeft">
 		<headerToolbar>
 			<OverflowToolbar>
+				<SearchField placeholder="Scan Pallet" width="70%" suggestionItems="{ViewSettings>/LastScannedPallets}" search="onPalletSearch" 
+				enableSuggestions="true" suggest="onPalletSuggest">
+					<suggestionItems>
+						<SuggestionItem key="{ViewSettings>Scan}" text="{ViewSettings>Scan}"/>
+					</suggestionItems>
+				</SearchField>
 				<ToolbarSpacer/>
 				<Button icon="sap-icon://BusinessSuiteInAppSymbols/icon-truck-load" tooltip="{i18n>main.load}" press="onLoadPress"/>
 				<Button icon="sap-icon://BusinessSuiteInAppSymbols/icon-truck-unload" tooltip="{i18n>main.unload}" press="onUnloadPress"/>
