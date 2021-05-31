@@ -87,9 +87,87 @@ sap.ui.define([
 			oEvent.getSource().getParent().close();
 		},
 
+		onOpenPalletsCalculatorPress: function () {
+			var oDialog = this.getFragment("PalletsCalculatorDialog", this);
+			oDialog.open();
+			this._getPallets().then(function (aPallets) {
+				oDialog.getContent()[0].setInitialLines(aPallets);
+			});
+
+		},
+
+		onPalletDelete: function (oEvent) {
+			var sCaseNumber = oEvent.getParameter("key");
+			var oPallet = this._parsePalletScan(sCaseNumber);
+			this.deletePallet(oPallet);
+		},
+
+		onCalculatorOkPress: function () {
+			var oDialog = this.getFragment("PalletsCalculatorDialog", this);
+			oDialog.close();
+			var oCalculator = oDialog.getContent()[0];
+			var aPallets = oCalculator.getNewResultLines();
+			this._createPallets(aPallets);
+			
+			var iResult = oCalculator.getResult();
+			this.setDeliveryProperty("ActualQuantity", iResult.toString());
+		},
+
 		/* =========================================================== */
 		/* private methods                                             */
 		/* =========================================================== */
+
+		_createPallets: function (aPallets) {
+			aPallets.forEach(function (oPallet) {
+				this._createPallet({
+					Quantity: oPallet.toString(),
+					DeliveryKey: this.getDeliveryProperty("DeliveryKey"),
+					ItemKey: this.getDeliveryProperty("ItemKey"),
+					PalletNumber: ""
+				});
+			}, this);
+		},
+
+		_createPallet: function (oPallet) {
+			var oModel = this.getView().getModel();
+			return new Promise(function (resolve, reject) {
+				oModel.create("/PalletSet", oPallet, {
+					success: resolve,
+					error: reject
+				});
+			});
+		},
+
+		deletePallet: function (oPallet) {
+			var oModel = this.getView().getModel();
+			var sPath = oModel.createKey("/PalletSet", {
+				DeliveryKey: oPallet.DeliveryKey,
+				ItemKey: oPallet.ItemKey,
+				PalletNumber: oPallet.PalletNumber
+			});
+			return new Promise(function (resolve, reject) {
+				oModel.remove(sPath, {
+					success: resolve,
+					error: reject
+				});
+			});
+		},
+
+		_getPallets: function () {
+			return new Promise(function (resolve, reject) {
+				this.getView().getModel().read("/PalletSet", {
+					filters: [
+						new sap.ui.model.Filter("DeliveryKey", "EQ", this.getDeliveryProperty("DeliveryKey")),
+						new sap.ui.model.Filter("ItemKey", "EQ", this.getDeliveryProperty("ItemKey")),
+						new sap.ui.model.Filter("Status", "EQ", "NEW")
+					],
+					success: function (oData) {
+						resolve(oData.results);
+					},
+					error: reject
+				});
+			}.bind(this));
+		},
 
 		_handlePostGoodsMovement: function (sQuantity) {
 			this.postGoodsMovement({

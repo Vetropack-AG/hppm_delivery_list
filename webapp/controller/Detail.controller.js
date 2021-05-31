@@ -146,6 +146,7 @@ sap.ui.define([
 
 		_showPalletStatusSuccessMessage: function (oData) {
 			this.showTranslatedMessageToast("message.palletStatusSet", [oData.CaseNumber, oData.Status]);
+			this.getView().getModel().refresh(true);
 		},
 
 		_setNextPalletStatus: function (oPallet) {
@@ -170,31 +171,13 @@ sap.ui.define([
 			switch (sCurrentStatus) {
 			case hppm.INSPECTION_STATUS.QUALITY:
 				return hppm.INSPECTION_STATUS.LOADED;
+			case hppm.INSPECTION_STATUS.QUANTITY:
+				return hppm.INSPECTION_STATUS.UNLOADED;
 			case hppm.INSPECTION_STATUS.LOADED:
 				return hppm.INSPECTION_STATUS.UNLOADED;
 			default:
 				throw new Error("Status invalid");
 			}
-		},
-
-		_parsePalletScan: function (sScan) {
-			if (!this._isPalletScan(sScan)) {
-				throw new Error("Scan not valid");
-			}
-			var aParts = sScan.split("-");
-			return {
-				DeliveryKey: aParts[0],
-				ItemKey: aParts[1],
-				PalletNumber: aParts[2]
-			};
-		},
-
-		_isPalletScan: function (sScan) {
-			var aParts = sScan.split("-");
-			if (aParts.length !== 3) {
-				return false;
-			}
-			return aParts[0].length === 10 && aParts[1].length === 6 && aParts[2].length === 3;
 		},
 
 		_addToLastScannedPallets: function (sQuery) {

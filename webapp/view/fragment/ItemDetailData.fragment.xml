@@ -17,7 +17,6 @@
 				<Label text="{i18n>details.deliveryQuantity}"/>
 				<StepInput value="{ path:'Quantity', type:'sap.ui.model.odata.type.Decimal' }" min="1"
 					change="calculateClaimQuantity" editable="{= ${InspectionStatus} === '' || ${InspectionStatus} === undefined }">
-				
 				</StepInput>
 				
 				<Toolbar visible="false"/>
@@ -35,8 +34,11 @@
 			<f:content>
 				<!-- Editable as long as status not POSTED -->
 				<Label text="{i18n>details.actualQuantity}"/>
-				<StepInput value="{ path:'ActualQuantity', type:'sap.ui.model.odata.type.Decimal' }" editable="{= ${InspectionStatus} !== 'POSTED' }" 
-					min="0" change=".quantityCalculator.calculateAllFields" />
+				<HBox>
+					<StepInput value="{ path:'ActualQuantity', type:'sap.ui.model.odata.type.Decimal' }"  
+						min="0" change=".quantityCalculator.calculateAllFields" editable="false" />
+					<Button icon="sap-icon://simulate" width="1rem" class="sapUiTinyMarginBegin" press="onOpenPalletsCalculatorPress" enabled="{= ${InspectionStatus} !== 'POSTED' }"/>
+				</HBox>
 				
 				<!-- Editable -->
 				<Label text="{i18n>details.needRepairQuantity}"/>

@@ -1,0 +1,11 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" >
+	<Dialog title="{i18n>palletsCalculatorDialog.title}" contentWidth="{= ${device>/system/desktop} ? 'auto' : '95%' }" xmlns:hppm="zvgt.hppm.controls">
+		<hppm:PalletsCalculator delete="onPalletDelete" />   
+		<beginButton>
+			<Button text="{i18n>general.ok}" type="Emphasized" press="onCalculatorOkPress"/>
+		</beginButton>
+		<endButton>
+			<Button text="{i18n>general.cancel}" press="closeDialogByEvent"/>
+		</endButton>
+	</Dialog>
+</core:FragmentDefinition>
