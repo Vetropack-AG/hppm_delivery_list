@@ -7,7 +7,7 @@
 			
 				<Label text="{i18n>details.material}"/>
 				<ComboBox items="{ path: '/LoadCarrierTypeValueHelpSet', templateShareable: false}" selectedKey="{MaterialNumber}"
-					showSecondaryValues="false" filterSecondaryValues="true" required="true" >
+					showSecondaryValues="false" filterSecondaryValues="true" required="true" id="material" >
 					<core:ListItem key="{Key}" text="{Key} - {Description}" additionalText="{Key}"/>
 				
 				</ComboBox>

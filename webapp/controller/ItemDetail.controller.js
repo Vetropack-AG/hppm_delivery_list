@@ -88,12 +88,34 @@ sap.ui.define([
 		},
 
 		onOpenPalletsCalculatorPress: function () {
-			var oDialog = this.getFragment("PalletsCalculatorDialog", this);
-			oDialog.open();
-			this._getPallets().then(function (aPallets) {
-				oDialog.getContent()[0].setInitialLines(aPallets);
-			});
+			var sMaterialGroup = this.getView().byId("material").getSelectedItem().getBindingContext().getProperty("MaterialGroup");
+			this._openCalculator(sMaterialGroup);
 
+		},
+
+		_openCalculator: function (sMaterialGroup) {
+			var sId = this._determineCalculatorFragment(sMaterialGroup);
+			if (sId) {
+				var oDialog = this.getFragment(sId, this);
+				var oCalculator = oDialog.getContent()[0];
+			//	oCalculator.initialize();
+				oDialog.open();
+				this._getPallets().then(function (aPallets) {
+					oCalculator.setInitialLines(aPallets);
+				});
+			}
+		},
+
+		_determineCalculatorFragment: function (sMaterialGroup) {
+			if (!sMaterialGroup) {
+				return undefined;
+			}
+			if (sMaterialGroup.indexOf("PALLE") !== -1) {
+				return "PalletsCalculatorDialog";
+			} else if (sMaterialGroup.indexOf("LAYER") !== -1) {
+				return "LayersCalculatorDialog";
+			}
+			return undefined;
 		},
 
 		onPalletDelete: function (oEvent) {
@@ -102,13 +124,13 @@ sap.ui.define([
 			this.deletePallet(oPallet);
 		},
 
-		onCalculatorOkPress: function () {
-			var oDialog = this.getFragment("PalletsCalculatorDialog", this);
+		onCalculatorOkPress: function (oEvent) {
+			var oDialog = oEvent.getSource().getParent();
 			oDialog.close();
 			var oCalculator = oDialog.getContent()[0];
 			var aPallets = oCalculator.getNewResultLines();
 			this._createPallets(aPallets);
-			
+
 			var iResult = oCalculator.getResult();
 			this.setDeliveryProperty("ActualQuantity", iResult.toString());
 		},
@@ -123,7 +145,8 @@ sap.ui.define([
 					Quantity: oPallet.toString(),
 					DeliveryKey: this.getDeliveryProperty("DeliveryKey"),
 					ItemKey: this.getDeliveryProperty("ItemKey"),
-					PalletNumber: ""
+					PalletNumber: "",
+					Original: true
 				});
 			}, this);
 		},

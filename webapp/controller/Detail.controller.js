@@ -49,9 +49,9 @@ sap.ui.define([
 		onDetailItemPress: function (oEvent) {
 			var oItem = oEvent.getParameter("listItem");
 			this._getDeliveryType().then(function (sDeliveryType) {
-				if (sDeliveryType === "ZRET") {
+				if (sDeliveryType === hppm.DELIVERY_TYPE.EXTERNAL) {
 					this._navToDetail(oItem);
-				} else if (sDeliveryType === "ZLB") {
+				} else if (sDeliveryType === hppm.DELIVERY_TYPE.INTERNAL) {
 					this._handleInternalDeliveryNavigation();
 				}
 			}.bind(this));
@@ -194,9 +194,9 @@ sap.ui.define([
 
 		_handleInternalDeliveryNavigation: function () {
 			var sStatus = this.getView().getBindingContext().getProperty("InspectionStatus");
-			if (sStatus === "NEW") {
+			if (sStatus === hppm.INSPECTION_STATUS.OPEN) {
 				this._navToLoadPalletsApp();
-			} else if (sStatus === "LOADED") {
+			} else if (sStatus === hppm.INSPECTION_STATUS.LOADED) {
 				this._navToUnloadPalletsApp();
 			}
 		},
@@ -237,7 +237,7 @@ sap.ui.define([
 			if (oCrossAppNav && this._getSelectedDeliveryItem()) {
 				oCrossAppNav.toExternal({ // eslint-disable-line
 					target: {
-						semanticObject: "pallet",
+						semanticObject: "Pallet",
 						action: "load"
 					},
 					params: {
@@ -253,7 +253,7 @@ sap.ui.define([
 			if (oCrossAppNav && this._getSelectedDeliveryItem()) {
 				oCrossAppNav.toExternal({ // eslint-disable-line
 					target: {
-						semanticObject: "pallet",
+						semanticObject: "Pallet",
 						action: "unload"
 					},
 					params: {

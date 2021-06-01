@@ -39,7 +39,12 @@ sap.ui.define([
 		onItemPress: function (oEvent) {
 			var oItem = oEvent.getParameter("listItem");
 			var oContext = oItem.getBindingContext();
-			var sTarget = oContext.getProperty("ShipmentStatus") === hppm.SHIPMENT_STATUS.NEW ? "Registration" : "Detail";
+			var sTarget;
+			if (oContext.getProperty("DeliveryType") === hppm.DELIVERY_TYPE.INTERNAL) {
+				sTarget = "Detail";
+			} else {
+				sTarget = oContext.getProperty("ShipmentStatus") === hppm.SHIPMENT_STATUS.NEW ? "Registration" : "Detail";
+			}
 			this.navTo(sTarget, {
 				DeliveryKey: oContext.getModel().getProperty(oContext.getPath() + "/DeliveryKey")
 			});
