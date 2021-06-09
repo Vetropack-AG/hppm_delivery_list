@@ -16,6 +16,8 @@ sap.ui.define([
 
 		onInit: function () {
 			this.getOwnerComponent().getRouter().getRoute("ItemDetail").attachPatternMatched(this.onRoutePatternMatched, this);
+			this._setModels();
+			this._fetchLayerConstant();
 		},
 
 		/* =========================================================== */
@@ -90,7 +92,174 @@ sap.ui.define([
 		onOpenPalletsCalculatorPress: function () {
 			var sMaterialGroup = this.getView().byId("material").getSelectedItem().getBindingContext().getProperty("MaterialGroup");
 			this._openCalculator(sMaterialGroup);
+		},
 
+		onLayersCalculatorOkPress: function (oEvent) {
+			oEvent.getSource().getParent().close();
+			var iResult = this.getView().getModel("ViewSettings").getProperty("/LayerResult");
+			this.setDeliveryProperty("ActualQuantity", iResult.toString());
+			this.getView().getModel().submitChanges();
+		},
+
+		onPalletsCalculatorOkPress: function (oEvent) {
+			oEvent.getSource().getParent().close();
+			var iSum = this.getView().getModel("ViewSettings").getProperty("/PalletResult");
+			var oModel = this.getView().getModel();
+			var oChanges = oModel.getPendingChanges();
+			for (var sPath in oChanges) {
+				if (oChanges.hasOwnProperty(sPath)) {
+					oModel.setProperty("/" + sPath + "/PalletResult", iSum);
+				}
+			}
+			this.setDeliveryProperty("ActualQuantity", iSum.toString());
+			oModel.submitChanges();
+		},
+
+		onLayerResultChange: function () {
+			var iSum = 0;
+			var oDialog = this.getFragment("LayersCalculatorDialog", this);
+			var oTable = oDialog.getContent()[0];
+			var aItems = oTable.getItems();
+			aItems.forEach(function (oItem) {
+				var oCell = oItem.getCells()[5];
+				var sValue = oCell.getText();
+				var iValue = parseInt(sValue, 10);
+				if (!isNaN(iValue)) {
+					iSum = iSum + iValue;
+				}
+			}, this);
+			this.getView().getModel("ViewSettings").setProperty("/LayerResult", iSum);
+		},
+
+		onPalletResultChange: function () {
+			var iSum = 0;
+			var oDialog = this.getFragment("PalletsCalculatorDialog", this);
+			var oTable = oDialog.getContent()[0];
+			var aItems = oTable.getItems();
+			aItems.forEach(function (oItem) {
+				var oCell = oItem.getCells()[6];
+				var sValue = oCell.getText();
+				var iValue = parseInt(sValue, 10);
+				if (!isNaN(iValue)) {
+					iSum = iSum + iValue;
+				}
+			}, this);
+			this.getView().getModel("ViewSettings").setProperty("/PalletResult", iSum);
+		},
+
+		onLayerItemDelete: function (oEvent) {
+			var oItem = oEvent.getParameter("listItem");
+			var oContext = oItem.getBindingContext();
+			var sCalcKey = oContext.getProperty("CalculatorKey");
+			this._deleteItem(oItem)
+				.then(function () {
+					this._deletePalletsAfterItemDelete(sCalcKey);
+				}.bind(this));
+		},
+
+		onPalletItemDelete: function (oEvent) {
+			var oItem = oEvent.getParameter("listItem");
+			this._deleteItem(oItem)
+				.then(this._updatePalletsQuantityAfterDelete.bind(this));
+		},
+
+		onAddLayerPress: function () {
+			var oModel = this.getView().getModel();
+			var oDialog = this.getFragment("LayersCalculatorDialog", this);
+			oModel.create("/PalletCalculatorSet", {
+				DeliveryKey: this.getDeliveryProperty("DeliveryKey"),
+				ItemKey: this.getDeliveryProperty("ItemKey")
+			}, {
+				refreshAfterChange: true
+			});
+
+			var oCalculator = oDialog.getContent()[0];
+			oCalculator.getBinding("items").refresh(true);
+		},
+
+		onAddPalletPress: function () {
+			var oModel = this.getView().getModel();
+			var oDialog = this.getFragment("PalletsCalculatorDialog", this);
+			oModel.create("/PalletCalculatorSet", {
+				DeliveryKey: this.getDeliveryProperty("DeliveryKey"),
+				ItemKey: this.getDeliveryProperty("ItemKey")
+			}, {
+				refreshAfterChange: true
+			});
+
+			var oCalculator = oDialog.getContent()[0];
+			oCalculator.getBinding("items").refresh(true);
+		},
+
+		onPalletDelete: function (oEvent) {
+			var sCaseNumber = oEvent.getParameter("key");
+			var oPallet = this._parsePalletScan(sCaseNumber);
+			this.deletePallet(oPallet);
+		},
+
+		/* =========================================================== */
+		/* private methods                                             */
+		/* =========================================================== */
+
+		_setModels: function () {
+			this.getView().setModel(new sap.ui.model.json.JSONModel({
+				LayersCalculatorMode: "PIECES"
+			}), "ViewSettings");
+		},
+
+		_fetchLayerConstant: function () {
+			this.getOwnerComponent().getModel().read("/ConstantSet('LAYER_HEIGHT')", {
+				success: function (oData) {
+					this.getView().getModel("ViewSettings").setProperty("/LayerConstant", oData.Value);
+				}.bind(this)
+			});
+		},
+
+		_deletePalletsAfterItemDelete: function (sCalcKey) {
+			var oModel = this.getView().getModel();
+			oModel.read("/PalletSet", {
+				filters: [
+					new sap.ui.model.Filter("CalculatorKey", "EQ", sCalcKey)
+				],
+				success: function (oResponse) {
+					oResponse.results.forEach(function (oPallet) {
+						this.deletePallet(oPallet);
+					}, this);
+				}.bind(this)
+			});
+		},
+
+		_updatePalletsQuantityAfterDelete: function () {
+			var oDialog = this.getFragment("PalletsCalculatorDialog", this);
+			var iSum = this.getView().getModel("ViewSettings").getProperty("/PalletResult");
+			var oModel = this.getView().getModel();
+			var oTable = oDialog.getContent()[0];
+			var aItems = oTable.getItems();
+			aItems.forEach(function (oItem) {
+				var oContext = oItem.getBindingContext();
+				if (oModel.getProperty(oContext.getPath())) {
+					oModel.setProperty(oContext.getPath() + "/PalletResult", iSum);
+				}
+			}, this);
+			oModel.submitChanges();
+		},
+
+		_deleteItem: function (oItem) {
+			var oModel = this.getView().getModel();
+			var sKey = oModel.createKey("/PalletCalculatorSet", {
+				DeliveryKey: oItem.getBindingContext().getProperty("DeliveryKey"),
+				ItemKey: oItem.getBindingContext().getProperty("ItemKey"),
+				Counter: oItem.getBindingContext().getProperty("Counter")
+			});
+			return new Promise(function (resolve, reject) {
+				oModel.remove(sKey, {
+					success: function () {
+						oModel.refresh(true);
+						resolve();
+					},
+					error: reject
+				});
+			});
 		},
 
 		_openCalculator: function (sMaterialGroup) {
@@ -98,11 +267,12 @@ sap.ui.define([
 			if (sId) {
 				var oDialog = this.getFragment(sId, this);
 				var oCalculator = oDialog.getContent()[0];
-			//	oCalculator.initialize();
+				var aFilters = [
+					new sap.ui.model.Filter("DeliveryKey", "EQ", this.getDeliveryProperty("DeliveryKey")),
+					new sap.ui.model.Filter("ItemKey", "EQ", this.getDeliveryProperty("ItemKey"))
+				];
+				oCalculator.getBinding("items").filter(aFilters, "Application");
 				oDialog.open();
-				this._getPallets().then(function (aPallets) {
-					oCalculator.setInitialLines(aPallets);
-				});
 			}
 		},
 
@@ -118,35 +288,15 @@ sap.ui.define([
 			return undefined;
 		},
 
-		onPalletDelete: function (oEvent) {
-			var sCaseNumber = oEvent.getParameter("key");
-			var oPallet = this._parsePalletScan(sCaseNumber);
-			this.deletePallet(oPallet);
-		},
-
-		onCalculatorOkPress: function (oEvent) {
-			var oDialog = oEvent.getSource().getParent();
-			oDialog.close();
-			var oCalculator = oDialog.getContent()[0];
-			var aPallets = oCalculator.getNewResultLines();
-			this._createPallets(aPallets);
-
-			var iResult = oCalculator.getResult();
-			this.setDeliveryProperty("ActualQuantity", iResult.toString());
-		},
-
-		/* =========================================================== */
-		/* private methods                                             */
-		/* =========================================================== */
-
 		_createPallets: function (aPallets) {
 			aPallets.forEach(function (oPallet) {
 				this._createPallet({
-					Quantity: oPallet.toString(),
-					DeliveryKey: this.getDeliveryProperty("DeliveryKey"),
-					ItemKey: this.getDeliveryProperty("ItemKey"),
+					Quantity: oPallet.Quantity,
+					DeliveryKey: oPallet.DeliveryKey,
+					ItemKey: oPallet.ItemKey,
 					PalletNumber: "",
-					Original: true
+					Original: true,
+					CalculatorKey: oPallet.CalculatorKey
 				});
 			}, this);
 		},

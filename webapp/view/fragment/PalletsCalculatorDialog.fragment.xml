@@ -1,11 +1,47 @@
-<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" >
-	<Dialog title="{i18n>palletsCalculatorDialog.title}" contentWidth="{= ${device>/system/desktop} ? 'auto' : '95%' }" xmlns:hppm="zvgt.hppm.controls">
-		<hppm:PalletsCalculator delete="onPalletDelete" />   
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+	<Dialog title="{i18n>palletsCalculatorDialog.title}" contentWidth="{= ${device>/system/desktop} ? 'auto' : '95%' }">
+		<Table items="{/PalletCalculatorSet}" mode="Delete" delete="onPalletItemDelete">
+			<headerToolbar>
+				<Toolbar>
+					<ToolbarSpacer/>
+					<Button icon="sap-icon://add" press="onAddPalletPress"/>
+				</Toolbar>
+			</headerToolbar>
+			<columns>
+				<Column >
+					<Text text="{i18n>palletsCalculatorDialog.piecesPerPillar}"/>
+				</Column>
+				<Column width="1rem"/>
+				<Column >
+					<Text text="{i18n>palletsCalculatorDialog.pillars}"/>
+				</Column>
+				<Column width="1rem"/>
+				<Column >
+					<Text text="{i18n>palletsCalculatorDialog.extAm}"/>
+				</Column>
+				<Column width="1rem"/>
+				<Column >
+					<Text text="{i18n>layersCalculatorDialog.result}"/>
+					<footer>
+						<Text text="{ViewSettings>/PalletResult}"/>
+					</footer>
+				</Column>
+			</columns>
+			<items>
+				<ColumnListItem>
+					<StepInput value="{ path:'PillarPieces', type:'sap.ui.model.odata.type.Int16' }"/>
+					<Text text="x"/>
+					<StepInput value="{ path:'PillarCount', type:'sap.ui.model.odata.type.Int16' }"/>
+					<Text text="+"/>
+					<StepInput value="{ path:'AdditionalPieces', type:'sap.ui.model.odata.type.Int16' }"/>
+					<Text text="="/>
+					<Text
+						text="{ parts: [ 'PillarPieces', 'PillarCount', 'AdditionalPieces' ], formatter: '.formatter.calculatePalletLineResult', events: { change: '.onPalletResultChange' } }"/>
+				</ColumnListItem>
+			</items>
+		</Table>
 		<beginButton>
-			<Button text="{i18n>general.ok}" type="Emphasized" press="onCalculatorOkPress"/>
+			<Button text="{i18n>general.ok}" type="Emphasized" press="onPalletsCalculatorOkPress"/>
 		</beginButton>
-		<endButton>
-			<Button text="{i18n>general.cancel}" press="closeDialogByEvent"/>
-		</endButton>
 	</Dialog>
 </core:FragmentDefinition>

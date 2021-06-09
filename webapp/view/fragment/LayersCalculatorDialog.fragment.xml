@@ -1,12 +1,45 @@
-<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:hppm="zvgt.hppm.controls">
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
 	<Dialog title="{i18n>layersCalculatorDialog.title}" contentWidth="{= ${device>/system/desktop} ? 'auto' : '95%' }">
-		<hppm:LayersCalculator binding="{/ConstantSet('LAYER_HEIGHT')}"
-			calculationConstant="{ path:'Value', type:'sap.ui.model.odata.type.String' }" delete="onPalletDelete"/>
+		<Table items="{/PalletCalculatorSet}" mode="Delete" delete="onLayerItemDelete">
+			<headerToolbar>
+				<Toolbar>
+					<ToolbarSpacer/>
+					<Button icon="sap-icon://add" press="onAddLayerPress"/>
+				</Toolbar>
+			</headerToolbar>
+			<columns>
+				<Column >
+					<Text text="{i18n>layersCalculatorDialog.height}"/>
+				</Column>
+				<Column >
+					<Text text="{i18n>layersCalculatorDialog.pieces}"/>
+				</Column>
+				<Column width="1rem"/>
+				<Column >
+					<Text text="{i18n>layersCalculatorDialog.pallets}"/>
+				</Column>
+				<Column width="1rem"/>
+				<Column >
+					<Text text="{i18n>layersCalculatorDialog.result}"/>
+					<footer>
+						<Text text="{ViewSettings>/LayerResult}"/>
+					</footer>
+				</Column>
+			</columns>
+			<items>
+				<ColumnListItem>
+					<Input value="{ path:'Height', type:'sap.ui.model.odata.type.Int16' }"/>
+					<StepInput value="{ path:'Pieces', type:'sap.ui.model.odata.type.Int16' }"/>
+					<Text text="x"/>
+					<StepInput value="{ path:'PalletCount', type:'sap.ui.model.odata.type.Int16' }"/>
+					<Text text="="/>
+					<Text
+						text="{ parts: [ 'Pieces', 'PalletCount', 'Height', 'ViewSettings>/LayersCalculatorMode' ], formatter: '.formatter.calculateLayerLineResult', events: { change: '.onLayerResultChange' } }"/>
+				</ColumnListItem>
+			</items>
+		</Table>
 		<beginButton>
-			<Button text="{i18n>general.ok}" type="Emphasized" press="onCalculatorOkPress"/>
+			<Button text="{i18n>general.ok}" type="Emphasized" press="onLayersCalculatorOkPress"/>
 		</beginButton>
-		<endButton>
-			<Button text="{i18n>general.cancel}" press="closeDialogByEvent"/>
-		</endButton>
 	</Dialog>
 </core:FragmentDefinition>

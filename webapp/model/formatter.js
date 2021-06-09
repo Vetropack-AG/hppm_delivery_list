@@ -134,6 +134,15 @@ sap.ui.define([
 				}
 			}
 			return "None";
+		},
+
+		calculateLayerLineResult: function (iPieces, iPallets, iHeight, sCalculatorMode) {
+			var iConstant = this.getView().getModel("ViewSettings").getProperty("/LayerConstant");
+			return !iHeight ? iPallets * iPieces : parseInt(iHeight / iConstant * iPallets, 10);
+		},
+		
+		calculatePalletLineResult: function(iPillarPieces, iPillarCount, iAdditionalPieces) {
+			return iPillarPieces * iPillarCount + iAdditionalPieces;
 		}
 
 	};
