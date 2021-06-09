@@ -98,9 +98,11 @@
 			}
 		},
 		"resources": {
-			"css": [{
-				"uri": "css/style.css"
-			}]
+			"css": [
+				{
+					"uri": "css/style.css"
+				}
+			]
 		},
 		"routing": {
 			"config": {
@@ -115,37 +117,42 @@
 					"target": []
 				}
 			},
-			"routes": [{
-				"name": "RouteMain",
-				"pattern": "",
-				"target": [
-					"Main"
-				]
-			}, {
-				"name": "Registration",
-				"pattern": "Registration/{DeliveryKey}",
-				"titleTarget": "",
-				"greedy": false,
-				"target": [
-					"Registration"
-				]
-			}, {
-				"name": "Detail",
-				"pattern": "Detail/{DeliveryKey}",
-				"titleTarget": "",
-				"greedy": false,
-				"target": [
-					"Detail"
-				]
-			}, {
-				"name": "ItemDetail",
-				"pattern": "Detail/{DeliveryKey}/Item/{ItemKey}",
-				"titleTarget": "",
-				"greedy": false,
-				"target": [
-					"ItemDetail"
-				]
-			}],
+			"routes": [
+				{
+					"name": "RouteMain",
+					"pattern": "",
+					"target": [
+						"Main"
+					]
+				},
+				{
+					"name": "Registration",
+					"pattern": "Registration/{DeliveryKey}",
+					"titleTarget": "",
+					"greedy": false,
+					"target": [
+						"Registration"
+					]
+				},
+				{
+					"name": "Detail",
+					"pattern": "Detail/{DeliveryKey}",
+					"titleTarget": "",
+					"greedy": false,
+					"target": [
+						"Detail"
+					]
+				},
+				{
+					"name": "ItemDetail",
+					"pattern": "Detail/{DeliveryKey}/Item/{ItemKey}",
+					"titleTarget": "",
+					"greedy": false,
+					"target": [
+						"ItemDetail"
+					]
+				}
+			],
 			"targets": {
 				"App": {
 					"viewType": "XML",
