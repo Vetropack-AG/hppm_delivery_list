@@ -15,7 +15,7 @@
 				showFilterConfiguration="true">
 				
 				<smartFilterBar:controlConfiguration>
-					<smartFilterBar:ControlConfiguration key="DeliveryKey" visibleInAdvancedArea="true" hasValueHelpDialog="true" />
+					<smartFilterBar:ControlConfiguration label="{i18n>main.shipment}" key="DeliveryKey" visibleInAdvancedArea="true" hasValueHelpDialog="true" />
 						<smartFilterBar:ControlConfiguration key="DeliveryDate" visibleInAdvancedArea="true" index="2" 
 						conditionType="sap.ui.comp.config.condition.DateRangeType"/>
 					<smartFilterBar:ControlConfiguration key="TruckNumber" visibleInAdvancedArea="true" hasValueHelpDialog="true"  />
@@ -75,7 +75,7 @@
 												"leadingProperty": "DeliveryKey", 
 												"type": "string" }'/>
 							</customData>
-							<Text text="{/#DeliveryHead/DeliveryKey/@sap:label}"/>
+							<Text text="{i18n>main.shipment}"/>
 						</Column>
 						
 						<Column id="ShipmentStatusText" width="12%" demandPopin="true" minScreenWidth="Desktop" popinDisplay="Inline">
@@ -140,7 +140,7 @@
 							<Text text="{/#DeliveryHead/SoldToParty/@sap:label}"/>
 						</Column>
 						
-						<Column id="Claim" width="5%" demandPopin="true" minScreenWidth="Desktop" popinDisplay="Inline">
+						<Column id="Claim" width="7%" demandPopin="true" minScreenWidth="Desktop" popinDisplay="Inline">
 							<customData>
 								<core:CustomData key="p13nData"
 									value='\{	"columnKey": "Claim", 
