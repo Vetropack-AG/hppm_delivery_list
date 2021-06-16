@@ -1,0 +1,20 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form">
+	<Dialog draggable="true" title="{i18n>addItemDialog.title}" contentWidth="20%">
+		<f:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12"
+			adjustLabelSpan="false" emptySpanXL="4" emptySpanL="4" emptySpanM="4" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1"
+			singleContainerFullSize="false">
+			<f:content>
+				<Label text="{i18n>details.material}"/>
+				<Select items="{ path: '/LoadCarrierTypeValueHelpSet', templateShareable: false}" selectedKey="{ViewSettings>/NewItemMaterial}">
+					<core:ListItem key="{Key}" text="{Key} - {Description}" additionalText="{Key}"/>
+				</Select>
+				<Label text="{i18n>details.deliveryQuantity}"/>
+				<StepInput value="{ViewSettings>/NewItemQuantity}" min="1"></StepInput>
+			</f:content>
+		</f:SimpleForm>
+		<buttons>
+			<Button text="{i18n>general.save}" type="Emphasized" press="onAddItemDialogSavePress"/>
+			<Button text="{i18n>general.cancel}" press="onAddItemDialogClosePress"/>
+		</buttons>
+	</Dialog>
+</core:FragmentDefinition>

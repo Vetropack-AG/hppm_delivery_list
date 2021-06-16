@@ -2,7 +2,7 @@
 	<List id="ItemList" itemPress="onDetailItemPress" mode="SingleSelectLeft">
 		<headerToolbar>
 			<OverflowToolbar>
-				<SearchField placeholder="Scan Pallet" width="70%" suggestionItems="{ViewSettings>/LastScannedPallets}" search="onPalletSearch" 
+				<SearchField placeholder="{i18n>details.scanPalletOrMaterial}" width="70%" suggestionItems="{ViewSettings>/LastScannedPallets}" search="onPalletSearch" 
 				enableSuggestions="true" suggest="onPalletSuggest">
 					<suggestionItems>
 						<SuggestionItem key="{ViewSettings>Scan}" text="{ViewSettings>Scan}"/>

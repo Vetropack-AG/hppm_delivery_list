@@ -20,7 +20,8 @@ sap.ui.define([
 		onInit: function () {
 			this.getOwnerComponent().getRouter().getRoute("Detail").attachPatternMatched(this.onRoutePatternMatched, this);
 			this.getView().setModel(new sap.ui.model.json.JSONModel({
-				LastScannedPallets: []
+				LastScannedPallets: [],
+				NewItemQuantity: 1
 			}), "ViewSettings");
 		},
 
@@ -30,9 +31,28 @@ sap.ui.define([
 
 		onPalletSearch: function (oEvent) {
 			var sQuery = oEvent.getParameter("query");
-			this._handlePalletScan(sQuery);
+
+			if (this._isPalletScan(sQuery)) {
+				this._handlePalletScan(sQuery);
+			} else {
+				this._handleMaterialScan(sQuery);
+			}
+
 			this._addToLastScannedPallets(sQuery);
 			oEvent.getSource().setValue("");
+		},
+
+		onAddItemPress: function () {
+			this.getFragment("AddItemDialog", this).open();
+		},
+
+		onAddItemDialogSavePress: function (oEvent) {
+			oEvent.getSource().getParent().close();
+			this._createItemFromMaterial();
+		},
+
+		onAddItemDialogClosePress: function (oEvent) {
+			oEvent.getSource().getParent().close();
 		},
 
 		onPalletSuggest: function (oEvent) {
@@ -50,50 +70,12 @@ sap.ui.define([
 			var oItem = oEvent.getParameter("listItem");
 			this._getDeliveryType().then(function (sDeliveryType) {
 				if (sDeliveryType === hppm.DELIVERY_TYPE.EXTERNAL) {
-					this._navToDetail(oItem);
+					var oContext = oItem.getBindingContext();
+					this._navToDetail(oContext.getProperty("DeliveryKey"), oContext.getProperty("ItemKey"));
 				} else if (sDeliveryType === hppm.DELIVERY_TYPE.INTERNAL) {
 					this._handleInternalDeliveryNavigation();
 				}
 			}.bind(this));
-		},
-
-		onAddItemPress: function () {
-			var oDialog = this.getFragment("AddDetailDialog", this);
-			var oContext = this.getView().getModel().createEntry("/DeliveryItemSet", {
-				properties: {
-					DeliveryKey: this.getView().getBindingContext().getProperty("DeliveryKey"),
-					Quantity: "1"
-				}
-			});
-			oDialog.setBindingContext(oContext);
-			oDialog.open();
-		},
-
-		onAddItemDialogSavePress: function (oEvent) {
-			var oDialog = oEvent.getSource().getParent();
-			oDialog.setBusy(true);
-			this.getView().getModel().submitChanges({
-				success: function (oData) {
-					if (!this.isSubmitError(oData)) {
-						oDialog.setBusy(false);
-						oDialog.close();
-						this.showTranslatedMessageToast("message.itemAdded");
-						this.getView().getModel().refresh(true);
-					} else {
-						this.getView().getModel().resetChanges();
-					}
-				}.bind(this),
-				error: function () {
-					oDialog.setBusy(false);
-				}
-			});
-		},
-
-		onAddItemDialogClosePress: function (oEvent) {
-			var oDialog = oEvent.getSource().getParent();
-			var oContext = oDialog.getBindingContext();
-			this.getView().getModel().deleteCreatedEntry(oContext);
-			oDialog.close();
 		},
 
 		onSapPostingPress: function () {
@@ -138,6 +120,60 @@ sap.ui.define([
 		/* =========================================================== */
 		/* private methods                                             */
 		/* =========================================================== */
+
+		_handleMaterialScan: function (sMaterial) {
+			this._getMaterial(sMaterial)
+				.then(this._showCreateItemFromMaterialMessage.bind(this));
+		},
+
+		_showCreateItemFromMaterialMessage: function (oReponse) {
+			this.getView().getModel("ViewSettings").setProperty("/NewItemMaterial", oReponse.MaterialNumber);
+			this.getFragment("AddItemDialog", this).open();
+		},
+
+		_createItemFromMaterial: function () {
+			this.getView().getModel().createEntry("/DeliveryItemSet", {
+				properties: {
+					DeliveryKey: this.getView().getBindingContext().getProperty("DeliveryKey"),
+					MaterialNumber: this.getView().getModel("ViewSettings").getProperty("/NewItemMaterial"),
+					Quantity: this.getView().getModel("ViewSettings").getProperty("/NewItemQuantity").toString()
+				}
+			});
+			this._submitItem();
+		},
+
+		_submitItem: function () {
+			this.getView().getModel().submitChanges({
+				success: function (oData) {
+					if (!this.isSubmitError(oData)) {
+						this.showTranslatedMessageToast("message.itemAdded");
+						this.getView().getModel().refresh(true);
+
+						var sDeliveryKey = oData.__batchResponses[0].__changeResponses[0].data.DeliveryKey;
+						var sItemKey = oData.__batchResponses[0].__changeResponses[0].data.ItemKey;
+
+						setTimeout(function () { // eslint-disable-line
+							this._navToDetail(sDeliveryKey, sItemKey);
+						}.bind(this), 500);
+					} else {
+						this.getView().getModel().resetChanges();
+					}
+				}.bind(this)
+			});
+		},
+
+		_getMaterial: function (sMaterial) {
+			return new Promise(function (resolve, reject) {
+				var oModel = this.getView().getModel();
+				var sKey = oModel.createKey("/MaterialSet", {
+					MaterialNumber: sMaterial
+				});
+				oModel.read(sKey, {
+					success: resolve,
+					error: reject
+				});
+			}.bind(this));
+		},
 
 		_handlePalletScan: function (sScan) {
 			var oPallet = this._parsePalletScan(sScan);
@@ -264,11 +300,10 @@ sap.ui.define([
 			}
 		},
 
-		_navToDetail: function (oItem) {
-			var oContext = oItem.getBindingContext();
+		_navToDetail: function (sDeliveryKey, sItemKey) {
 			this.navTo("ItemDetail", {
-				DeliveryKey: oContext.getProperty("DeliveryKey"),
-				ItemKey: oContext.getProperty("ItemKey")
+				DeliveryKey: sDeliveryKey,
+				ItemKey: sItemKey
 			});
 		},
 
