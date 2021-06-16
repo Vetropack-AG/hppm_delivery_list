@@ -69,11 +69,16 @@
 					</uxap:ObjectPageSubSection>
 				</uxap:subSections>
 			</uxap:ObjectPageSection>
-			<uxap:ObjectPageSection titleUppercase="false" title="{i18n>general.documents}" showTitle="false">
+			<uxap:ObjectPageSection titleUppercase="false" title="{i18n>registration.materials}" showTitle="true">
 				<uxap:subSections>
 					<uxap:ObjectPageSubSection titleUppercase="false">
 						<uxap:blocks>
-							<!--<core:Fragment fragmentName="zvgt.hppm.delivery_create.view.fragment.Documents" type="XML"/>-->
+						
+						
+					<List id="MaterialList" headerText="{i18n>registration.customer}: {SoldToPartyText}">
+
+	</List>
+						
 						</uxap:blocks>
 					</uxap:ObjectPageSubSection>
 				</uxap:subSections>

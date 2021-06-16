@@ -1,7 +1,9 @@
 sap.ui.define([
 	"zvgt/hppm/delivery_list/controller/BaseController",
-	"zvgt/hppm/delivery_list/model/formatter"
-], function (BaseController, formatter) {
+	"zvgt/hppm/delivery_list/model/formatter",
+	"sap/ui/model/Filter",
+	"sap/ui/model/FilterOperator"
+], function (BaseController, formatter, Filter, FilterOperator) {
 	"use strict";
 
 	return BaseController.extend("zvgt.hppm.delivery_list.controller.Registration", {
@@ -53,6 +55,18 @@ sap.ui.define([
 		/* private methods                                             */
 		/* =========================================================== */
 
+		_bindItemList: function (sDeliveryKey) {
+			var oList = this.getView().byId("MaterialList");
+			var oTemplate = new sap.m.StandardListItem({
+				title: "{MaterialNumber} - {MaterialText}"
+			});
+			oList.bindAggregation("items", {
+				path: "/DeliveryItemSet",
+				template: oTemplate,
+				filters: [new Filter("DeliveryKey", FilterOperator.EQ, sDeliveryKey)]
+			});
+		},
+
 		_setStatusRegistered: function () {
 			this.setDeliveryProperty("ShipmentStatus", "POD");
 		},
@@ -63,6 +77,7 @@ sap.ui.define([
 				DeliveryKey: sDeliveryKey
 			});
 			this.getView().bindElement(sPath);
+			this._bindItemList(sDeliveryKey);
 		},
 
 		_navToDetails: function () {
