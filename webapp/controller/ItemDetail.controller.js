@@ -375,6 +375,11 @@ sap.ui.define([
 				ItemKey: sItemKey
 			});
 			this.getView().bindElement(sPath);
+
+			sPath = oModel.createKey("/DeliveryHeadSet", {
+				DeliveryKey: sDeliveryKey
+			});
+			this.getView().byId("SapPostingButton").bindElement(sPath);
 		}
 
 	});

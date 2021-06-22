@@ -4,7 +4,8 @@
 		<uxap:headerTitle>
 			<uxap:ObjectPageHeader objectTitle="{i18n>details.delivery}: {DeliveryKey} / {ItemKey}" objectSubtitle="{ItemText}">
 				<uxap:actions>
-					<uxap:ObjectPageHeaderActionButton icon="sap-icon://print" text="{i18n>details.print}" tooltip="{i18n>details.print}" type="Transparent" press="onPrintItemPress" />
+					<uxap:ObjectPageHeaderActionButton icon="sap-icon://print" text="{i18n>details.print}" tooltip="{i18n>details.print}" type="Transparent"
+						press="onPrintItemPress"/>
 				</uxap:actions>
 			</uxap:ObjectPageHeader>
 		</uxap:headerTitle>
@@ -24,15 +25,14 @@
 		</uxap:sections>
 		<uxap:footer>
 			<OverflowToolbar>
-				<Button
-					icon="{ path: 'message>/', formatter: '.formatter.messageButtonIconFormatter' }"
-					type="{ path: 'message>/', formatter: '.formatter.messageButtonTypeFormatter' }"
-					text="{= ${message>/}.length}"
+				<Button icon="{ path: 'message>/', formatter: '.formatter.messageButtonIconFormatter' }"
+					type="{ path: 'message>/', formatter: '.formatter.messageButtonTypeFormatter' }" text="{= ${message>/}.length}"
 					press="onMessagePopoverPress"/>
 				<ToolbarSpacer/>
-				<Button text="{i18n>details.sapPosting}" type="Emphasized" press="onSapPostingPress" />
+				<Button text="{i18n>details.sapPosting}" id="SapPostingButton" type="Emphasized" press="onSapPostingPress"
+					visible="{= ${DeliveryType} === 'ZRET' }"/>
 				<Button text="{i18n>general.confirm}" type="Accept" press="onSavePress"/>
-				<Button text="{i18n>general.cancel}" type="Reject" press="onCancelPress" />
+				<Button text="{i18n>general.cancel}" type="Reject" press="onCancelPress"/>
 			</OverflowToolbar>
 		</uxap:footer>
 	</uxap:ObjectPageLayout>
