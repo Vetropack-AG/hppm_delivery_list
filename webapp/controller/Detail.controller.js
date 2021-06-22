@@ -63,7 +63,7 @@ sap.ui.define([
 			var sDeliveryKey = oEvent.getParameter("arguments").DeliveryKey;
 			this.getOwnerComponent().getModel().metadataLoaded(true).then(function () {
 				this._bindView(sDeliveryKey);
-			
+
 			}.bind(this));
 		},
 
@@ -376,6 +376,8 @@ sap.ui.define([
 			this.getView().getModel().refresh(true);
 
 			this._bindItemList(sDeliveryKey);
+			this._checkAllItemsHavePallets(sDeliveryKey)
+				.then(this._setSapPostingEnabled.bind(this));
 		},
 
 		_bindItemList: function (sDeliveryKey) {
@@ -395,6 +397,26 @@ sap.ui.define([
 				template: oTemplate,
 				filters: [new Filter("DeliveryKey", FilterOperator.EQ, sDeliveryKey)]
 			});
+		},
+
+		_checkAllItemsHavePallets: function (sDeliveryKey) {
+			return new Promise(function (resolve, reject) {
+				var oModel = this.getOwnerComponent().getModel();
+				oModel.read("/DeliveryItemSet", {
+					filters: [new Filter("DeliveryKey", FilterOperator.EQ, sDeliveryKey)],
+					success: function (oData) {
+						var bResult = oData.results.every(function (oItem) {
+							return oItem.HasPallets === true;
+						});
+						resolve(bResult);
+					},
+					error: reject
+				});
+			}.bind(this));
+		},
+
+		_setSapPostingEnabled: function (bValue) {
+			this.getView().byId("SapPostingButton").setEnabled(bValue);
 		}
 
 	});

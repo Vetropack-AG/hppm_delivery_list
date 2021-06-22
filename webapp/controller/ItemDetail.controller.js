@@ -379,7 +379,14 @@ sap.ui.define([
 			sPath = oModel.createKey("/DeliveryHeadSet", {
 				DeliveryKey: sDeliveryKey
 			});
-			this.getView().byId("SapPostingButton").bindElement(sPath);
+			this.getView().getModel().read(sPath, {
+				success: this._setFooterButtonVisibilities.bind(this)
+			});
+		},
+		
+		_setFooterButtonVisibilities: function(oData) {
+			var oModel = this.getView().getModel("ViewSettings");
+			oModel.setProperty("/SapPostingVisible", oData.DeliveryType === "ZRET");
 		}
 
 	});

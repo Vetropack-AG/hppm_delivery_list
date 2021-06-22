@@ -29,9 +29,8 @@
 					type="{ path: 'message>/', formatter: '.formatter.messageButtonTypeFormatter' }" text="{= ${message>/}.length}"
 					press="onMessagePopoverPress"/>
 				<ToolbarSpacer/>
-				<Button text="{i18n>details.sapPosting}" id="SapPostingButton" type="Emphasized" press="onSapPostingPress"
-					visible="{= ${DeliveryType} === 'ZRET' }"/>
-				<Button text="{i18n>general.confirm}" type="Accept" press="onSavePress"/>
+				<Button text="{i18n>details.sapPosting}" type="Emphasized" press="onSapPostingPress" enabled="{HasPallets}"/>
+				<Button text="{i18n>general.confirm}" type="Accept" press="onSavePress" enabled="{HasPallets}"/>
 				<Button text="{i18n>general.cancel}" type="Reject" press="onCancelPress"/>
 			</OverflowToolbar>
 		</uxap:footer>

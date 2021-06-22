@@ -40,7 +40,7 @@
 					text="{= ${message>/}.length}"
 					press="onMessagePopoverPress"/>
 				<m:ToolbarSpacer /> 
-				<m:Button text="{i18n>details.sapPosting}" type="Emphasized" press="onSapPostingPress" 
+				<m:Button text="{i18n>details.sapPosting}" type="Emphasized" press="onSapPostingPress" id="SapPostingButton"
 					visible="{= ${DeliveryType} === 'ZRET' }"/>
 			</m:OverflowToolbar>
 		</footer>
