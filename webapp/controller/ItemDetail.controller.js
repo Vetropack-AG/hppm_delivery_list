@@ -82,6 +82,7 @@ sap.ui.define([
 			this.printItem(sDeliveryKey, sItemKey, iAmount)
 				.then(function () {
 					this.showTranslatedMessageToast("message.itemPrinted", [sItemKey]);
+					this.getView().getModel("ViewSettings").setProperty("/ItemPrinted", true);
 				}.bind(this));
 		},
 
@@ -196,6 +197,10 @@ sap.ui.define([
 			var oPallet = this._parsePalletScan(sCaseNumber);
 			this.deletePallet(oPallet);
 		},
+		
+		onPrePostingPress: function() {
+			// create action is still open	
+		},
 
 		/* =========================================================== */
 		/* private methods                                             */
@@ -203,7 +208,8 @@ sap.ui.define([
 
 		_setModels: function () {
 			this.getView().setModel(new sap.ui.model.json.JSONModel({
-				LayersCalculatorMode: "PIECES"
+				LayersCalculatorMode: "PIECES",
+				ItemPrinted: false
 			}), "ViewSettings");
 		},
 
@@ -383,8 +389,8 @@ sap.ui.define([
 				success: this._setFooterButtonVisibilities.bind(this)
 			});
 		},
-		
-		_setFooterButtonVisibilities: function(oData) {
+
+		_setFooterButtonVisibilities: function (oData) {
 			var oModel = this.getView().getModel("ViewSettings");
 			oModel.setProperty("/SapPostingVisible", oData.DeliveryType === "ZRET");
 		}
