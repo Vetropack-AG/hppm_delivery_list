@@ -17,6 +17,7 @@
 				<uxap:subSections>
 					<uxap:ObjectPageSubSection titleUppercase="false">
 						<uxap:blocks>
+							<MessageStrip text="{i18n>message.noPallets}" type="Error" showIcon="true" showCloseButton="false" visible="{= ${HasPallets} === false }"/>
 							<core:Fragment fragmentName="zvgt.hppm.delivery_list.view.fragment.ItemDetailData" type="XML"/>
 						</uxap:blocks>
 					</uxap:ObjectPageSubSection>

@@ -390,7 +390,9 @@ sap.ui.define([
 					path: "InspectionStatus",
 					formatter: formatter.itemInspectionStatusState
 				},
-				type: "Active"
+				type: "Active",
+				icon: "{= ${HasPallets} === false ? 'sap-icon://alert' : '' }",
+				iconInset: false
 			});
 			oList.bindAggregation("items", {
 				path: "/DeliveryItemSet",
