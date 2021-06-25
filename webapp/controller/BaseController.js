@@ -262,11 +262,11 @@ sap.ui.define([
 			return oContext.getModel().getProperty(oContext.getPath() + "/" + sProperty);
 		},
 
-		validateFieldGroup: function (oEvent) {
-			var sFieldGroupId = oEvent.getParameter("fieldGroupIds")[0];
-			var oForm = this.getView().byId("LoadingInformationSimpleForm");
-			return this.validateForm(oForm, sFieldGroupId);
-		},
+		// validateFieldGroup: function (oEvent) {
+		// 	var sFieldGroupId = oEvent.getParameter("fieldGroupIds")[0];
+		// 	var oForm = this.getView().byId("LoadingInformationSimpleForm");
+		// 	return this.validateForm(oForm, sFieldGroupId);
+		// },
 
 		validateForm: function (oForm, sFieldGroupId) {
 			var aControls = oForm.getControlsByFieldGroupId(sFieldGroupId);

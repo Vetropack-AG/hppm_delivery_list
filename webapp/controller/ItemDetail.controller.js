@@ -34,20 +34,7 @@ sap.ui.define([
 
 		onSavePress: function () {
 			this._setNextStatus();
-			var oModel = this.getView().getModel();
-			if (oModel.hasPendingChanges()) {
-				sap.ui.core.BusyIndicator.show(0);
-				oModel.submitChanges({
-					success: function (oData) {
-						if (!this.isSubmitError(oData)) {
-							sap.ui.core.BusyIndicator.hide();
-							this.showTranslatedMessageToast("message.itemSaved", [this.getDeliveryProperty("ItemKey")]);
-						} else {
-							this.getView().getModel().resetChanges();
-						}
-					}.bind(this)
-				});
-			}
+			this._saveItem();
 		},
 
 		onCancelPress: function () {
@@ -197,14 +184,43 @@ sap.ui.define([
 			var oPallet = this._parsePalletScan(sCaseNumber);
 			this.deletePallet(oPallet);
 		},
-		
-		onPrePostingPress: function() {
+
+		onPrePostingPress: function () {
 			// create action is still open	
+		},
+
+		onMaterialChange: function (oEvent) {
+			var oItem = oEvent.getParameter("selectedItem");
+			if (oItem) {
+				this._saveItem();
+			}
 		},
 
 		/* =========================================================== */
 		/* private methods                                             */
 		/* =========================================================== */
+
+		_saveItem: function () {
+			return new Promise(function (resolve, reject) {
+				var oModel = this.getView().getModel();
+				if (oModel.hasPendingChanges()) {
+					sap.ui.core.BusyIndicator.show(0);
+					oModel.submitChanges({
+						success: function (oData) {
+							if (!this.isSubmitError(oData)) {
+								sap.ui.core.BusyIndicator.hide();
+								this.showTranslatedMessageToast("message.itemSaved", [this.getDeliveryProperty("ItemKey")]);
+								resolve();
+							} else {
+								this.getView().getModel().resetChanges();
+								reject();
+							}
+						}.bind(this),
+						error: reject
+					});
+				}
+			}.bind(this));
+		},
 
 		_setModels: function () {
 			this.getView().setModel(new sap.ui.model.json.JSONModel({

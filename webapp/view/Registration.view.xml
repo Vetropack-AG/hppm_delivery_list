@@ -10,7 +10,7 @@
 					<uxap:ObjectPageSubSection titleUppercase="false">
 						<uxap:blocks>
 							<VBox>
-								<f:Form editable="true">
+								<f:Form editable="true" id="RegistrationForm" fieldGroupIds="Registration">
 									<f:layout>
 										<f:ResponsiveGridLayout labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0"
 											emptySpanL="4" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="2" singleContainerFullSize="false"/>
@@ -35,7 +35,7 @@
 											<f:formElements>
 												<f:FormElement label="{i18n>registration.truckNumber}">
 													<f:fields>
-														<Input value="{TruckNumber}"/>
+														<Input value="{TruckNumber}" required="true"/>
 													</f:fields>
 												</f:FormElement>
 												<f:FormElement label="{i18n>registration.customerDeliver}">
@@ -73,12 +73,7 @@
 				<uxap:subSections>
 					<uxap:ObjectPageSubSection titleUppercase="false">
 						<uxap:blocks>
-						
-						
-					<List id="MaterialList" headerText="{i18n>registration.customer}: {SoldToPartyText}">
-
-	</List>
-						
+							<List id="MaterialList" headerText="{i18n>registration.customer}: {SoldToPartyText}"></List>
 						</uxap:blocks>
 					</uxap:ObjectPageSubSection>
 				</uxap:subSections>
@@ -86,12 +81,10 @@
 		</uxap:sections>
 		<uxap:footer>
 			<OverflowToolbar>
-				<Button
-					icon="{ path: 'message>/', formatter: '.formatter.messageButtonIconFormatter' }"
-					type="{ path: 'message>/', formatter: '.formatter.messageButtonTypeFormatter' }"
-					text="{= ${message>/}.length}"
+				<Button icon="{ path: 'message>/', formatter: '.formatter.messageButtonIconFormatter' }"
+					type="{ path: 'message>/', formatter: '.formatter.messageButtonTypeFormatter' }" text="{= ${message>/}.length}"
 					press="onMessagePopoverPress"/>
-				<ToolbarSpacer />
+				<ToolbarSpacer/>
 				<Button text="{i18n>general.next}" type="Emphasized" press="onSavePress"/>
 				<Button text="{i18n>general.cancel}" type="Reject" press="onCancelPress"/>
 			</OverflowToolbar>

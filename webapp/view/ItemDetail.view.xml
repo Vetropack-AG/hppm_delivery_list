@@ -30,8 +30,8 @@
 					type="{ path: 'message>/', formatter: '.formatter.messageButtonTypeFormatter' }" text="{= ${message>/}.length}"
 					press="onMessagePopoverPress"/>
 				<ToolbarSpacer/>
+				<Button text="{i18n>details.prePosting}" press="onPrePostingPress" enabled="{HasPallets}" />
 				<Button text="{i18n>details.sapPosting}" type="Emphasized" press="onSapPostingPress" enabled="{HasPallets}"/>
-				<Button text="{i18n>details.prePosting}" type="Emphasized" press="onPrePostingPress" enabled="{HasPallets}" visible="{ViewSettings>/ItemPrinted}"/>
 				<Button text="{i18n>general.confirm}" type="Accept" press="onSavePress" enabled="{HasPallets}"/>
 				<Button text="{i18n>general.cancel}" type="Reject" press="onCancelPress"/>
 			</OverflowToolbar>

@@ -29,6 +29,10 @@ sap.ui.define([
 		},
 
 		onSavePress: function () {
+			var oForm = this.getView().byId("RegistrationForm");
+			if (!this.validateForm(oForm, "Registration")) {
+				return;
+			}
 			this._setStatusRegistered();
 
 			var oModel = this.getView().getModel();
