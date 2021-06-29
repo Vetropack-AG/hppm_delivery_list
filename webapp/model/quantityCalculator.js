@@ -17,18 +17,18 @@ sap.ui.define([
 			that.calculateOkQuantity(oEvent);
 			that.calculateRepairQuantityAboveTolerance(oEvent);
 			that.calculateScrapQuantityAboveTolerance(oEvent);
+			that.calculateTotalClaimQuantity(oEvent);
 			that.calculatePcsToBeChecked(oEvent);
 			that.calculateQtyPosted(oEvent);
 		},
 
 		calculateQtyPosted: function (oEvent) {
 			var oContext = oEvent.getSource().getBindingContext();
-			var sOkQuantity = oContext.getProperty("OkQuantity") || 0;
-			var sScrapQuantity = oContext.getProperty("ScrapQuantity") || 0;
-			var sNeedRepairQuantity = oContext.getProperty("NeedRepairQuantity") || 0;
-			var iQtyPosted = parseInt(sOkQuantity, 10) + parseInt(sScrapQuantity, 10) + parseInt(sNeedRepairQuantity, 10);
+			var sActualQuantity = oContext.getProperty("ActualQuantity") || 0;
+			var sTotalClaimQuantity = oContext.getProperty("TotalClaimQuantity") || 0;
+			var iQtyPosted = parseInt(sActualQuantity, 10) - parseInt(sTotalClaimQuantity, 10);
 			if (!isNaN(iQtyPosted)) {
-				oContext.getModel().setProperty(oContext.getPath() + "/QtyPosted", iQtyPosted.toString());
+				oContext.getModel().setProperty(oContext.getPath() + "/QtyPosted", iQtyPosted > 0 ? iQtyPosted.toString() : "0");
 			}
 
 		},
@@ -61,7 +61,7 @@ sap.ui.define([
 			var sActualQuantity = oContext.getProperty("ActualQuantity") || 0;
 			if (parseFloat(sScrapTolerance, 10) > 0) {
 				var iScrapQuantity = parseInt(sActualQuantity, 10) * ((100 + parseFloat(sScrapTolerance, 10)) / 100);
-				oContext.getModel().setProperty(oContext.getPath() + "/RepairQuantity", Math.round(iScrapQuantity).toString());
+				oContext.getModel().setProperty(oContext.getPath() + "/ScrapQuantity", Math.round(iScrapQuantity).toString());
 			}
 		},
 
@@ -108,7 +108,7 @@ sap.ui.define([
 			var sScrapQuantity = oContext.getProperty("ScrapQuantity") || 0;
 			var iOkQuantity = parseInt(sActualQuantity, 10) - (parseInt(sNeedRepairQuantity, 10) + parseInt(sScrapQuantity, 10));
 			var sOkQuantity = iOkQuantity > 0 ? iOkQuantity.toString() : "0";
-			oContext.getModel().setProperty(oContext.getPath() + "/ClaimQuantity", sOkQuantity);
+			oContext.getModel().setProperty(oContext.getPath() + "/OkQuantity", sOkQuantity);
 		}
 
 	};

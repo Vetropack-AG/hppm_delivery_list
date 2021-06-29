@@ -29,6 +29,11 @@ sap.ui.define([
 			var sItemKey = oEvent.getParameter("arguments").ItemKey;
 			this.getOwnerComponent().getModel().metadataLoaded(true).then(function () {
 				this._bindView(sDeliveryKey, sItemKey);
+
+				setTimeout(function () { // eslint-disable-line
+					this._triggerQuantityCalculation();
+				}.bind(this), 1000);
+
 			}.bind(this));
 		},
 
@@ -86,6 +91,7 @@ sap.ui.define([
 			oEvent.getSource().getParent().close();
 			var iResult = this.getView().getModel("ViewSettings").getProperty("/LayerResult");
 			this.setDeliveryProperty("ActualQuantity", iResult.toString());
+			this._triggerQuantityCalculation(iResult);
 			this.getView().getModel().submitChanges();
 		},
 
@@ -95,11 +101,12 @@ sap.ui.define([
 			var oModel = this.getView().getModel();
 			var oChanges = oModel.getPendingChanges();
 			for (var sPath in oChanges) {
-				if (oChanges.hasOwnProperty(sPath)) {
+				if (oChanges.hasOwnProperty(sPath) && sPath.indexOf("PalletCalculatorSet") !== -1) {
 					oModel.setProperty("/" + sPath + "/PalletResult", iSum);
 				}
 			}
 			this.setDeliveryProperty("ActualQuantity", iSum.toString());
+			this._triggerQuantityCalculation(iSum);
 			oModel.submitChanges();
 		},
 
@@ -199,6 +206,12 @@ sap.ui.define([
 		/* =========================================================== */
 		/* private methods                                             */
 		/* =========================================================== */
+
+		_triggerQuantityCalculation: function (value) {
+			this.getView().byId("ActualQuantityInput").fireChange({
+				value: value
+			});
+		},
 
 		_saveItem: function () {
 			return new Promise(function (resolve, reject) {

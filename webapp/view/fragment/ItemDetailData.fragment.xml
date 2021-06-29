@@ -32,7 +32,7 @@
 				<!-- Editable as long as status not POSTED -->
 				<Label text="{i18n>details.actualQuantity}"/>
 				<HBox>
-					<StepInput value="{ path:'ActualQuantity', type:'sap.ui.model.odata.type.Decimal' }"  
+					<StepInput value="{ path:'ActualQuantity', type:'sap.ui.model.odata.type.Decimal' }" id="ActualQuantityInput"
 						min="0" change=".quantityCalculator.calculateAllFields" editable="false" />
 					<Button icon="sap-icon://simulate" width="1rem" class="sapUiTinyMarginBegin" press="onOpenPalletsCalculatorPress" enabled="{= ${InspectionStatus} !== 'POSTED' }"/>
 				</HBox>
@@ -46,7 +46,7 @@
 				<Label text="{i18n>details.needScrapQuantity}" />
 				<StepInput value="{ path:'NeedScrapQuantity', type:'sap.ui.model.odata.type.Decimal' }" change=".quantityCalculator.calculateAllFields" min="0"/>
 				
-				<!-- Editable but Calculated: OkQuantity + ScrapQuantity + NeedRepairQuantity -->
+				<!-- Editable but Calculated: ActualQuantity - TotalClaimQuantity -->
 				<Label text="{i18n>details.bookedQuantity}" />
 				<StepInput value="{ path:'QtyPosted', type:'sap.ui.model.odata.type.Decimal' }" editable="{= ${InspectionStatus} !== 'POSTED' }" 
 				change=".quantityCalculator.calculateAllFields" min="0"/>
