@@ -1,6 +1,6 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
 	<Dialog draggable="true" title="{i18n>postItemDialog.title}">
-		<StepInput class="sapUiMediumMargin" width="80%" min="1" />
+		<StepInput class="sapUiMediumMargin" value="{ path:'QtyPosted', type:'sap.ui.model.odata.type.Decimal' }" width="80%" min="1"/>
 		<buttons>
 			<Button text="{i18n>general.save}" type="Emphasized" press="onPostItemDialogSavePress"/>
 			<Button text="{i18n>general.cancel}" press="onPostItemCancelSavePress"/>

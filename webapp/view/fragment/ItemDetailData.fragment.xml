@@ -49,7 +49,7 @@
 				<!-- Editable but Calculated: ActualQuantity - TotalClaimQuantity -->
 				<Label text="{i18n>details.bookedQuantity}" />
 				<StepInput value="{ path:'QtyPosted', type:'sap.ui.model.odata.type.Decimal' }" editable="{= ${InspectionStatus} !== 'POSTED' }" 
-				change=".quantityCalculator.calculateAllFields" min="0"/>
+					min="0"/>
 				
 				<Toolbar visible="false"/>
 				
@@ -57,13 +57,14 @@
 				<Label text="{i18n>details.claimQuantity}"/>
 				<StepInput value="{ path:'ClaimQuantity', type:'sap.ui.model.odata.type.Decimal' }" editable="false" />
 				
-				<!-- Calculated: ActualQuantity - (NeedRepairQuantity + ScrapQuantity) -->
+				<!-- Calculated: ActualQuantity - NeedRepairQuantity - NeedScrapQuantity -->
 				<Label text="{i18n>details.freeOfDefects}"/>
 				<StepInput value="{ path:'OkQuantity', type:'sap.ui.model.odata.type.Decimal' }" editable="false"/>
 				
 				<!-- Calculated: ActualQuantity x RepairTolerance -->
 				<Label text="{i18n>details.repairQuantityWithinTolerance}"/>
-				<StepInput value="{ path:'RepairQuantity', type:'sap.ui.model.odata.type.Decimal' }" editable="false"/>
+				<StepInput value="{ path:'RepairQuantity', type:'sap.ui.model.odata.type.Decimal' }" editable="false"
+					visible="{= ${MaterialGroup} === 'LEI-PALLE' }"/>
 			
 				<!-- Calculated: NeedRepairQuantity - RepairQuantity -->
 				<Label text="{i18n>details.claimRepairAboveTolerance}" visible="{= ${MaterialGroup} === 'LEI-PALLE' }"/>
@@ -80,7 +81,7 @@
 				<Label text="{i18n>details.claimScrapWithinTolerance}"/>
 				<StepInput value="{ path:'ScrapQuantity', type:'sap.ui.model.odata.type.Decimal' }" editable="false"/>
 				
-				<!-- Calculated: NeedRepairQuantity - ScrapTolerance -->
+				<!-- Calculated: NeedScrapQuantity - ScrapQuantity -->
 				<Label text="{i18n>details.scrapAboveTolerance}"/>
 				<StepInput value="{ path:'ScrapQuantityAboveTolerance', type:'sap.ui.model.odata.type.Decimal' }" editable="false"/>
 				

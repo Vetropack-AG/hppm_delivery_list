@@ -77,6 +77,34 @@ sap.ui.define([
 			}.bind(this));
 		},
 
+		doFinalPosting: function (oData) {
+			return new Promise(function (resolve, reject) {
+				this.getView().getModel().callFunction("/FinalPosting", {
+					urlParameters: {
+						DeliveryKey: oData.DeliveryKey,
+						ItemKey: oData.ItemKey
+					},
+					groupId: "FinalPosting",
+					success: resolve,
+					error: reject
+				});
+			}.bind(this));
+		},
+
+		doPrePosting: function (oData) {
+			return new Promise(function (resolve, reject) {
+				this.getView().getModel().callFunction("/PrePosting", {
+					urlParameters: {
+						DeliveryKey: oData.DeliveryKey,
+						ItemKey: oData.ItemKey
+					},
+					groupId: "PrePosting",
+					success: resolve,
+					error: reject
+				});
+			}.bind(this));
+		},
+
 		printProtocol: function (sDeliveryKey) {
 			return new Promise(function (resolve, reject) {
 				this.getView().getModel().callFunction("/PrintProtocol", {

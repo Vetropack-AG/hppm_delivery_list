@@ -47,11 +47,11 @@ sap.ui.define([
 
 		calculateScrapQuantityAboveTolerance: function (oEvent) {
 			var oContext = oEvent.getSource().getBindingContext();
-			var sNeedRepairQuantity = oContext.getProperty("NeedRepairQuantity") || 0;
-			var sScrapTolerance = oContext.getProperty("ScrapTolerance") || 0;
-			var iScrapQuantityAboveTolerance = parseInt(sNeedRepairQuantity, 10) + parseInt(sScrapTolerance, 10);
+			var sNeedScrapQuantity = oContext.getProperty("NeedScrapQuantity") || 0;
+			var sScrapQuantity = oContext.getProperty("ScrapQuantity") || 0;
+			var iScrapQuantityAboveTolerance = parseInt(sNeedScrapQuantity, 10) - parseInt(sScrapQuantity, 10);
 			if (!isNaN(iScrapQuantityAboveTolerance)) {
-				oContext.getModel().setProperty(oContext.getPath() + "/ScrapQuantityAboveTolerance", iScrapQuantityAboveTolerance.toString());
+				oContext.getModel().setProperty(oContext.getPath() + "/ScrapQuantityAboveTolerance", iScrapQuantityAboveTolerance > 0 ? iScrapQuantityAboveTolerance.toString() : "0");
 			}
 		},
 
@@ -60,7 +60,7 @@ sap.ui.define([
 			var sScrapTolerance = oContext.getProperty("ScrapTolerance") || 0;
 			var sActualQuantity = oContext.getProperty("ActualQuantity") || 0;
 			if (parseFloat(sScrapTolerance, 10) > 0) {
-				var iScrapQuantity = parseInt(sActualQuantity, 10) * ((100 + parseFloat(sScrapTolerance, 10)) / 100);
+				var iScrapQuantity = parseInt(sActualQuantity, 10) * ((parseFloat(sScrapTolerance, 10)) / 100);
 				oContext.getModel().setProperty(oContext.getPath() + "/ScrapQuantity", Math.round(iScrapQuantity).toString());
 			}
 		},
@@ -87,7 +87,7 @@ sap.ui.define([
 			var sRepairTolerance = oContext.getProperty("RepairTolerance") || 0;
 			var sActualQuantity = oContext.getProperty("ActualQuantity") || 0;
 			if (parseFloat(sRepairTolerance, 10) > 0) {
-				var iRepairQuantity = parseInt(sActualQuantity, 10) * ((100 + parseFloat(sRepairTolerance, 10)) / 100);
+				var iRepairQuantity = parseInt(sActualQuantity, 10) * (parseFloat(sRepairTolerance, 10) / 100);
 				oContext.getModel().setProperty(oContext.getPath() + "/RepairQuantity", Math.round(iRepairQuantity).toString());
 			}
 		},
@@ -105,8 +105,8 @@ sap.ui.define([
 			var oContext = oEvent.getSource().getBindingContext();
 			var sNeedRepairQuantity = oContext.getProperty("NeedRepairQuantity") || 0;
 			var sActualQuantity = oContext.getProperty("ActualQuantity") || 0;
-			var sScrapQuantity = oContext.getProperty("ScrapQuantity") || 0;
-			var iOkQuantity = parseInt(sActualQuantity, 10) - (parseInt(sNeedRepairQuantity, 10) + parseInt(sScrapQuantity, 10));
+			var sNeedScrapQuantity = oContext.getProperty("NeedScrapQuantity") || 0;
+			var iOkQuantity = parseInt(sActualQuantity, 10) - parseInt(sNeedRepairQuantity, 10) - parseInt(sNeedScrapQuantity, 10);
 			var sOkQuantity = iOkQuantity > 0 ? iOkQuantity.toString() : "0";
 			oContext.getModel().setProperty(oContext.getPath() + "/OkQuantity", sOkQuantity);
 		}

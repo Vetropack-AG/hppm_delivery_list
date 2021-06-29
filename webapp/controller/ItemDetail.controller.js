@@ -53,8 +53,8 @@ sap.ui.define([
 		onPostItemDialogSavePress: function (oEvent) {
 			var oDialog = this.getFragment("PostItemDialog", this);
 			oDialog.close();
-			var sQuantity = oDialog.getContent()[0].getValue().toString();
-			this._handlePostGoodsMovement(sQuantity);
+			//	var sQuantity = oDialog.getContent()[0].getValue().toString();
+			this._handleFinalPosting();
 		},
 
 		onPostItemCancelSavePress: function (oEvent) {
@@ -193,7 +193,7 @@ sap.ui.define([
 		},
 
 		onPrePostingPress: function () {
-			// create action is still open	
+			this._handlePrePosting();
 		},
 
 		onMaterialChange: function (oEvent) {
@@ -383,6 +383,24 @@ sap.ui.define([
 				ItemKey: this.getDeliveryProperty("ItemKey"),
 				Quantity: sQuantity
 			}).then(this._showItemPosted.bind(this));
+		},
+
+		_handleFinalPosting: function () {
+			this._saveItem().then(function () {
+				this.doFinalPosting({
+					DeliveryKey: this.getDeliveryProperty("DeliveryKey"),
+					ItemKey: this.getDeliveryProperty("ItemKey")
+				}).then(this._showItemPosted.bind(this));
+			}.bind(this));
+		},
+
+		_handlePrePosting: function () {
+			this._saveItem().then(function () {
+				this.doPrePosting({
+					DeliveryKey: this.getDeliveryProperty("DeliveryKey"),
+					ItemKey: this.getDeliveryProperty("ItemKey")
+				}).then(this._showItemPosted.bind(this));
+			}.bind(this));
 		},
 
 		_showItemPosted: function () {
