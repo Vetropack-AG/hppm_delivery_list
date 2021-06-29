@@ -6,4 +6,20 @@
 			state="{ path: 'InspectionStatus', formatter: '.formatter.itemInspectionStatusState' }"
 			icon="{ path: 'InspectionStatus', formatter: '.formatter.itemInspectionStatusIcon' }"/>
 	</layout:VerticalLayout>
+	<layout:VerticalLayout>
+		<ObjectStatus 
+			title="{i18n>details.materialDocumentPrePosting}" 
+			text="{MaterialDocumentPrePosting}" 
+			visible="{= ${MaterialDocumentPrePosting} !== '' }"
+			state="Success" 
+			icon="sap-icon://accept"/>
+	</layout:VerticalLayout>
+	<layout:VerticalLayout>
+		<ObjectStatus 
+		title="{i18n>details.materialDocumentFinalPosting}" 
+		text="{MaterialDocumentFinalPosting}" 
+		visible="{= ${MaterialDocumentFinalPosting} !== '' }"
+		state="Success"
+		icon="sap-icon://accept"/>
+	</layout:VerticalLayout>
 </core:FragmentDefinition>
