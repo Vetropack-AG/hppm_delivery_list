@@ -38,7 +38,7 @@ sap.ui.define([
 		},
 
 		onSavePress: function () {
-			this._setNextStatus();
+			this.setDeliveryProperty("DoConfirm", true);
 			this._saveItem();
 		},
 
@@ -53,7 +53,6 @@ sap.ui.define([
 		onPostItemDialogSavePress: function (oEvent) {
 			var oDialog = this.getFragment("PostItemDialog", this);
 			oDialog.close();
-			//	var sQuantity = oDialog.getContent()[0].getValue().toString();
 			this._handleFinalPosting();
 		},
 
@@ -203,6 +202,16 @@ sap.ui.define([
 			}
 		},
 
+		onNoRepairChange: function () {
+			this.setDeliveryProperty("NeedRepairQuantity", "0");
+			this._triggerQuantityCalculation();
+		},
+		
+		onNoScrapChange: function() {
+			this.setDeliveryProperty("NeedScrapQuantity", "0");
+			this._triggerQuantityCalculation();
+		},
+
 		/* =========================================================== */
 		/* private methods                                             */
 		/* =========================================================== */
@@ -231,6 +240,8 @@ sap.ui.define([
 						}.bind(this),
 						error: reject
 					});
+				} else {
+					resolve();
 				}
 			}.bind(this));
 		},
@@ -405,20 +416,6 @@ sap.ui.define([
 
 		_showItemPosted: function () {
 			this.showTranslatedMessageToast("message.itemPosted", [this.getDeliveryProperty("ItemKey")]);
-		},
-
-		_setNextStatus: function () {
-			// OPEN -> QUALITY -> QUANTITY
-			var sCurrentStatus = this.getDeliveryProperty("InspectionStatus");
-			switch (sCurrentStatus) {
-			case hppm.INSPECTION_STATUS.OPEN:
-				this.setDeliveryProperty("InspectionStatus", "QUALITY");
-				break;
-			case hppm.INSPECTION_STATUS.QUALITY:
-				this.setDeliveryProperty("InspectionStatus", "QUANTITY");
-				break;
-			default: // to nothing
-			}
 		},
 
 		_bindView: function (sDeliveryKey, sItemKey) {
