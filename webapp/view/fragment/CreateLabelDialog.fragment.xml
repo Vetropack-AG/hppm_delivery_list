@@ -1,12 +1,17 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
 	<Dialog draggable="true" title="{i18n>createLabelDialog.title}">
+		<HBox class="sapUiMediumMargin">
+			<Label text="{i18n>createLabelDialog.palletAmount}:"  class="sapUiTinyMarginEnd"/>
+			<Text text="{PalletAmount}" />
+		</HBox>
+		
 		<VBox justifyContent="Center" class="sapUiMediumMargin">
 			<Label text="{i18n>createLabelDialog.labelAmount}:"  />
 			<StepInput min="1" />
 		</VBox>
 		
 		<buttons>
-			<Button text="{i18n>general.save}" type="Emphasized" press="onCreateLabelDialogSavePress"/>
+			<Button text="{i18n>general.print}" type="Emphasized" press="onCreateLabelDialogSavePress"/>
 			<Button text="{i18n>general.cancel}" press="onCreateLabelDialogCancelPress"/>
 		</buttons>
 	</Dialog>

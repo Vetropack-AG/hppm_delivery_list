@@ -39,12 +39,12 @@
 				
 				<!-- Editable -->
 				<Label text="{i18n>details.needRepairQuantity}" visible="{= ${MaterialGroup} === 'LEI-PALLE' }"/>
-				<HBox visible="{= ${MaterialGroup} === 'LEI-PALLE' }">
+				<VBox visible="{= ${MaterialGroup} === 'LEI-PALLE' }">
 					<StepInput value="{ path:'NeedRepairQuantity', type:'sap.ui.model.odata.type.Decimal' }" change=".quantityCalculator.calculateAllFields" min="0" 
 						visible="{= ${MaterialGroup} === 'LEI-PALLE' }" editable="{= ${NoRepair} !== true }" />
 					<CheckBox selected="{NoRepair}" text="{i18n>details.noRepair}" wrapping="true" select="onNoRepairChange"
 						visible="{= ${MaterialGroup} === 'LEI-PALLE' }" />
-				</HBox>
+				</VBox>
 				
 				<!-- Editable -->
 				<Label text="{i18n>details.needScrapQuantity}" />
