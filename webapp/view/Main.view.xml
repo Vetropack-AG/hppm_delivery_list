@@ -5,7 +5,7 @@
 	xmlns:smartFilterBar="sap.ui.comp.smartfilterbar" 
 	xmlns:smartTable="sap.ui.comp.smarttable" 
 	displayBlock="true">
-	<Page showHeader="false" floatingFooter="true">
+	<Page showHeader="false" floatingFooter="false">
 		<content>
 			
 			<smartFilterBar:SmartFilterBar 
