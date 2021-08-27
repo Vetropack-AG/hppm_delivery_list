@@ -400,22 +400,57 @@ sap.ui.define([
 
 		_bindItemList: function (sDeliveryKey) {
 			var oList = this.getView().byId("ItemList");
-			var oTemplate = new sap.m.StandardListItem({
-				title: "{ItemKey} - {ItemText}",
-				description: "{MaterialNumber} - {MaterialText}",
-				info: "{InspectionStatusText}",
-				infoState: {
-					path: "InspectionStatus",
-					formatter: formatter.itemInspectionStatusState
-				},
-				type: "Active",
-				icon: "{= ${HasPallets} === false ? 'sap-icon://alert' : '' }",
-				iconInset: false
-			});
 			oList.bindAggregation("items", {
 				path: "/DeliveryItemSet",
-				template: oTemplate,
+				template: this._getItemTemplate(),
 				filters: [new Filter("DeliveryKey", FilterOperator.EQ, sDeliveryKey)]
+			});
+		},
+
+		_getItemTemplate: function () {
+			return new sap.m.CustomListItem({
+				type: "Active",
+				highlight: "{= ${HasPallets} === false ? 'Error' : 'None' }",
+				content: [
+					new sap.m.HBox({
+						alignItems: "Start",
+						justifyContent: "SpaceBetween",
+						items: [
+							new sap.m.VBox({
+								items: [
+									new sap.m.Title({
+										text: "{ItemKey} - {ItemText}"
+									}),
+									new sap.m.Text({
+										text: "{MaterialNumber} - {MaterialText}"
+									})
+								]
+							}).addStyleClass("sapUiSmallMarginBegin sapUiSmallMarginTopBottom"),
+							new sap.m.VBox({
+								items: [
+									new sap.m.ObjectStatus({
+										text: "Quantity Result",
+										icon: "{= ${QuantityResult} === true ? 'sap-icon://sys-enter-2' : 'sap-icon://message-error' }",
+										state: "{= ${QuantityResult} === true ? 'Success' : 'Error' }"
+									}),
+									new sap.m.ObjectStatus({
+										text: "Quality Result",
+										icon: "{= ${QualityResult} === true ? 'sap-icon://sys-enter-2' : 'sap-icon://message-error' }",
+										state: "{= ${QualityResult} === true ? 'Success' : 'Error' }"
+									})
+								]
+							}).addStyleClass("sapUiSmallMarginBegin sapUiSmallMarginTopBottom"),
+							new sap.m.ObjectStatus({
+								text: "{InspectionStatusText}",
+								state: {
+									path: "InspectionStatus",
+									formatter: formatter.itemInspectionStatusState
+								}
+							}).addStyleClass("sapUiSmallMarginBegin sapUiSmallMarginTopBottom sapUiSmallMarginEnd")
+						]
+
+					})
+				]
 			});
 		},
 
