@@ -2,7 +2,7 @@
 	<Dialog draggable="true" title="{i18n>postItemsDialog.title}" contentWidth="60%">
 		<List />
 		<buttons>
-			<Button text="{i18n>general.save}" type="Emphasized" press="onPostItemsDialogSavePress"/>
+			<Button text="{i18n>details.sapPosting}" type="Emphasized" press="onPostItemsDialogSavePress"/>
 			<Button text="{i18n>general.cancel}" press="onPostItemsCancelSavePress"/>
 		</buttons>
 	</Dialog>

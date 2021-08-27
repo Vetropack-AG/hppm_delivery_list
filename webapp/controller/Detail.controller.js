@@ -92,9 +92,42 @@ sap.ui.define([
 			var oDialog = this.getFragment("PostItemsDialog", this);
 			oDialog.close();
 			var oList = oDialog.getContent()[0];
-			oList.getItems()
-				.map(this._mapListItemToGoodsMovementItemData, this)
-				.forEach(this._handlePostGoodsMovement, this);
+
+			this._saveItems().then(function () {
+				oList.getItems()
+					.map(this._mapListItemToGoodsMovementItemData, this)
+					.forEach(this._handleFinalPosting, this);
+			}.bind(this));
+		},
+
+		_handleFinalPosting: function (oData) {
+			this.doFinalPosting({
+				DeliveryKey: oData.DeliveryKey,
+				ItemKey: oData.ItemKey
+			}).then(this._showItemsPosted.bind(this));
+		},
+
+		_saveItems: function () {
+			return new Promise(function (resolve, reject) {
+				var oModel = this.getView().getModel();
+				if (oModel.hasPendingChanges()) {
+					sap.ui.core.BusyIndicator.show(0);
+					oModel.submitChanges({
+						success: function (oData) {
+							if (!this.isSubmitError(oData)) {
+								sap.ui.core.BusyIndicator.hide();
+								resolve();
+							} else {
+								this.getView().getModel().resetChanges();
+								reject();
+							}
+						}.bind(this),
+						error: reject
+					});
+				} else {
+					resolve();
+				}
+			}.bind(this));
 		},
 
 		onPostItemsCancelSavePress: function (oEvent) {
@@ -335,11 +368,6 @@ sap.ui.define([
 			return undefined;
 		},
 
-		_handlePostGoodsMovement: function (oItem) {
-			this.postGoodsMovement(oItem)
-				.then(this._showItemsPosted.bind(this));
-		},
-
 		_mapListItemToGoodsMovementItemData: function (oListItem) {
 			return {
 				Quantity: oListItem.getContent()[0].getValue().toString(),
@@ -366,7 +394,8 @@ sap.ui.define([
 				label: "{ItemKey} - {ItemText} / {MaterialNumber} - {MaterialText}",
 				content: new sap.m.StepInput({
 					min: 1,
-					width: "8rem"
+					width: "8rem",
+					value: "{ path:'QtyPosted', type:'sap.ui.model.odata.type.Decimal' }"
 				}),
 				customData: new sap.ui.core.CustomData({
 					key: "ItemKey",
@@ -429,6 +458,13 @@ sap.ui.define([
 							new sap.m.VBox({
 								items: [
 									new sap.m.ObjectStatus({
+										text: "{InspectionStatusText}",
+										state: {
+											path: "InspectionStatus",
+											formatter: formatter.itemInspectionStatusState
+										}
+									}).addStyleClass("sapUiTinyMarginTopBottom"),
+									new sap.m.ObjectStatus({
 										text: "{i18n>details.quantityResult}",
 										icon: "{= ${QuantityResult} === true ? 'sap-icon://sys-enter-2' : 'sap-icon://message-error' }",
 										state: "{= ${QuantityResult} === true ? 'Success' : 'Error' }"
@@ -439,14 +475,7 @@ sap.ui.define([
 										state: "{= ${QualityResult} === true ? 'Success' : 'Error' }"
 									})
 								]
-							}).addStyleClass("sapUiSmallMarginBegin sapUiSmallMarginTopBottom"),
-							new sap.m.ObjectStatus({
-								text: "{InspectionStatusText}",
-								state: {
-									path: "InspectionStatus",
-									formatter: formatter.itemInspectionStatusState
-								}
-							}).addStyleClass("sapUiSmallMarginBegin sapUiSmallMarginTopBottom sapUiSmallMarginEnd")
+							}).addStyleClass("sapUiSmallMarginBegin sapUiSmallMarginEnd")
 						]
 
 					})

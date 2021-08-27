@@ -41,7 +41,7 @@
 					press="onMessagePopoverPress"/>
 				<m:ToolbarSpacer /> 
 				<m:Button text="{i18n>details.sapPosting}" type="Emphasized" press="onSapPostingPress" id="SapPostingButton"
-					visible="{= ${DeliveryType} === 'ZRET' }"/>
+					visible="{= ${DeliveryType} === 'ZRET' &amp;&amp; ${InspectionStatus} !== 'POSTED' }"/>
 			</m:OverflowToolbar>
 		</footer>
 	</ObjectPageLayout>

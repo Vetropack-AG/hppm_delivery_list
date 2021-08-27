@@ -24,13 +24,19 @@ sap.ui.define([
 
 		calculateQtyPosted: function (oEvent) {
 			var oContext = oEvent.getSource().getBindingContext();
+
+			// dont calculate if the item is already posted
+			var sStatus = oContext.getModel().getProperty(oContext.getPath() + "/InspectionStatus");
+			if (sStatus === "POSTED") {
+				return;
+			}
+
 			var sActualQuantity = oContext.getProperty("ActualQuantity") || 0;
 			var sTotalClaimQuantity = oContext.getProperty("TotalClaimQuantity") || 0;
 			var iQtyPosted = parseInt(sActualQuantity, 10) - parseInt(sTotalClaimQuantity, 10);
 			if (!isNaN(iQtyPosted)) {
 				oContext.getModel().setProperty(oContext.getPath() + "/QtyPosted", iQtyPosted > 0 ? iQtyPosted.toString() : "0");
 			}
-
 		},
 
 		calculatePcsToBeChecked: function (oEvent) {
@@ -51,7 +57,8 @@ sap.ui.define([
 			var sScrapQuantity = oContext.getProperty("ScrapQuantity") || 0;
 			var iScrapQuantityAboveTolerance = parseInt(sNeedScrapQuantity, 10) - parseInt(sScrapQuantity, 10);
 			if (!isNaN(iScrapQuantityAboveTolerance)) {
-				oContext.getModel().setProperty(oContext.getPath() + "/ScrapQuantityAboveTolerance", iScrapQuantityAboveTolerance > 0 ? iScrapQuantityAboveTolerance.toString() : "0");
+				oContext.getModel().setProperty(oContext.getPath() + "/ScrapQuantityAboveTolerance", iScrapQuantityAboveTolerance > 0 ?
+					iScrapQuantityAboveTolerance.toString() : "0");
 			}
 		},
 
