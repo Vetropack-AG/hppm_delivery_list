@@ -1,8 +1,17 @@
-<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
-	<Dialog draggable="true" title="{i18n>postItemDialog.title}">
-		<StepInput class="sapUiMediumMargin" value="{ path:'QtyPosted', type:'sap.ui.model.odata.type.Decimal' }" width="80%" min="1"/>
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:layout="sap.ui.layout">
+	<Dialog draggable="true" title="{i18n>postItemDialog.title}" contentWidth="20%">
+		<layout:VerticalLayout class="sapUiMediumMarginBegin sapUiSmallMarginTop">
+			<ObjectStatus title="{i18n>details.loadAt}" text="{Header>/SoldToPartyText}"/>
+			<ObjectStatus title="{i18n>details.unloadAt}" text="{Header>/ShipToPartyText}"/>
+		</layout:VerticalLayout>
+		<layout:VerticalLayout class="sapUiMediumMarginBegin sapUiSmallMarginTop">
+			<ObjectStatus title="{i18n>details.sapNo}" text="{ItemKey}"/>
+			<ObjectStatus title="{i18n>details.sapName}" text="{ItemText}"/>
+		</layout:VerticalLayout>
+		<StepInput class="sapUiMediumMarginBegin sapUiSmallMarginTop sapUiSmallMarginBottom"
+			value="{ path:'QtyPosted', type:'sap.ui.model.odata.type.Decimal' }" width="80%" min="1"/>
 		<buttons>
-			<Button text="{i18n>general.save}" type="Emphasized" press="onPostItemDialogSavePress"/>
+			<Button text="{i18n>details.sapPosting}" type="Emphasized" press="onPostItemDialogSavePress"/>
 			<Button text="{i18n>general.cancel}" press="onPostItemCancelSavePress"/>
 		</buttons>
 	</Dialog>
