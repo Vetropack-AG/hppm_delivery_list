@@ -46,6 +46,10 @@ sap.ui.define([
 			this.getFragment("AddItemDialog", this).open();
 		},
 
+		onDeleteItemPress: function () {
+			this._deleteItem();
+		},
+
 		onAddItemDialogSavePress: function (oEvent) {
 			oEvent.getSource().getParent().close();
 			this._createItemFromMaterial();
@@ -121,6 +125,20 @@ sap.ui.define([
 		/* =========================================================== */
 		/* private methods                                             */
 		/* =========================================================== */
+
+		_deleteItem: function () {
+			return new Promise(function (resolve, reject) {
+				var oModel = this.getView().getModel();
+				var sKey = oModel.createKey("/DeliveryItemSet", {
+					DeliveryKey: this._getSelectedDeliveryItem().DeliveryKey,
+					ItemKey: this._getSelectedDeliveryItem().ItemKey
+				});
+				oModel.remove(sKey, {
+					success: resolve,
+					error: reject
+				});
+			}.bind(this));
+		},
 
 		_handleMaterialScan: function (sMaterial) {
 			this._getMaterial(sMaterial)

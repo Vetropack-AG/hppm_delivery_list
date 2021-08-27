@@ -13,6 +13,7 @@
 				<Button icon="sap-icon://BusinessSuiteInAppSymbols/icon-truck-unload" tooltip="{i18n>main.unload}" press="onUnloadPress"/>
 				<ToolbarSeparator />
 				<Button icon="sap-icon://add" press="onAddItemPress"/>
+				<Button icon="sap-icon://delete" press="onDeleteItemPress" />
 			</OverflowToolbar>
 		</headerToolbar>
 	</List>
