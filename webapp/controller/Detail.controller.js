@@ -429,12 +429,12 @@ sap.ui.define([
 							new sap.m.VBox({
 								items: [
 									new sap.m.ObjectStatus({
-										text: "Quantity Result",
+										text: "{i18n>details.quantityResult}",
 										icon: "{= ${QuantityResult} === true ? 'sap-icon://sys-enter-2' : 'sap-icon://message-error' }",
 										state: "{= ${QuantityResult} === true ? 'Success' : 'Error' }"
 									}),
 									new sap.m.ObjectStatus({
-										text: "Quality Result",
+										text: "{i18n>details.qualityResult}",
 										icon: "{= ${QualityResult} === true ? 'sap-icon://sys-enter-2' : 'sap-icon://message-error' }",
 										state: "{= ${QualityResult} === true ? 'Success' : 'Error' }"
 									})

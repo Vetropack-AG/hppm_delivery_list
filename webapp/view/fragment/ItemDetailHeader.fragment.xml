@@ -34,4 +34,16 @@
 		state="Success"
 		icon="sap-icon://accept"/>
 	</layout:VerticalLayout>
+	
+	<layout:VerticalLayout>
+		<ObjectStatus 
+			text="{i18n>details.quantityResult}" 
+			state="{= ${QuantityResult} === true ? 'Success' : 'Error' }" 
+			icon="{= ${QuantityResult} === true ? 'sap-icon://sys-enter-2' : 'sap-icon://message-error' }"/>
+	<ObjectStatus 
+			text="{i18n>details.qualityResult}" 
+			state="{= ${QualityResult} === true ? 'Success' : 'Error' }" 
+			icon="{= ${QualityResult} === true ? 'sap-icon://sys-enter-2' : 'sap-icon://message-error' }"/>
+	</layout:VerticalLayout>
+	
 </core:FragmentDefinition>
