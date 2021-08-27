@@ -15,8 +15,8 @@ sap.ui.define([
 		/* =========================================================== */
 
 		onInit: function () {
-			this.getOwnerComponent().getRouter().getRoute("ItemDetail").attachPatternMatched(this.onRoutePatternMatched, this);
 			this._setModels();
+			this.getOwnerComponent().getRouter().getRoute("ItemDetail").attachPatternMatched(this.onRoutePatternMatched, this);
 			this._fetchLayerConstant();
 		},
 
@@ -206,8 +206,8 @@ sap.ui.define([
 			this.setDeliveryProperty("NeedRepairQuantity", "0");
 			this._triggerQuantityCalculation();
 		},
-		
-		onNoScrapChange: function() {
+
+		onNoScrapChange: function () {
 			this.setDeliveryProperty("NeedScrapQuantity", "0");
 			this._triggerQuantityCalculation();
 		},
@@ -251,6 +251,7 @@ sap.ui.define([
 				LayersCalculatorMode: "PIECES",
 				ItemPrinted: false
 			}), "ViewSettings");
+			this.getView().setModel(new sap.ui.model.json.JSONModel(), "Header");
 		},
 
 		_fetchLayerConstant: function () {
@@ -430,8 +431,13 @@ sap.ui.define([
 				DeliveryKey: sDeliveryKey
 			});
 			this.getView().getModel().read(sPath, {
-				success: this._setFooterButtonVisibilities.bind(this)
+				success: this._bindHeaderData.bind(this)
 			});
+		},
+
+		_bindHeaderData: function (oData) {
+			this.getView().getModel("Header").setProperty("/", oData);
+			this._setFooterButtonVisibilities(oData);
 		},
 
 		_setFooterButtonVisibilities: function (oData) {
