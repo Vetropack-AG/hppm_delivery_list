@@ -120,11 +120,11 @@ sap.ui.define([
 
 		cancelDelivery: function (sDeliveryKey) {
 			return new Promise(function (resolve, reject) {
-				this.getView().getModel().callFunction("/CancelDelivery", {
-					urlParameters: {
-						DeliveryKey: sDeliveryKey
-					},
-					groupId: "CancelDelivery",
+				var oModel = this.getView().getModel();
+				var sKey = oModel.createKey("/DeliveryHeadSet", {
+					DeliveryKey: sDeliveryKey
+				});
+				oModel.remove(sKey, {
 					success: resolve,
 					error: reject
 				});
