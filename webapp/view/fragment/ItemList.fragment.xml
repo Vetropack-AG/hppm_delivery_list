@@ -3,14 +3,14 @@
 		<headerToolbar>
 			<OverflowToolbar>
 				<SearchField placeholder="{i18n>details.scanPalletOrMaterial}" width="70%" suggestionItems="{ViewSettings>/LastScannedPallets}" search="onPalletSearch" 
-				enableSuggestions="true" suggest="onPalletSuggest">
+				enableSuggestions="true" suggest="onPalletSuggest" visible="{= ${DeliveryType} !== 'ZRET' }">
 					<suggestionItems>
 						<SuggestionItem key="{ViewSettings>Scan}" text="{ViewSettings>Scan}"/>
 					</suggestionItems>
 				</SearchField>
 				<ToolbarSpacer/>
-				<Button icon="sap-icon://BusinessSuiteInAppSymbols/icon-truck-load" tooltip="{i18n>main.load}" press="onLoadPress"/>
-				<Button icon="sap-icon://BusinessSuiteInAppSymbols/icon-truck-unload" tooltip="{i18n>main.unload}" press="onUnloadPress"/>
+				<Button icon="sap-icon://BusinessSuiteInAppSymbols/icon-truck-load" tooltip="{i18n>main.load}" press="onLoadPress" visible="{= ${DeliveryType} !== 'ZRET' }"/>
+				<Button icon="sap-icon://BusinessSuiteInAppSymbols/icon-truck-unload" tooltip="{i18n>main.unload}" press="onUnloadPress" visible="{= ${DeliveryType} !== 'ZRET' }"/>
 				<ToolbarSeparator />
 				<Button icon="sap-icon://add" press="onAddItemPress"/>
 				<Button icon="sap-icon://delete" press="onDeleteItemPress" />
