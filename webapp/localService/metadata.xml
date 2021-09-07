@@ -3,67 +3,199 @@
 	xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData">
 	<edmx:DataServices m:DataServiceVersion="2.0">
 		<Schema Namespace="ZVGT_HPPM_CORE_SRV" xml:lang="de" sap:schema-version="1" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
-			<EntityType Name="PlantValueHelp" sap:content-version="1">
-				<Key><PropertyRef Name="Key"/></Key><Property Name="Key" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="Werk" sap:creatable="false"
-					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Description" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:creatable="false"
+			<EntityType Name="Constant" sap:content-version="1">
+				<Key><PropertyRef Name="Id"/></Key><Property Name="Id" Type="Edm.String" Nullable="false" MaxLength="50" sap:unicode="false" sap:label="Konstanten ID" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Value" Type="Edm.String" Nullable="false" MaxLength="255" sap:unicode="false" sap:label="Konstanten Wert"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/></EntityType>
+			<EntityType Name="PalletCalculator" sap:content-version="1">
+				<Key><PropertyRef Name="Counter"/><PropertyRef Name="DeliveryKey"/><PropertyRef Name="ItemKey"/></Key><Property Name="Counter" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="Zähler" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="DeliveryKey" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Lieferung"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="ItemKey" Type="Edm.String" Nullable="false" MaxLength="6" sap:unicode="false" sap:label="Position" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="CalculatorKey" Type="Edm.String" Nullable="false" MaxLength="32" sap:label="Palettenrechner Key" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Pieces" Type="Edm.Int16" sap:label="HPPM Pieces" sap:creatable="false" sap:updatable="false" sap:sortable="false"
+					sap:filterable="false"/><Property Name="Height" Type="Edm.Int16" sap:label="HPPM Height" sap:creatable="false" sap:updatable="false" sap:sortable="false"
+					sap:filterable="false"/><Property Name="PalletCount" Type="Edm.Int16" sap:label="Palettenanzahl" sap:creatable="false" sap:updatable="false" sap:sortable="false"
+					sap:filterable="false"/><Property Name="PillarPieces" Type="Edm.Int16" sap:label="Stück pro Stapel" sap:creatable="false" sap:updatable="false" sap:sortable="false"
+					sap:filterable="false"/><Property Name="PillarCount" Type="Edm.Int16" sap:label="Anzahl an Stapel" sap:creatable="false" sap:updatable="false" sap:sortable="false"
+					sap:filterable="false"/><Property Name="AdditionalPieces" Type="Edm.Int16" sap:label="Zusätzliche Stück" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false" sap:filterable="false"/><Property Name="PalletResult" Type="Edm.Int16" sap:label="INT2" sap:creatable="false" sap:updatable="false" sap:sortable="false"
+					sap:filterable="false"/></EntityType>
+			<EntityType Name="Material" sap:content-version="1">
+				<Key><PropertyRef Name="MaterialNumber"/></Key><Property Name="MaterialNumber" Type="Edm.String" Nullable="false" MaxLength="18" sap:unicode="false" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Description" Type="Edm.String" Nullable="false" MaxLength="40" sap:label="Bezeichnung" sap:creatable="false"
 					sap:updatable="false" sap:sortable="false" sap:filterable="false"/></EntityType>
+			<EntityType Name="CustomerValueHelp" sap:content-version="1">
+				<Key><PropertyRef Name="Key"/></Key><Property Name="AccountGroup" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="Kontengruppe"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Country" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="Land" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Key" Type="Edm.String" Nullable="false" MaxLength="10" sap:text="Description" sap:unicode="false" sap:label="Debitor"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false"/><Property Name="Description" Type="Edm.String" Nullable="false" MaxLength="35" sap:unicode="false" sap:label="Name" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/></EntityType>
+			<EntityType Name="LoadCarrierTypeValueHelp" sap:content-version="1">
+				<Key><PropertyRef Name="Key"/></Key><Property Name="Key" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:label="Material" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="MaterialGroup" Type="Edm.String" Nullable="false" MaxLength="9" sap:unicode="false" sap:label="Warengruppe"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Description" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:label="Bezeichnung"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="SpecialStock" Type="Edm.String" Nullable="false" MaxLength="2" sap:unicode="false" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/></EntityType>
+			<EntityType Name="SpecialStockValueHelp" sap:content-version="1">
+				<Key><PropertyRef Name="Key"/></Key><Property Name="Key" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="Sonderbestand" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Description" Type="Edm.String" Nullable="false" MaxLength="20" sap:unicode="false" sap:label="Bezeichnung"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/></EntityType>
 			<EntityType Name="DeliveryHead" sap:content-version="1">
 				<Key><PropertyRef Name="DeliveryKey"/></Key><Property Name="DeliveryKey" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:creatable="false"
-					sap:updatable="false" sap:sortable="false"/><Property Name="MaterialGroup" Type="Edm.String" Nullable="false" MaxLength="9" sap:label="Warengruppe" sap:creatable="false"
-					sap:updatable="false" sap:sortable="false"/><Property Name="DeliveryDate" Type="Edm.DateTime" Nullable="false" Precision="7" sap:label="Liefertermin" sap:creatable="false"
-					sap:updatable="false" sap:sortable="false"/><Property Name="DeliveryType" Type="Edm.String" Nullable="false" MaxLength="4" sap:label="Lieferart" sap:creatable="false"
-					sap:updatable="false" sap:sortable="false"/><Property Name="TruckNumber" Type="Edm.String" Nullable="false" MaxLength="20" sap:creatable="false" sap:updatable="false"
-					sap:sortable="false"/><Property Name="CustomerDelivery" Type="Edm.String" Nullable="false" MaxLength="35" sap:creatable="false" sap:updatable="false"
-					sap:sortable="false"/><Property Name="CreatedBy" Type="Edm.String" Nullable="false" MaxLength="12" sap:label="Angelegt von" sap:creatable="false"
-					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Plant" Type="Edm.String" Nullable="false" MaxLength="4" sap:creatable="false" sap:updatable="false" sap:sortable="false"/><Property Name="ShipmentStatus" Type="Edm.String" Nullable="false" sap:creatable="false" sap:updatable="false" sap:sortable="false"
-					sap:filterable="false"/><Property Name="ShipToParty" Type="Edm.String" Nullable="false" MaxLength="10" sap:creatable="false" sap:updatable="false"
-					sap:sortable="false"/><Property Name="LoadingStatus" Type="Edm.String" Nullable="false" sap:creatable="false" sap:updatable="false" sap:sortable="false"
-					sap:filterable="false"/><Property Name="SoldToParty" Type="Edm.String" Nullable="false" MaxLength="10" sap:creatable="false" sap:updatable="false"
-					sap:sortable="false"/><Property Name="ShipToPartyText" Type="Edm.String" Nullable="false" MaxLength="35" sap:creatable="false" sap:updatable="false"
-					sap:sortable="false" sap:filterable="false"/><Property Name="SoldToPartyText" Type="Edm.String" Nullable="false" MaxLength="35" sap:creatable="false" sap:updatable="false"
-					sap:sortable="false" sap:filterable="false"/><NavigationProperty Name="Files" Relationship="ZVGT_HPPM_CORE_SRV.Files" FromRole="FromRole_Files" ToRole="ToRole_Files"/><NavigationProperty Name="Items" Relationship="ZVGT_HPPM_CORE_SRV.DeliveryItems" FromRole="FromRole_DeliveryItems"
+					sap:updatable="false" sap:sortable="false"/><Property Name="ArrivalDate" Type="Edm.DateTime" Precision="0" sap:label="Ankunftsdatum" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false" sap:filterable="false"/><Property Name="StockType" Type="Edm.String" Nullable="false" MaxLength="1" sap:label="" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false"/><Property Name="Organiser" Type="Edm.String" Nullable="false" sap:label="Organisator" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false" sap:filterable="false"/><Property Name="ArrivalTime" Type="Edm.Time" Precision="0" sap:label="Ankuntszeit" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false" sap:filterable="false"/><Property Name="ChangedBy" Type="Edm.String" Nullable="false" MaxLength="80" sap:label="Vollst.Name" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="ChangedOn" Type="Edm.DateTime" Precision="7" sap:label="Zul. geändert" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false" sap:filterable="false"/><Property Name="Claim" Type="Edm.String" Nullable="false" MaxLength="10" sap:label="Schaden" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false" sap:filterable="false"/><Property Name="Comment" Type="Edm.String" Nullable="false" sap:label="Kommentar" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false" sap:filterable="false"/><Property Name="ConfirmedBy" Type="Edm.String" Nullable="false" MaxLength="80" sap:label="Bestätigt von" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="CreatedBy" Type="Edm.String" Nullable="false" MaxLength="80" sap:label="Erstellt von" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="CustomerDelivery" Type="Edm.String" Nullable="false" MaxLength="35" sap:label="Kundenlieferung" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="DeliveryDate" Type="Edm.DateTime" Precision="0" sap:label="Lieferdatum" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false"/><Property Name="DeliveryType" Type="Edm.String" Nullable="false" MaxLength="4" sap:label="Lieferart" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="ExistingComment" Type="Edm.String" Nullable="false" sap:label="Comment" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false" sap:filterable="false"/><Property Name="InspectionStatus" Type="Edm.String" Nullable="false" MaxLength="10" sap:label="Inspektionsstatus" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="InspectionStatusText" Type="Edm.String" Nullable="false" MaxLength="60" sap:label="Inspektionsstatus" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Material" Type="Edm.String" Nullable="false" MaxLength="40" sap:label="Material" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false"/><Property Name="MaterialGroup" Type="Edm.String" Nullable="false" MaxLength="9" sap:label="Warengruppe" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="Plant" Type="Edm.String" Nullable="false" MaxLength="4" sap:label="Werk" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false" sap:filterable="false"/><Property Name="Progress" Type="Edm.Byte" Nullable="false" sap:label="Progress" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false" sap:filterable="false"/><Property Name="ShipmentStatus" Type="Edm.String" Nullable="false" MaxLength="10" sap:label="Lieferstatus" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="ShipmentStatusText" Type="Edm.String" Nullable="false" MaxLength="60" sap:label="Lieferstatus" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="ShipToParty" Type="Edm.String" Nullable="false" MaxLength="10" sap:label="" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false"/><Property Name="ShipToPartyCity" Type="Edm.String" Nullable="false" MaxLength="35" sap:label="" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false" sap:filterable="false"/><Property Name="ShipToPartyCountry" Type="Edm.String" Nullable="false" MaxLength="3" sap:label="Land" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="ShipToPartyPostalCode" Type="Edm.String" Nullable="false" MaxLength="10" sap:label="" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="ShipToPartyStreet" Type="Edm.String" Nullable="false" MaxLength="30" sap:label="" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="ShipToPartyText" Type="Edm.String" Nullable="false" MaxLength="35" sap:label="Warenempfänger" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="SoldToParty" Type="Edm.String" Nullable="false" MaxLength="10" sap:label="Auftraggeber" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="SoldToPartyCity" Type="Edm.String" Nullable="false" MaxLength="35" sap:label="" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false" sap:filterable="false"/><Property Name="SoldToPartyCountry" Type="Edm.String" Nullable="false" MaxLength="3" sap:label="Land" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="SoldToPartyPostalCode" Type="Edm.String" Nullable="false" MaxLength="10" sap:label="" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="SoldToPartyStreet" Type="Edm.String" Nullable="false" MaxLength="30" sap:label="" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="SoldToPartyText" Type="Edm.String" Nullable="false" MaxLength="35" sap:label="Auftraggeber" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="TruckNumber" Type="Edm.String" Nullable="false" MaxLength="20" sap:label="Lieferwagen" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="VetropackAccount" Type="Edm.String" Nullable="false" MaxLength="4" sap:label="Vetropack Account" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><NavigationProperty Name="Files" Relationship="ZVGT_HPPM_CORE_SRV.Files" FromRole="FromRole_Files" ToRole="ToRole_Files"/><NavigationProperty Name="Items" Relationship="ZVGT_HPPM_CORE_SRV.DeliveryItems" FromRole="FromRole_DeliveryItems"
 					ToRole="ToRole_DeliveryItems"/></EntityType>
 			<EntityType Name="DeliveryItem" sap:content-version="1">
 				<Key><PropertyRef Name="DeliveryKey"/><PropertyRef Name="ItemKey"/></Key><Property Name="DeliveryKey" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:creatable="false"
 					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="ItemKey" Type="Edm.String" Nullable="false" MaxLength="6" sap:unicode="false" sap:label="Position" sap:creatable="false"
-					sap:updatable="false" sap:sortable="false" sap:filterable="false"/></EntityType>
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="QualityResult" Type="Edm.Boolean" Nullable="false" sap:label="" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false" sap:filterable="false"/><Property Name="ActualQuantity" Type="Edm.Decimal" Nullable="false" Precision="13" Scale="3" sap:unit="Unit" sap:label="Actual delivery qty"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="PalletAmount" Type="Edm.Byte" Nullable="false" sap:label="Amount of Pallets" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false" sap:filterable="false"/><Property Name="QuantityResult" Type="Edm.Boolean" Nullable="false" sap:label="" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false" sap:filterable="false"/><Property Name="NoRepair" Type="Edm.Boolean" Nullable="false" sap:label="Keine Reparatur" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false" sap:filterable="false"/><Property Name="DoConfirm" Type="Edm.Boolean" Nullable="false" sap:label="" sap:creatable="false" sap:updatable="false" sap:sortable="false"
+					sap:filterable="false"/><Property Name="NoScrap" Type="Edm.Boolean" Nullable="false" sap:label="Kein Ausschuss" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false" sap:filterable="false"/><Property Name="ChangedBy" Type="Edm.String" Nullable="false" MaxLength="80" sap:label="" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false" sap:filterable="false"/><Property Name="ChangedOn" Type="Edm.DateTime" Precision="7" sap:label="Zul. geändert" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false" sap:filterable="false"/><Property Name="ClaimQuantity" Type="Edm.Decimal" Nullable="false" Precision="13" Scale="3" sap:unit="Unit" sap:label="HPPM claim qty"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="HasPallets" Type="Edm.Boolean" Nullable="false" sap:label="" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false" sap:filterable="false"/><Property Name="InspectionStatus" Type="Edm.String" Nullable="false" MaxLength="10" sap:label="HPPM inspection stat" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="InspectionStatusText" Type="Edm.String" Nullable="false" MaxLength="60" sap:label="" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="ItemText" Type="Edm.String" Nullable="false" MaxLength="40" sap:label="Positionsbezng." sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="MaterialDocumentFinalPosting" Type="Edm.String" Nullable="false" MaxLength="10" sap:label="Materialbeleg"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="MaterialDocumentPrePosting" Type="Edm.String" Nullable="false" MaxLength="10" sap:label="Materialbeleg"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="MaterialGroup" Type="Edm.String" Nullable="false" MaxLength="9" sap:label="Warengruppe" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="MaterialNumber" Type="Edm.String" Nullable="false" MaxLength="40" sap:label="Material" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="MaterialText" Type="Edm.String" Nullable="false" MaxLength="40" sap:label="Bezeichnung" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="NeedRepairQuantity" Type="Edm.Decimal" Nullable="false" Precision="13" Scale="3" sap:unit="Unit"
+					sap:label="HPPM Need repair qty" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="NeedScrapQuantity" Type="Edm.Decimal" Nullable="false" Precision="13" Scale="3" sap:unit="Unit"
+					sap:label="HPPM need scrap qty" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="OkQuantity" Type="Edm.Decimal" Nullable="false" Precision="13" Scale="3" sap:unit="Unit" sap:label="HPPM Free of defects"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="PcsToBeChecked" Type="Edm.Decimal" Nullable="false" Precision="13" Scale="3" sap:unit="Unit"
+					sap:label="HPPM PCs to be check" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="PostedBy" Type="Edm.String" Nullable="false" MaxLength="12" sap:label="HPPM Posted By" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="QtyPosted" Type="Edm.Decimal" Nullable="false" Precision="13" Scale="3" sap:unit="Unit" sap:label="HPPM Qty booked"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Quantity" Type="Edm.Decimal" Nullable="false" Precision="13" Scale="3" sap:unit="Unit" sap:label="Liefermenge"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="RepairQuantity" Type="Edm.Decimal" Nullable="false" Precision="13" Scale="3" sap:unit="Unit" sap:label="HPPM Repair qty"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="RepairQuantityAboveTolerance" Type="Edm.Decimal" Nullable="false" Precision="13" Scale="3" sap:unit="Unit"
+					sap:label="HPPM ClaimRepair qty" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="RepairTolerance" Type="Edm.Decimal" Nullable="false" Precision="3" Scale="1" sap:label="HPPM tolerance repai"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="ScrapQuantity" Type="Edm.Decimal" Nullable="false" Precision="13" Scale="3" sap:unit="Unit" sap:label="HPPM Claim Scrap qty"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="ScrapQuantityAboveTolerance" Type="Edm.Decimal" Nullable="false" Precision="13" Scale="3" sap:unit="Unit"
+					sap:label="HPPM scrap qty" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="ScrapTolerance" Type="Edm.Decimal" Nullable="false" Precision="3" Scale="1" sap:label="HPPM tolerance scrap"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="SpecialStock" Type="Edm.String" Nullable="false" MaxLength="1" sap:label="Sonderbestand" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="TotalClaimQuantity" Type="Edm.Decimal" Nullable="false" Precision="13" Scale="3" sap:unit="Unit"
+					sap:label="HPPM total claim qty" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Unit" Type="Edm.String" Nullable="false" MaxLength="3" sap:label="Basis-ME" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false" sap:filterable="false" sap:semantics="unit-of-measure"/><Property Name="WashedQuantity" Type="Edm.Decimal" Nullable="false" Precision="13" Scale="3" sap:unit="Unit"
+					sap:label="HPPM total washed qt" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/></EntityType>
 			<EntityType Name="File" sap:content-version="1">
 				<Key><PropertyRef Name="DocumentId"/></Key><Property Name="DocumentId" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:label="Dok-Id" sap:creatable="false"
 					sap:updatable="false" sap:sortable="false" sap:filterable="false"/></EntityType>
 			<EntityType Name="LoadingPlaceValueHelp" sap:content-version="1">
-				<Key><PropertyRef Name="Key"/></Key><Property Name="Key" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Debitor" sap:creatable="false"
-					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Description" Type="Edm.String" Nullable="false" MaxLength="35" sap:unicode="false" sap:label="Name" sap:creatable="false"
+				<Key><PropertyRef Name="Key"/></Key><Property Name="Key" Type="Edm.String" Nullable="false" MaxLength="10" sap:text="Description" sap:unicode="false" sap:label="Debitor"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Description" Type="Edm.String" Nullable="false" MaxLength="35" sap:unicode="false" sap:label="Name" sap:creatable="false"
 					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Country" Type="Edm.String" Nullable="false" MaxLength="3" sap:label="Land" sap:creatable="false" sap:updatable="false"
 					sap:sortable="false" sap:filterable="false"/><Property Name="City" Type="Edm.String" Nullable="false" MaxLength="35" sap:label="Ort" sap:creatable="false" sap:updatable="false"
 					sap:sortable="false" sap:filterable="false"/><Property Name="Street" Type="Edm.String" Nullable="false" MaxLength="35" sap:label="Straße" sap:creatable="false" sap:updatable="false"
 					sap:sortable="false" sap:filterable="false"/></EntityType>
 			<EntityType Name="UnloadingPlaceValueHelp" sap:content-version="1">
-				<Key><PropertyRef Name="Key"/></Key><Property Name="Key" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Debitor" sap:creatable="false"
-					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Description" Type="Edm.String" Nullable="false" MaxLength="35" sap:unicode="false" sap:label="Name" sap:creatable="false"
+				<Key><PropertyRef Name="Key"/></Key><Property Name="Key" Type="Edm.String" Nullable="false" MaxLength="10" sap:text="Description" sap:unicode="false" sap:label="Debitor"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Description" Type="Edm.String" Nullable="false" MaxLength="35" sap:unicode="false" sap:label="Name" sap:creatable="false"
 					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Country" Type="Edm.String" Nullable="false" MaxLength="3" sap:label="Land" sap:creatable="false" sap:updatable="false"
 					sap:sortable="false" sap:filterable="false"/><Property Name="City" Type="Edm.String" Nullable="false" MaxLength="35" sap:label="Ort" sap:creatable="false" sap:updatable="false"
 					sap:sortable="false" sap:filterable="false"/><Property Name="Street" Type="Edm.String" Nullable="false" MaxLength="35" sap:label="Straße" sap:creatable="false" sap:updatable="false"
 					sap:sortable="false" sap:filterable="false"/></EntityType>
 			<EntityType Name="MaterialGroupValueHelp" sap:content-version="1">
-				<Key><PropertyRef Name="Key"/></Key><Property Name="Key" Type="Edm.String" Nullable="false" MaxLength="9" sap:unicode="false" sap:label="Warengruppe" sap:creatable="false"
-					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Description" Type="Edm.String" Nullable="false" MaxLength="20" sap:unicode="false" sap:creatable="false"
+				<Key><PropertyRef Name="Key"/></Key><Property Name="Key" Type="Edm.String" Nullable="false" MaxLength="9" sap:text="Description" sap:unicode="false" sap:label="Warengruppe"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Description" Type="Edm.String" Nullable="false" MaxLength="20" sap:unicode="false" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/></EntityType>
+			<EntityType Name="InspectionStatusValueHelp" sap:content-version="1">
+				<Key><PropertyRef Name="Key"/></Key><Property Name="Key" Type="Edm.String" Nullable="false" MaxLength="10" sap:text="Text" sap:unicode="false" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Text" Type="Edm.String" Nullable="false" MaxLength="60" sap:unicode="false" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false" sap:filterable="false"/></EntityType>
+			<EntityType Name="ShipmentStatusValueHelp" sap:content-version="1">
+				<Key><PropertyRef Name="Key"/></Key><Property Name="Key" Type="Edm.String" Nullable="false" MaxLength="10" sap:text="Text" sap:unicode="false" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Text" Type="Edm.String" Nullable="false" MaxLength="60" sap:unicode="false" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false" sap:filterable="false"/></EntityType>
+			<EntityType Name="Pallet" sap:content-version="1">
+				<Key><PropertyRef Name="DeliveryKey"/><PropertyRef Name="ItemKey"/><PropertyRef Name="PalletNumber"/></Key><Property Name="DeliveryKey" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Lieferung"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="ItemKey" Type="Edm.String" Nullable="false" MaxLength="6" sap:unicode="false" sap:label="Position" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="PalletNumber" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="HPPM Pallet Number"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="CaseNumber" Type="Edm.String" Nullable="false" MaxLength="30" sap:label="HPPM Case Number" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="CalculatorKey" Type="Edm.String" Nullable="false" MaxLength="32" sap:label="Palettenrechner Key" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Original" Type="Edm.Boolean" Nullable="false" sap:label="Original Palette" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false" sap:filterable="false"/><Property Name="Quantity" Type="Edm.Decimal" Nullable="false" Precision="13" Scale="3" sap:label="HPPM Pallet qty" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Status" Type="Edm.String" Nullable="false" MaxLength="10" sap:label="HPPM Pallet status" sap:creatable="false"
 					sap:updatable="false" sap:sortable="false" sap:filterable="false"/></EntityType>
 			<Association Name="Files" sap:content-version="1"><End Type="ZVGT_HPPM_CORE_SRV.DeliveryHead" Multiplicity="*" Role="FromRole_Files"/><End Type="ZVGT_HPPM_CORE_SRV.File" Multiplicity="*" Role="ToRole_Files"/></Association>
 			<Association Name="DeliveryItems" sap:content-version="1"><End Type="ZVGT_HPPM_CORE_SRV.DeliveryHead" Multiplicity="*" Role="FromRole_DeliveryItems"/><End Type="ZVGT_HPPM_CORE_SRV.DeliveryItem" Multiplicity="*" Role="ToRole_DeliveryItems"/></Association>
-			<EntityContainer Name="ZVGT_HPPM_CORE_SRV_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx"><EntitySet Name="PlantValueHelpSet" EntityType="ZVGT_HPPM_CORE_SRV.PlantValueHelp" sap:creatable="false" sap:updatable="false"
+			<EntityContainer Name="ZVGT_HPPM_CORE_SRV_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx"><EntitySet Name="ConstantSet" EntityType="ZVGT_HPPM_CORE_SRV.Constant" sap:creatable="false" sap:updatable="false" sap:deletable="false"
+				sap:pageable="false" sap:addressable="false" sap:content-version="1"/><EntitySet Name="PalletCalculatorSet" EntityType="ZVGT_HPPM_CORE_SRV.PalletCalculator" sap:creatable="false" sap:updatable="false"
+				sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/><EntitySet Name="MaterialSet" EntityType="ZVGT_HPPM_CORE_SRV.Material" sap:creatable="false" sap:updatable="false" sap:deletable="false"
+				sap:pageable="false" sap:addressable="false" sap:content-version="1"/><EntitySet Name="CustomerValueHelpSet" EntityType="ZVGT_HPPM_CORE_SRV.CustomerValueHelp" sap:creatable="false" sap:updatable="false"
+				sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/><EntitySet Name="LoadCarrierTypeValueHelpSet" EntityType="ZVGT_HPPM_CORE_SRV.LoadCarrierTypeValueHelp" sap:creatable="false"
+				sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/><EntitySet Name="SpecialStockValueHelpSet" EntityType="ZVGT_HPPM_CORE_SRV.SpecialStockValueHelp" sap:creatable="false" sap:updatable="false"
 				sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/><EntitySet Name="DeliveryHeadSet" EntityType="ZVGT_HPPM_CORE_SRV.DeliveryHead" sap:creatable="false" sap:updatable="false"
 				sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/><EntitySet Name="DeliveryItemSet" EntityType="ZVGT_HPPM_CORE_SRV.DeliveryItem" sap:creatable="false" sap:updatable="false"
 				sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/><EntitySet Name="FileSet" EntityType="ZVGT_HPPM_CORE_SRV.File" sap:creatable="false" sap:updatable="false" sap:deletable="false"
 				sap:pageable="false" sap:addressable="false" sap:content-version="1"/><EntitySet Name="LoadingPlaceValueHelpSet" EntityType="ZVGT_HPPM_CORE_SRV.LoadingPlaceValueHelp" sap:creatable="false" sap:updatable="false"
 				sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/><EntitySet Name="UnloadingPlaceValueHelpSet" EntityType="ZVGT_HPPM_CORE_SRV.UnloadingPlaceValueHelp" sap:creatable="false"
 				sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/><EntitySet Name="MaterialGroupValueHelpSet" EntityType="ZVGT_HPPM_CORE_SRV.MaterialGroupValueHelp" sap:creatable="false"
-				sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+				sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/><EntitySet Name="InspectionStatusValueHelpSet" EntityType="ZVGT_HPPM_CORE_SRV.InspectionStatusValueHelp" sap:creatable="false"
+				sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/><EntitySet Name="ShipmentStatusValueHelpSet" EntityType="ZVGT_HPPM_CORE_SRV.ShipmentStatusValueHelp" sap:creatable="false"
+				sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/><EntitySet Name="PalletSet" EntityType="ZVGT_HPPM_CORE_SRV.Pallet" sap:creatable="false" sap:updatable="false" sap:deletable="false"
+				sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
 				<AssociationSet Name="DeliveryItems_AssocSet" Association="ZVGT_HPPM_CORE_SRV.DeliveryItems" sap:creatable="false" sap:updatable="false"
 					sap:deletable="false" sap:content-version="1"><End EntitySet="DeliveryHeadSet" Role="FromRole_DeliveryItems"/><End EntitySet="DeliveryItemSet" Role="ToRole_DeliveryItems"/></AssociationSet>
 				<AssociationSet Name="Files_AssocSet" Association="ZVGT_HPPM_CORE_SRV.Files" sap:creatable="false" sap:updatable="false"
 					sap:deletable="false" sap:content-version="1"><End EntitySet="DeliveryHeadSet" Role="FromRole_Files"/><End EntitySet="FileSet" Role="ToRole_Files"/></AssociationSet>
-			</EntityContainer><atom:link rel="self" href="https://vpavd800.vetropack.corporate.ads:8001/sap/opu/odata/sap/ZVGT_HPPM_DELIVERY_LIST_SRV/$metadata"
-				xmlns:atom="http://www.w3.org/2005/Atom"/><atom:link rel="latest-version" href="https://vpavd800.vetropack.corporate.ads:8001/sap/opu/odata/sap/ZVGT_HPPM_DELIVERY_LIST_SRV/$metadata"
+				<FunctionImport Name="CreateItemLabel" ReturnType="ZVGT_HPPM_CORE_SRV.DeliveryItem" EntitySet="DeliveryItemSet" m:HttpMethod="GET"
+					sap:action-for="ZVGT_HPPM_CORE_SRV.DeliveryItem"><Parameter Name="Quantity" Type="Edm.Decimal" Mode="In" Precision="3" Scale="3"/><Parameter Name="ItemKey" Type="Edm.String" Mode="In" MaxLength="6"/><Parameter Name="DeliveryKey" Type="Edm.String" Mode="In" MaxLength="10"/></FunctionImport>
+				<FunctionImport Name="PrintProtocol" ReturnType="ZVGT_HPPM_CORE_SRV.DeliveryHead" EntitySet="DeliveryHeadSet" m:HttpMethod="GET"
+					sap:action-for="ZVGT_HPPM_CORE_SRV.DeliveryHead"><Parameter Name="DeliveryKey" Type="Edm.String" Mode="In" MaxLength="10"/></FunctionImport>
+				<FunctionImport Name="CancelDelivery" ReturnType="ZVGT_HPPM_CORE_SRV.DeliveryHead" EntitySet="DeliveryHeadSet" m:HttpMethod="GET"
+					sap:action-for="ZVGT_HPPM_CORE_SRV.DeliveryHead"><Parameter Name="DeliveryKey" Type="Edm.String" Mode="In" MaxLength="10"/></FunctionImport>
+				<FunctionImport Name="SetPalletStatus" ReturnType="ZVGT_HPPM_CORE_SRV.Pallet" EntitySet="PalletSet" m:HttpMethod="GET"
+					sap:action-for="ZVGT_HPPM_CORE_SRV.Pallet"><Parameter Name="Status" Type="Edm.String" Mode="In" MaxLength="10"/><Parameter Name="PalletNumber" Type="Edm.String" Mode="In" MaxLength="3"/><Parameter Name="ItemKey" Type="Edm.String" Mode="In" MaxLength="6"/><Parameter Name="DeliveryKey" Type="Edm.String" Mode="In" MaxLength="10"/></FunctionImport>
+				<FunctionImport Name="PrePosting" ReturnType="ZVGT_HPPM_CORE_SRV.DeliveryItem" EntitySet="DeliveryItemSet" m:HttpMethod="GET"
+					sap:action-for="ZVGT_HPPM_CORE_SRV.DeliveryItem"><Parameter Name="ItemKey" Type="Edm.String" Mode="In" MaxLength="6"/><Parameter Name="DeliveryKey" Type="Edm.String" Mode="In" MaxLength="10"/></FunctionImport>
+				<FunctionImport Name="FinalPosting" ReturnType="ZVGT_HPPM_CORE_SRV.DeliveryItem" EntitySet="DeliveryItemSet" m:HttpMethod="GET"
+					sap:action-for="ZVGT_HPPM_CORE_SRV.DeliveryItem"><Parameter Name="ItemKey" Type="Edm.String" Mode="In" MaxLength="6"/><Parameter Name="DeliveryKey" Type="Edm.String" Mode="In" MaxLength="10"/></FunctionImport>
+			</EntityContainer><atom:link rel="self" href="https://vpavd800.vetropack.corporate.ads:8001/sap/opu/odata/sap/ZVGT_UI_HPPM_DELIVERY_LIST_SRV/$metadata"
+				xmlns:atom="http://www.w3.org/2005/Atom"/><atom:link rel="latest-version"
+				href="https://vpavd800.vetropack.corporate.ads:8001/sap/opu/odata/sap/ZVGT_UI_HPPM_DELIVERY_LIST_SRV/$metadata"
 				xmlns:atom="http://www.w3.org/2005/Atom"/></Schema>
 	</edmx:DataServices>
 </edmx:Edmx>
