@@ -79,10 +79,18 @@ sap.ui.define([
 
 		doFinalPosting: function (oData) {
 			return new Promise(function (resolve, reject) {
+				if (oData.ManualPosting && (!oData.MaterialDocument || oData.MaterialDocument === "")) {
+					this.showTranslatedErrorMessage("message.materialDocumentMissing");
+					reject();
+					return;
+				}
+
 				this.getView().getModel().callFunction("/FinalPosting", {
 					urlParameters: {
 						DeliveryKey: oData.DeliveryKey,
-						ItemKey: oData.ItemKey
+						ItemKey: oData.ItemKey,
+						MaterialDocument: oData.MaterialDocument || "",
+						ManualPosting: oData.ManualPosting || false
 					},
 					groupId: "FinalPosting",
 					success: resolve,

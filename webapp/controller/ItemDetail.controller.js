@@ -47,12 +47,12 @@ sap.ui.define([
 		},
 
 		onSapPostingPress: function () {
+			this.getView().getModel("ViewSettings").setProperty("/ManualPosting", false);
+			this.getView().getModel("ViewSettings").setProperty("/MaterialDocument", undefined);
 			this.getFragment("PostItemDialog", this).open();
 		},
 
 		onPostItemDialogSavePress: function (oEvent) {
-			var oDialog = this.getFragment("PostItemDialog", this);
-			oDialog.close();
 			this._handleFinalPosting();
 		},
 
@@ -249,7 +249,8 @@ sap.ui.define([
 		_setModels: function () {
 			this.getView().setModel(new sap.ui.model.json.JSONModel({
 				LayersCalculatorMode: "PIECES",
-				ItemPrinted: false
+				ItemPrinted: false,
+				ManualPosting: false
 			}), "ViewSettings");
 			this.getView().setModel(new sap.ui.model.json.JSONModel(), "Header");
 		},
@@ -401,7 +402,9 @@ sap.ui.define([
 			this._saveItem().then(function () {
 				this.doFinalPosting({
 					DeliveryKey: this.getDeliveryProperty("DeliveryKey"),
-					ItemKey: this.getDeliveryProperty("ItemKey")
+					ItemKey: this.getDeliveryProperty("ItemKey"),
+					MaterialDocument: this.getView().getModel("ViewSettings").getProperty("/MaterialDocument") || "",
+					ManualPosting: this.getView().getModel("ViewSettings").getProperty("/ManualPosting") || false
 				}).then(this._showItemPosted.bind(this));
 			}.bind(this));
 		},
@@ -416,6 +419,8 @@ sap.ui.define([
 		},
 
 		_showItemPosted: function () {
+			var oDialog = this.getFragment("PostItemDialog", this);
+			oDialog.close();
 			this.showTranslatedMessageToast("message.itemPosted", [this.getDeliveryProperty("ItemKey")]);
 		},
 

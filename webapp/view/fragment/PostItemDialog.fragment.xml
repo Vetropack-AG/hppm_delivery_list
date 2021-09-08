@@ -5,11 +5,17 @@
 			<ObjectStatus title="{i18n>details.unloadAt}" text="{Header>/ShipToPartyText}"/>
 		</layout:VerticalLayout>
 		<layout:VerticalLayout class="sapUiMediumMarginBegin sapUiSmallMarginTop">
-			<ObjectStatus title="{i18n>details.sapNo}" text="{ItemKey}"/>
+			<ObjectStatus title="{i18n>details.sapNo}" text="{MaterialNumber}"/>
 			<ObjectStatus title="{i18n>details.sapName}" text="{ItemText}"/>
 		</layout:VerticalLayout>
-		<StepInput class="sapUiMediumMarginBegin sapUiSmallMarginTop sapUiSmallMarginBottom"
-			value="{ path:'QtyPosted', type:'sap.ui.model.odata.type.Decimal' }" width="80%" min="1"/>
+		<VBox>
+			<StepInput class="sapUiMediumMarginBegin sapUiSmallMarginTop sapUiSmallMarginBottom"
+				value="{ path:'QtyPosted', type:'sap.ui.model.odata.type.Decimal' }" width="80%" min="1"/>
+			<HBox class="sapUiMediumMarginBegin sapUiTinyMarginBottom">
+				<CheckBox text="{i18n>postItemDialog.manualPosting}" class="sapUiTinyMarginEnd" selected="{ViewSettings>/ManualPosting}"/>
+				<Input placeholder="{i18n>postItemDialog.materialDocument}" value="{ViewSettings>/MaterialDocument}" visible="{ViewSettings>/ManualPosting}" />
+			</HBox>
+		</VBox>
 		<buttons>
 			<Button text="{i18n>details.sapPosting}" type="Emphasized" press="onPostItemDialogSavePress"/>
 			<Button text="{i18n>general.cancel}" press="onPostItemCancelSavePress"/>
