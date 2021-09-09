@@ -49,6 +49,7 @@ sap.ui.define([
 		onSapPostingPress: function () {
 			this.getView().getModel("ViewSettings").setProperty("/ManualPosting", false);
 			this.getView().getModel("ViewSettings").setProperty("/MaterialDocument", undefined);
+			this.getView().getModel("ViewSettings").setProperty("/MaxReturn", "31");
 			this.getFragment("PostItemDialog", this).open();
 		},
 
@@ -404,7 +405,8 @@ sap.ui.define([
 					DeliveryKey: this.getDeliveryProperty("DeliveryKey"),
 					ItemKey: this.getDeliveryProperty("ItemKey"),
 					MaterialDocument: this.getView().getModel("ViewSettings").getProperty("/MaterialDocument") || "",
-					ManualPosting: this.getView().getModel("ViewSettings").getProperty("/ManualPosting") || false
+					ManualPosting: this.getView().getModel("ViewSettings").getProperty("/ManualPosting") || false,
+					MaxReturn: this.getView().getModel("ViewSettings").getProperty("/MaxReturn")
 				}).then(this._showItemPosted.bind(this));
 			}.bind(this));
 		},

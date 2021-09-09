@@ -90,7 +90,8 @@ sap.ui.define([
 						DeliveryKey: oData.DeliveryKey,
 						ItemKey: oData.ItemKey,
 						MaterialDocument: oData.MaterialDocument || "",
-						ManualPosting: oData.ManualPosting || false
+						ManualPosting: oData.ManualPosting || false,
+						MaxReturn: oData.MaxReturn.toString() || "" 
 					},
 					groupId: "FinalPosting",
 					success: resolve,

@@ -103,7 +103,8 @@ sap.ui.define([
 		_handleFinalPosting: function (oData) {
 			this.doFinalPosting({
 				DeliveryKey: oData.DeliveryKey,
-				ItemKey: oData.ItemKey
+				ItemKey: oData.ItemKey,
+				MaxReturn: oData.MaxReturn
 			}).then(this._showItemsPosted.bind(this));
 		},
 
@@ -370,9 +371,10 @@ sap.ui.define([
 
 		_mapListItemToGoodsMovementItemData: function (oListItem) {
 			return {
-				Quantity: oListItem.getContent()[0].getValue().toString(),
+				Quantity: oListItem.getContent()[0].getItems()[0].getValue().toString(),
 				ItemKey: oListItem.getCustomData()[0].getValue(),
-				DeliveryKey: this.getDeliveryProperty("DeliveryKey")
+				DeliveryKey: this.getDeliveryProperty("DeliveryKey"),
+				MaxReturn: oListItem.getContent()[0].getItems()[1].getValue().toString()
 			};
 		},
 
@@ -392,10 +394,22 @@ sap.ui.define([
 		_createPostItemsDialogTemplate: function () {
 			return new sap.m.InputListItem({
 				label: "{ItemKey} - {ItemText} / {MaterialNumber} - {MaterialText}",
-				content: new sap.m.StepInput({
-					min: 1,
-					width: "8rem",
-					value: "{ path:'QtyPosted', type:'sap.ui.model.odata.type.Decimal' }"
+				content: new sap.m.HBox({
+					renderType: "Bare",
+					alignItems: "Center",
+					justifyContent: "End",
+					items: [
+						new sap.m.StepInput({
+							min: 1,
+							width: "8rem",
+							value: "{ path:'QtyPosted', type:'sap.ui.model.odata.type.Decimal' }"
+						}),
+						new sap.m.StepInput({
+							min: 1,
+							width: "8rem",
+							value: 31
+						})
+					]
 				}),
 				customData: new sap.ui.core.CustomData({
 					key: "ItemKey",
