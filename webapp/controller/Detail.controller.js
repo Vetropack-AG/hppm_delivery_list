@@ -73,12 +73,16 @@ sap.ui.define([
 
 		onDetailItemPress: function (oEvent) {
 			var oItem = oEvent.getParameter("listItem");
+			var oContext = oItem.getBindingContext();
+			if (oItem.getHighlight() === "Error") {
+				this._navToDetail(oContext.getProperty("DeliveryKey"), oContext.getProperty("ItemKey"));
+				return;
+			}
 			this._getDeliveryType().then(function (sDeliveryType) {
 				if (sDeliveryType === hppm.DELIVERY_TYPE.EXTERNAL) {
-					var oContext = oItem.getBindingContext();
 					this._navToDetail(oContext.getProperty("DeliveryKey"), oContext.getProperty("ItemKey"));
 				} else if (sDeliveryType === hppm.DELIVERY_TYPE.INTERNAL) {
-					this._handleInternalDeliveryNavigation();
+					this._handleInternalDeliveryNavigation(oContext.getProperty("DeliveryKey"), oContext.getProperty("ItemKey"));
 				}
 			}.bind(this));
 		},
@@ -281,12 +285,12 @@ sap.ui.define([
 			this.getView().getModel("ViewSettings").setProperty("/LastScannedPallets", aLastScanned);
 		},
 
-		_handleInternalDeliveryNavigation: function () {
+		_handleInternalDeliveryNavigation: function (sDeliveryKey, sItemKey) {
 			var sStatus = this.getView().getBindingContext().getProperty("InspectionStatus");
 			if (sStatus === hppm.INSPECTION_STATUS.OPEN) {
-				this._navToLoadPalletsApp();
+				this._navToLoadPalletsApp(sDeliveryKey, sItemKey);
 			} else if (sStatus === hppm.INSPECTION_STATUS.LOADED) {
-				this._navToUnloadPalletsApp();
+				this._navToUnloadPalletsApp(sDeliveryKey, sItemKey);
 			}
 		},
 
@@ -321,17 +325,23 @@ sap.ui.define([
 			}.bind(this));
 		},
 
-		_navToLoadPalletsApp: function () {
+		_navToLoadPalletsApp: function (sDeliveryKey, sItemKey) {
 			var oCrossAppNav = sap.ushell.Container.getService("CrossApplicationNavigation");
-			if (oCrossAppNav && this._getSelectedDeliveryItem()) {
+			if (!sDeliveryKey) {
+				sDeliveryKey = this._getSelectedDeliveryItem().DeliveryKey; // eslint-disable-line
+			}
+			if (!sItemKey) {
+				sItemKey = this._getSelectedDeliveryItem().ItemKey; // eslint-disable-line
+			}
+			if (oCrossAppNav && sDeliveryKey && sItemKey) {
 				oCrossAppNav.toExternal({ // eslint-disable-line
 					target: {
 						semanticObject: "Pallet",
 						action: "load"
 					},
 					params: {
-						DeliveryKey: this._getSelectedDeliveryItem().DeliveryKey,
-						ItemKey: this._getSelectedDeliveryItem().ItemKey
+						DeliveryKey: sDeliveryKey,
+						ItemKey: sItemKey
 					}
 				});
 			}
