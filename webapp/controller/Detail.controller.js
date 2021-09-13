@@ -491,12 +491,14 @@ sap.ui.define([
 									new sap.m.ObjectStatus({
 										text: "{i18n>details.quantityResult}",
 										icon: "{= ${QuantityResult} === true ? 'sap-icon://sys-enter-2' : 'sap-icon://message-error' }",
-										state: "{= ${QuantityResult} === true ? 'Success' : 'Error' }"
+										state: "{= ${QuantityResult} === true ? 'Success' : 'Error' }",
+										visible: "{= ${InspectionStatus} === 'QUANTITY' || ${InspectionStatus} === 'QUALITY' || ${InspectionStatus} === 'POSTED' }"
 									}),
 									new sap.m.ObjectStatus({
 										text: "{i18n>details.qualityResult}",
 										icon: "{= ${QualityResult} === true ? 'sap-icon://sys-enter-2' : 'sap-icon://message-error' }",
-										state: "{= ${QualityResult} === true ? 'Success' : 'Error' }"
+										state: "{= ${QualityResult} === true ? 'Success' : 'Error' }",
+										visible: "{= ${InspectionStatus} === 'QUALITY' || ${InspectionStatus} === 'POSTED' }"
 									})
 								]
 							}).addStyleClass("sapUiSmallMarginBegin sapUiSmallMarginEnd")
