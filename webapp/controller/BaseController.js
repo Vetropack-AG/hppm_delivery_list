@@ -57,6 +57,21 @@ sap.ui.define([
 		/* public methods                                              */
 		/* =========================================================== */
 
+		getMaxReturnDelivery: function (sCustomer) {
+			var oModel = this.getView().getModel();
+			var sKey = oModel.createKey("/CustomerValueHelpSet", {
+				Key: sCustomer
+			});
+			return new Promise(function (resolve, reject) {
+				oModel.read(sKey, {
+					success: function (oData) {
+						resolve(oData.MaxReturn);
+					},
+					error: reject
+				});
+			});
+		},
+
 		isSubmitError: function (oData) {
 			return !(oData.__batchResponses && oData.__batchResponses[0].__changeResponses);
 		},
@@ -91,7 +106,7 @@ sap.ui.define([
 						ItemKey: oData.ItemKey,
 						MaterialDocument: oData.MaterialDocument || "",
 						ManualPosting: oData.ManualPosting || false,
-						MaxReturn: oData.MaxReturn.toString() || "" 
+						MaxReturn: oData.MaxReturn.toString() || ""
 					},
 					groupId: "FinalPosting",
 					success: resolve,

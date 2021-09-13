@@ -49,7 +49,6 @@ sap.ui.define([
 		onSapPostingPress: function () {
 			this.getView().getModel("ViewSettings").setProperty("/ManualPosting", false);
 			this.getView().getModel("ViewSettings").setProperty("/MaterialDocument", undefined);
-			this.getView().getModel("ViewSettings").setProperty("/MaxReturn", "31");
 			this.getFragment("PostItemDialog", this).open();
 		},
 
@@ -216,6 +215,16 @@ sap.ui.define([
 		/* =========================================================== */
 		/* private methods                                             */
 		/* =========================================================== */
+
+		_preSelectMaxReturn: function () {
+			var sCustomer = this.getView().getModel("Header").getProperty("/SoldToParty");
+			this.getMaxReturnDelivery(sCustomer)
+				.then(this._setMaxReturnDelivery.bind(this));
+		},
+
+		_setMaxReturnDelivery: function (iValue) {
+			this.getView().getModel("ViewSettings").setProperty("/MaxReturn", iValue.toString() || "");
+		},
 
 		_triggerQuantityCalculation: function (value) {
 			this.getView().byId("ActualQuantityInput").fireChange({
@@ -445,6 +454,7 @@ sap.ui.define([
 		_bindHeaderData: function (oData) {
 			this.getView().getModel("Header").setProperty("/", oData);
 			this._setFooterButtonVisibilities(oData);
+			this._preSelectMaxReturn();
 		},
 
 		_setFooterButtonVisibilities: function (oData) {

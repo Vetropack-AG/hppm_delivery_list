@@ -164,6 +164,19 @@ sap.ui.define([
 		/* private methods                                             */
 		/* =========================================================== */
 
+		_preSelectMaxReturn: function () {
+			setTimeout(function () { // eslint-disable-line
+				var sCustomer = this.getDeliveryProperty("SoldToParty");
+				this.getMaxReturnDelivery(sCustomer)
+					.then(this._setMaxReturnDelivery.bind(this));
+			}.bind(this), 2500);
+
+		},
+
+		_setMaxReturnDelivery: function (iValue) {
+			this._iMaxReturn = iValue;
+		},
+
 		_deleteItem: function () {
 			return new Promise(function (resolve, reject) {
 				var oModel = this.getView().getModel();
@@ -417,7 +430,7 @@ sap.ui.define([
 						new sap.m.StepInput({
 							min: 1,
 							width: "8rem",
-							value: 31
+							value: this._iMaxReturn || 31
 						})
 					]
 				}),
@@ -449,6 +462,7 @@ sap.ui.define([
 			this._bindItemList(sDeliveryKey);
 			this._checkAllItemsHavePallets(sDeliveryKey)
 				.then(this._setSapPostingEnabled.bind(this));
+			this._preSelectMaxReturn();
 		},
 
 		_bindItemList: function (sDeliveryKey) {
