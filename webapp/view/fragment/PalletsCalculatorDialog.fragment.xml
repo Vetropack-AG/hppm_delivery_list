@@ -1,5 +1,5 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
-	<Dialog title="{i18n>palletsCalculatorDialog.title}" contentWidth="{= ${device>/system/desktop} ? 'auto' : '95%' }">
+	<Dialog title="{i18n>palletsCalculatorDialog.title}" contentWidth="{= ${device>/system/desktop} ? '50%' : '95%' }">
 		<Table items="{/PalletCalculatorSet}" mode="Delete" delete="onPalletItemDelete">
 			<headerToolbar>
 				<Toolbar>

@@ -17,7 +17,6 @@ sap.ui.define([
 		onInit: function () {
 			this._setModels();
 			this.getOwnerComponent().getRouter().getRoute("ItemDetail").attachPatternMatched(this.onRoutePatternMatched, this);
-			this._fetchLayerConstant();
 		},
 
 		/* =========================================================== */
@@ -83,7 +82,8 @@ sap.ui.define([
 
 		onOpenPalletsCalculatorPress: function () {
 			var sMaterialGroup = this.getView().byId("material").getSelectedItem().getBindingContext().getProperty("MaterialGroup");
-			this._openCalculator(sMaterialGroup);
+			var sMaterial = this.getView().byId("material").getSelectedItem().getBindingContext().getProperty("Key");
+			this._openCalculator(sMaterialGroup, sMaterial);
 		},
 
 		onLayersCalculatorOkPress: function (oEvent) {
@@ -115,7 +115,7 @@ sap.ui.define([
 			var oTable = oDialog.getContent()[0];
 			var aItems = oTable.getItems();
 			aItems.forEach(function (oItem) {
-				var oCell = oItem.getCells()[5];
+				var oCell = oItem.getCells()[4];
 				var sValue = oCell.getText();
 				var iValue = parseInt(sValue, 10);
 				if (!isNaN(iValue)) {
@@ -123,6 +123,10 @@ sap.ui.define([
 				}
 			}, this);
 			this.getView().getModel("ViewSettings").setProperty("/LayerResult", iSum);
+		},
+
+		onLayersCalculatorModeChange: function () {
+
 		},
 
 		onPalletResultChange: function () {
@@ -265,12 +269,28 @@ sap.ui.define([
 			this.getView().setModel(new sap.ui.model.json.JSONModel(), "Header");
 		},
 
-		_fetchLayerConstant: function () {
-			this.getOwnerComponent().getModel().read("/ConstantSet('LAYER_HEIGHT')", {
-				success: function (oData) {
-					this.getView().getModel("ViewSettings").setProperty("/LayerConstant", oData.Value);
-				}.bind(this)
+		_prefillMaterialHeight: function (sMaterial) {
+			this._getMaterialHeight(sMaterial)
+				.then(this._setMaterialHeight.bind(this));
+		},
+
+		_getMaterialHeight: function (sMaterial) {
+			var oModel = this.getOwnerComponent().getModel();
+			var sPath = oModel.createKey("/MaterialSet", {
+				MaterialNumber: sMaterial
 			});
+			return new Promise(function (resolve, reject) {
+				oModel.read(sPath, {
+					success: function (oData) {
+						resolve(oData.Height);
+					},
+					error: reject
+				});
+			});
+		},
+
+		_setMaterialHeight: function (sValue) {
+			this.getView().getModel("ViewSettings").setProperty("/LayerHeight", sValue);
 		},
 
 		_deletePalletsAfterItemDelete: function (sCalcKey) {
@@ -320,9 +340,12 @@ sap.ui.define([
 			});
 		},
 
-		_openCalculator: function (sMaterialGroup) {
+		_openCalculator: function (sMaterialGroup, sMaterial) {
 			var sId = this._determineCalculatorFragment(sMaterialGroup);
 			if (sId) {
+				if (sMaterialGroup === hppm.MATERIAL_GROUP.LAYER) {
+					this._prefillMaterialHeight(sMaterial);
+				}
 				var oDialog = this.getFragment(sId, this);
 				var oCalculator = oDialog.getContent()[0];
 				var aFilters = [

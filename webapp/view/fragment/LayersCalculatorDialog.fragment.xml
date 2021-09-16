@@ -1,18 +1,19 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
-	<Dialog title="{i18n>layersCalculatorDialog.title}" contentWidth="{= ${device>/system/desktop} ? 'auto' : '95%' }">
+	<Dialog title="{i18n>layersCalculatorDialog.title}" contentWidth="{= ${device>/system/desktop} ? '30%' : '95%' }">
 		<Table items="{/PalletCalculatorSet}" mode="Delete" delete="onLayerItemDelete">
 			<headerToolbar>
 				<Toolbar>
+					<Input value="{ViewSettings>/LayerHeight}" />
 					<ToolbarSpacer/>
 					<Button icon="sap-icon://add" press="onAddLayerPress"/>
 				</Toolbar>
 			</headerToolbar>
 			<columns>
 				<Column >
-					<Text text="{i18n>layersCalculatorDialog.height}"/>
-				</Column>
-				<Column >
-					<Text text="{i18n>layersCalculatorDialog.pieces}"/>
+					<Select selectedKey="{ViewSettings>/LayersCalculatorMode}" width="100%" change="onLayersCalculatorModeChange">
+						<core:Item key="HEIGHT" text="{i18n>layersCalculatorDialog.height}"/>
+						<core:Item key="PIECES" text="{i18n>layersCalculatorDialog.pieces}"/>
+					</Select>
 				</Column>
 				<Column width="1rem"/>
 				<Column >
@@ -28,8 +29,10 @@
 			</columns>
 			<items>
 				<ColumnListItem>
-					<Input value="{ path:'Height', type:'sap.ui.model.odata.type.Int16' }"/>
-					<StepInput value="{ path:'Pieces', type:'sap.ui.model.odata.type.Int16' }"/>
+					<VBox>
+						<StepInput value="{ path:'Height', type:'sap.ui.model.odata.type.Int16' }" visible="{= ${ViewSettings>/LayersCalculatorMode} === 'HEIGHT' }"/>
+						<StepInput value="{ path:'Pieces', type:'sap.ui.model.odata.type.Int16' }" visible="{= ${ViewSettings>/LayersCalculatorMode} === 'PIECES' }"/>
+					</VBox>
 					<Text text="x"/>
 					<StepInput value="{ path:'PalletCount', type:'sap.ui.model.odata.type.Int16' }"/>
 					<Text text="="/>
