@@ -38,7 +38,7 @@
 				id="SmartTable"
 				entitySet="DeliveryHeadSet" 
 				requestAtLeastFields="ShipToPartyText,SoldToPartyText,ShipToPartyPostalCode,ShipToPartyCity,ShipToPartyStreet,ShipToPartyCountry,SoldToPartyPostalCode,SoldToPartyCity,SoldToPartyStreet,SoldToPartyCountry,ShipmentStatus,InspectionStatus"
-				ignoreFromPersonalisation="ShipToPartyCity,ShipToPartyPostalCode,ShipToPartyStreet,SoldToPartyCity,SoldToPartyPostalCode,SoldToPartyStreet,Comment,ExistingComment,ShipToPartyCountry,SoldToPartyCountry,Material,MaterialGroup,Progress,Plant,TruckNumber,VetropackAccount,InspectionStatus"
+				ignoreFromPersonalisation="Protocol,ShipToPartyCity,ShipToPartyPostalCode,ShipToPartyStreet,SoldToPartyCity,SoldToPartyPostalCode,SoldToPartyStreet,Comment,ExistingComment,ShipToPartyCountry,SoldToPartyCountry,Material,MaterialGroup,Progress,Plant,TruckNumber,VetropackAccount,InspectionStatus"
 				smartFilterId="smartFilterBar" 
 				tableType="ResponsiveTable" 
 				useExportToExcel="true" 

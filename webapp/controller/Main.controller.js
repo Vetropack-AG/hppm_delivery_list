@@ -1,8 +1,9 @@
 sap.ui.define([
 	"zvgt/hppm/delivery_list/controller/BaseController",
 	"zvgt/hppm/delivery_list/model/formatter",
-	"zvgt/hppm/library"
-], function (BaseController, formatter, hppm) {
+	"zvgt/hppm/library",
+	"sap/m/PDFViewer"
+], function (BaseController, formatter, hppm, PDFViewer) {
 	"use strict";
 
 	return BaseController.extend("zvgt.hppm.delivery_list.controller.Main", {
@@ -13,7 +14,9 @@ sap.ui.define([
 		/* =========================================================== */
 
 		onInit: function () {
-
+			jQuery.sap.addUrlWhitelist("blob");
+			this._oPdfViewer = new PDFViewer();
+			this.getView().addDependent(this._oPdfViewer);
 		},
 
 		/* =========================================================== */
@@ -23,7 +26,8 @@ sap.ui.define([
 		onPrintProtocolPress: function () {
 			var sDeliveryKey = this._getSelectedDeliveryKey();
 			this.printProtocol(sDeliveryKey)
-				.then(function () {
+				.then(function (oData) {
+					this._openProtocol(oData.Protocol);
 					this.showTranslatedMessageToast("message.protocolPrinted", [sDeliveryKey]);
 				}.bind(this));
 		},
@@ -65,6 +69,24 @@ sap.ui.define([
 		/* =========================================================== */
 		/* private methods                                             */
 		/* =========================================================== */
+
+		_openProtocol: function (sBase64Data) {
+			var sSource = this._convertPdf(sBase64Data);
+			this._oPdfViewer.setSource(sSource);
+			this._oPdfViewer.open();
+		},
+
+		_convertPdf: function (sBase64) {
+			var decodedPdfContent = atob(sBase64);
+			var byteArray = new Uint8Array(decodedPdfContent.length); // eslint-disable-line
+			for (var i = 0; i < decodedPdfContent.length; i++) {
+				byteArray[i] = decodedPdfContent.charCodeAt(i);
+			}
+			var blob = new Blob([byteArray.buffer], {
+				type: "application/pdf"
+			});
+			return URL.createObjectURL(blob);
+		},
 
 		_getSelectedDeliveryKey: function () {
 			var oData = this._getSelectedDelivery();
