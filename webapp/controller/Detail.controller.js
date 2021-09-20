@@ -47,7 +47,9 @@ sap.ui.define([
 		},
 
 		onDeleteItemPress: function () {
-			this._deleteItem();
+			this._deleteItem().then(function () {
+				this.getView().getModel().refresh(true);
+			}.bind(this));
 		},
 
 		onAddItemDialogSavePress: function (oEvent) {

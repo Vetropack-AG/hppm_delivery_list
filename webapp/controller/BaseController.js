@@ -171,11 +171,18 @@ sap.ui.define([
 		},
 
 		getDeliveryProperty: function (sProperty) {
-			return this.getView().getBindingContext().getProperty(sProperty);
+			var oContext = this.getView().getBindingContext();
+			if (!oContext) {
+				return undefined;
+			}
+			return oContext.getProperty(sProperty);
 		},
 
 		setDeliveryProperty: function (sProperty, value) {
 			var oContext = this.getView().getBindingContext();
+			if (!oContext) {
+				return false;
+			}
 			return oContext.getModel().setProperty(oContext.getPath() + "/" + sProperty, value);
 		},
 
