@@ -173,7 +173,11 @@
 									<Text text="{SoldToPartyCountry}-{SoldToPartyPostalCode}"/>
 									<Text text="{SoldToPartyCity}"/>
 								</VBox>
-								<Text text="{= ${Claim} ? ${i18n>general.yes} : ${i18n>general.no} }" />
+					
+								<ObjectStatus
+									text="{= ${Claim} ? ${i18n>general.yes} : ${i18n>general.no} }"
+									state="{= ${Claim} ? 'Error' : 'Success' }"
+									icon="{= ${Claim} ? 'sap-icon://error' : 'sap-icon://sys-enter' }" />
 							</cells>
 							</ColumnListItem>
 					</items>
