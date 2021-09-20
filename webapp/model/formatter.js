@@ -32,6 +32,8 @@ sap.ui.define([
 				return "Information";
 			case hppm.INSPECTION_STATUS.POSTED:
 				return "Success";
+			case hppm.INSPECTION_STATUS.COMPLETED:
+				return "Success";
 			default:
 				return "Error";
 			}
@@ -50,6 +52,8 @@ sap.ui.define([
 			case hppm.INSPECTION_STATUS.QUANTITY:
 				return "sap-icon://activities";
 			case hppm.INSPECTION_STATUS.POSTED:
+				return "sap-icon://accept";
+			case hppm.INSPECTION_STATUS.COMPLETED:
 				return "sap-icon://accept";
 			default:
 				return "sap-icon://away";
@@ -115,6 +119,8 @@ sap.ui.define([
 			case hppm.INSPECTION_STATUS.QUANTITY:
 				return "Warning";
 			case hppm.INSPECTION_STATUS.POSTED:
+				return "Success";
+			case hppm.INSPECTION_STATUS.COMPLETED:
 				return "Success";
 			default:
 				return "Warning";
