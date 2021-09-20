@@ -39,11 +39,13 @@
 		<ObjectStatus 
 			text="{i18n>details.quantityResult}" 
 			state="{= ${QuantityResult} === true ? 'Success' : 'Error' }" 
-			icon="{= ${QuantityResult} === true ? 'sap-icon://sys-enter-2' : 'sap-icon://message-error' }"/>
+			icon="{= ${QuantityResult} === true ? 'sap-icon://sys-enter-2' : 'sap-icon://message-error' }"
+			visible="{= ${InspectionStatus} === 'QUANTITY' || ${InspectionStatus} === 'QUALITY' || ${InspectionStatus} === 'POSTED' }"/>
 	<ObjectStatus 
 			text="{i18n>details.qualityResult}" 
 			state="{= ${QualityResult} === true ? 'Success' : 'Error' }" 
-			icon="{= ${QualityResult} === true ? 'sap-icon://sys-enter-2' : 'sap-icon://message-error' }"/>
+			icon="{= ${QualityResult} === true ? 'sap-icon://sys-enter-2' : 'sap-icon://message-error' }"
+			visible="{= ${InspectionStatus} === 'QUALITY' || ${InspectionStatus} === 'POSTED' }"/>
 	</layout:VerticalLayout>
 	
 </core:FragmentDefinition>
