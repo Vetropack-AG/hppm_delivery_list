@@ -1,6 +1,42 @@
-<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
-	<Dialog draggable="true" title="{i18n>postItemsDialog.title}" contentWidth="60%">
-		<List />
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form">
+	<Dialog draggable="true" title="{i18n>postItemsDialog.title}" contentWidth="45%" >
+		<f:Form editable="false">
+			<f:layout>
+				<f:ResponsiveGridLayout labelSpanXL="3" labelSpanL="3" labelSpanM="3" labelSpanS="5" singleContainerFullSize="true"/>
+			</f:layout>
+			<f:formContainers>
+				<f:FormContainer>
+					<f:formElements>
+						<f:FormElement label="{i18n>details.loadAt}">
+							<f:fields>
+								<Text text="{SoldToPartyText} ({SoldToParty})"/>
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement label="{i18n>details.unloadAt}">
+							<f:fields>
+								<Text text="{ShipToPartyText} ({ShipToParty})"/>
+							</f:fields>
+						</f:FormElement>
+					</f:formElements>
+				</f:FormContainer>
+			</f:formContainers>
+		</f:Form>
+		<Table>
+			<columns>
+				<Column width="15%">
+					<Text text="{i18n>details.sapNo}"/>
+				</Column>
+				<Column width="auto" demandPopin="true" minScreenWidth="Desktop" popinDisplay="Inline">
+					<Text text="{i18n>details.sapName}"/>
+				</Column>
+				<Column width="20%" demandPopin="true" minScreenWidth="Desktop" popinDisplay="Inline">
+					<Text text="{i18n>postItemDialog.postingQuantity}"/>
+				</Column>
+				<Column width="20%" demandPopin="true" minScreenWidth="Desktop" popinDisplay="Inline">
+					<Text text="{i18n>postItemDialog.maxReturnDelivery}"/>
+				</Column>
+			</columns>
+		</Table>
 		<buttons>
 			<Button text="{i18n>details.sapPosting}" type="Emphasized" press="onPostItemsDialogSavePress"/>
 			<Button text="{i18n>general.cancel}" press="onPostItemsCancelSavePress"/>

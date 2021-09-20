@@ -9,12 +9,12 @@
 					<f:formElements>
 						<f:FormElement label="{i18n>details.loadAt}">
 							<f:fields>
-								<Text text="{Header>/SoldToPartyText}"/>
+								<Text text="{Header>/SoldToPartyText} ({Header>/SoldToParty})"/>
 							</f:fields>
 						</f:FormElement>
 						<f:FormElement label="{i18n>details.unloadAt}">
 							<f:fields>
-								<Text text="{Header>/ShipToPartyText}"/>
+								<Text text="{Header>/ShipToPartyText} ({Header>/ShipToParty})"/>
 							</f:fields>
 						</f:FormElement>
 						<f:FormElement label="{i18n>details.sapNo}">

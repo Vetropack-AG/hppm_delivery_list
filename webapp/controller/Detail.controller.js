@@ -95,7 +95,7 @@ sap.ui.define([
 		onPostItemsDialogSavePress: function (oEvent) {
 			var oDialog = this.getFragment("PostItemsDialog", this);
 			oDialog.close();
-			var oList = oDialog.getContent()[0];
+			var oList = this._getPostItemsList();
 
 			this._saveItems().then(function () {
 				oList.getItems()
@@ -132,6 +132,10 @@ sap.ui.define([
 		/* =========================================================== */
 		/* private methods                                             */
 		/* =========================================================== */
+
+		_getPostItemsList: function () {
+			return this.getFragment("PostItemsDialog", this).getContent()[1];
+		},
 
 		_saveItems: function () {
 			return new Promise(function (resolve, reject) {
@@ -395,7 +399,7 @@ sap.ui.define([
 		},
 
 		_bindPostItemsDialog: function () {
-			var oList = this.getFragment("PostItemsDialog", this).getContent()[0];
+			var oList = this._getPostItemsList();
 			var sDeliveryKey = this.getDeliveryProperty("DeliveryKey");
 			oList.bindAggregation("items", {
 				path: "/DeliveryItemSet",
@@ -408,25 +412,25 @@ sap.ui.define([
 		},
 
 		_createPostItemsDialogTemplate: function () {
-			return new sap.m.InputListItem({
-				label: "{ItemKey} - {ItemText} / {MaterialNumber} - {MaterialText}",
-				content: new sap.m.HBox({
-					renderType: "Bare",
-					alignItems: "Center",
-					justifyContent: "End",
-					items: [
-						new sap.m.StepInput({
-							min: 1,
-							width: "8rem",
-							value: "{ path:'QtyPosted', type:'sap.ui.model.odata.type.Decimal' }"
-						}),
-						new sap.m.StepInput({
-							min: 1,
-							width: "8rem",
-							value: this._iMaxReturn || 31
-						})
-					]
-				}),
+			return new sap.m.ColumnListItem({
+				cells: [
+					new sap.m.Text({
+						text: "{MaterialNumber}"
+					}),
+					new sap.m.Text({
+						text: "{MaterialText}"
+					}),
+					new sap.m.StepInput({
+						min: 1,
+						width: "8rem",
+						value: "{ path:'QtyPosted', type:'sap.ui.model.odata.type.Decimal' }"
+					}),
+					new sap.m.StepInput({
+						min: 1,
+						width: "8rem",
+						value: this._iMaxReturn || 31
+					})
+				],
 				customData: new sap.ui.core.CustomData({
 					key: "ItemKey",
 					value: "{ItemKey}"
