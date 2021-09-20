@@ -104,37 +104,6 @@ sap.ui.define([
 			}.bind(this));
 		},
 
-		_handleFinalPosting: function (oData) {
-			this.doFinalPosting({
-				DeliveryKey: oData.DeliveryKey,
-				ItemKey: oData.ItemKey,
-				MaxReturn: oData.MaxReturn
-			}).then(this._showItemsPosted.bind(this));
-		},
-
-		_saveItems: function () {
-			return new Promise(function (resolve, reject) {
-				var oModel = this.getView().getModel();
-				if (oModel.hasPendingChanges()) {
-					sap.ui.core.BusyIndicator.show(0);
-					oModel.submitChanges({
-						success: function (oData) {
-							if (!this.isSubmitError(oData)) {
-								sap.ui.core.BusyIndicator.hide();
-								resolve();
-							} else {
-								this.getView().getModel().resetChanges();
-								reject();
-							}
-						}.bind(this),
-						error: reject
-					});
-				} else {
-					resolve();
-				}
-			}.bind(this));
-		},
-
 		onPostItemsCancelSavePress: function (oEvent) {
 			oEvent.getSource().getParent().close();
 		},
@@ -163,6 +132,37 @@ sap.ui.define([
 		/* =========================================================== */
 		/* private methods                                             */
 		/* =========================================================== */
+
+		_saveItems: function () {
+			return new Promise(function (resolve, reject) {
+				var oModel = this.getView().getModel();
+				if (oModel.hasPendingChanges()) {
+					sap.ui.core.BusyIndicator.show(0);
+					oModel.submitChanges({
+						success: function (oData) {
+							if (!this.isSubmitError(oData)) {
+								sap.ui.core.BusyIndicator.hide();
+								resolve();
+							} else {
+								this.getView().getModel().resetChanges();
+								reject();
+							}
+						}.bind(this),
+						error: reject
+					});
+				} else {
+					resolve();
+				}
+			}.bind(this));
+		},
+
+		_handleFinalPosting: function (oData) {
+			this.doFinalPosting({
+				DeliveryKey: oData.DeliveryKey,
+				ItemKey: oData.ItemKey,
+				MaxReturn: oData.MaxReturn
+			}).then(this._showItemsPosted.bind(this));
+		},
 
 		_preSelectMaxReturn: function () {
 			setTimeout(function () { // eslint-disable-line
@@ -218,13 +218,6 @@ sap.ui.define([
 					if (!this.isSubmitError(oData)) {
 						this.showTranslatedMessageToast("message.itemAdded");
 						this.getView().getModel().refresh(true);
-
-						var sDeliveryKey = oData.__batchResponses[0].__changeResponses[0].data.DeliveryKey;
-						var sItemKey = oData.__batchResponses[0].__changeResponses[0].data.ItemKey;
-
-						setTimeout(function () { // eslint-disable-line
-							this._navToDetail(sDeliveryKey, sItemKey);
-						}.bind(this), 500);
 					} else {
 						this.getView().getModel().resetChanges();
 					}
