@@ -38,7 +38,7 @@
 				id="SmartTable"
 				entitySet="DeliveryHeadSet" 
 				requestAtLeastFields="ShipToPartyText,SoldToPartyText,ShipToPartyPostalCode,ShipToPartyCity,ShipToPartyStreet,ShipToPartyCountry,SoldToPartyPostalCode,SoldToPartyCity,SoldToPartyStreet,SoldToPartyCountry,ShipmentStatus,InspectionStatus"
-				ignoreFromPersonalisation="Protocol,ShipToPartyCity,ShipToPartyPostalCode,ShipToPartyStreet,SoldToPartyCity,SoldToPartyPostalCode,SoldToPartyStreet,Comment,ExistingComment,ShipToPartyCountry,SoldToPartyCountry,Material,MaterialGroup,Progress,Plant,TruckNumber,VetropackAccount,InspectionStatus"
+				ignoreFromPersonalisation="Protocol,Comment,ExistingComment,Material,MaterialGroup,Progress,Plant,TruckNumber,VetropackAccount,InspectionStatus"
 				smartFilterId="smartFilterBar" 
 				tableType="ResponsiveTable" 
 				useExportToExcel="true" 
@@ -72,7 +72,6 @@
 							<customData>
 								<core:CustomData key="p13nData"
 									value='\{	"columnKey": "DeliveryKey", 
-												"maxLength": "20",
 												"columnIndex":"1", 
 												"leadingProperty": "DeliveryKey", 
 												"type": "string" }'/>
@@ -84,7 +83,6 @@
 							<customData>
 								<core:CustomData key="p13nData"
 									value='\{	"columnKey": "ShipmentStatusText", 
-												"maxLength": "20",
 												"columnIndex":"2", 
 												"leadingProperty": "ShipmentStatusText", 
 												"type": "string" }'/>
@@ -97,7 +95,6 @@
 							<customData>
 								<core:CustomData key="p13nData"
 									value='\{	"columnKey": "InspectionStatusText", 
-												"maxLength": "20",
 												"columnIndex":"3", 
 												"leadingProperty": "InspectionStatusText", 
 												"type": "string" }'/>
@@ -109,7 +106,6 @@
 							<customData>
 								<core:CustomData key="p13nData"
 									value='\{	"columnKey": "CreatedBy", 
-												"maxLength": "20",
 												"columnIndex":"4", 
 												"leadingProperty": "CreatedBy", 
 												"type": "string" }'/>
@@ -122,7 +118,6 @@
 							<customData>
 								<core:CustomData key="p13nData"
 									value='\{	"columnKey": "ShipToParty", 
-												"maxLength": "100",
 												"columnIndex":"5", 
 												"leadingProperty": "ShipToParty", 
 												"type": "string" }'/>
@@ -134,7 +129,6 @@
 							<customData>
 								<core:CustomData key="p13nData"
 									value='\{	"columnKey": "SoldToParty", 
-												"maxLength": "100",
 												"columnIndex":"6", 
 												"leadingProperty": "SoldToParty", 
 												"type": "string" }'/>
@@ -146,7 +140,6 @@
 							<customData>
 								<core:CustomData key="p13nData"
 									value='\{	"columnKey": "Claim", 
-												"maxLength": "100",
 												"columnIndex":"7", 
 												"leadingProperty": "Claim", 
 												"type": "boolean" }'/>
