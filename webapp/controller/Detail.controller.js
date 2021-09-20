@@ -175,7 +175,7 @@ sap.ui.define([
 				var sCustomer = this.getDeliveryProperty("SoldToParty");
 				this.getMaxReturnDelivery(sCustomer)
 					.then(this._setMaxReturnDelivery.bind(this));
-			}.bind(this), 2500);
+			}.bind(this), 5000);
 
 		},
 
