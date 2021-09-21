@@ -23,15 +23,18 @@ sap.ui.define([
 			this.getRouter().initialize();
 			this.setModel(models.createDeviceModel(), "device");
 			this._registerMessageManager();
+			this._registerODataModelHandlers();
+			this._addShellHeaderHomeButton();
+		},
+
+		_registerODataModelHandlers: function () {
 			this.getModel().attachRequestFailed(function (oEvent) {
 				sap.ui.core.BusyIndicator.hide();
 				this._showServerErrorMessage(oEvent);
 			}.bind(this));
 			this.getModel().attachRequestCompleted(function (oEvent) {
 				sap.ui.core.BusyIndicator.hide();
-			}.bind(this));
-
-			this._addShellHeaderHomeButton();
+			});
 		},
 
 		_showServerErrorMessage: function (oEvent) {
