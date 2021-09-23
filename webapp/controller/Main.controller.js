@@ -66,9 +66,49 @@ sap.ui.define([
 			}
 		},
 
+		onLabelScanSubmit: function (oEvent) {
+			var sValue = oEvent.getParameter("value");
+			oEvent.getSource().setValue("");
+			this._getDeliveryItemByCaseNumber(sValue)
+				.then(this._navToItemDetail.bind(this))
+				.catch(this._handleScanLabelError.bind(this));
+		},
+
 		/* =========================================================== */
 		/* private methods                                             */
 		/* =========================================================== */
+
+		_getDeliveryItemByCaseNumber: function (sCaseNumber) {
+			sap.ui.core.BusyIndicator.show(0);
+			return new Promise(function (resolve, reject) {
+				var oModel = this.getView().getModel();
+				oModel.read("/PalletSet", {
+					filters: [
+						new sap.ui.model.Filter("CaseNumber", "EQ", sCaseNumber),
+						new sap.ui.model.Filter("Original", "EQ", true)
+					],
+					success: function (oData) {
+						if (oData.results.length > 0) {
+							resolve({
+								DeliveryKey: oData.results[0].DeliveryKey,
+								ItemKey: oData.results[0].ItemKey
+							});
+						} else {
+							reject();
+						}
+					},
+					error: reject
+				});
+			}.bind(this));
+		},
+
+		_handleScanLabelError: function () {
+			this.showTranslatedErrorMessage("message.labelScanError");
+		},
+
+		_navToItemDetail: function (oDelivery) {
+			this.navTo("ItemDetail", oDelivery);
+		},
 
 		_openProtocol: function (sBase64Data) {
 			var sSource = this._convertPdf(sBase64Data);
