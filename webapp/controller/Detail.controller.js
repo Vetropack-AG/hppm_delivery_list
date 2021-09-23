@@ -529,10 +529,12 @@ sap.ui.define([
 
 		_showPalletLoadedSuccessMessage: function (oData) {
 			this.showTranslatedMessageToast("message.palletLoaded");
+			this.getView().getModel().refresh(true);
 		},
 
 		_showPalletUnloadedSuccessMessage: function (oData) {
 			this.showTranslatedMessageToast("message.palletUnloaded");
+			this.getView().getModel().refresh(true);
 		},
 
 		_showPalletScanErrorMessage: function (oData) {
@@ -748,6 +750,16 @@ sap.ui.define([
 							}).addStyleClass("sapUiSmallMarginBegin sapUiSmallMarginTopBottom"),
 							new sap.m.VBox({
 								items: [
+									new sap.m.Text({
+										text: "{i18n>details.currentlyLoaded}: {LoadedAmount} {i18n>general.pieces} ({LoadedPallets})"
+									}),
+									new sap.m.Text({
+										text: "{i18n>details.currentlyUnloaded}: {UnloadedAmount} {i18n>general.pieces} ({UnloadedPallets})"
+									})
+								]
+							}).addStyleClass("sapUiSmallMarginBegin sapUiSmallMarginTopBottom"),
+							new sap.m.VBox({
+								items: [
 									new sap.m.ObjectStatus({
 										text: "{InspectionStatusText}",
 										state: {
@@ -759,13 +771,13 @@ sap.ui.define([
 										text: "{i18n>details.quantityResult}",
 										icon: "{= ${QuantityResult} === true ? 'sap-icon://sys-enter-2' : 'sap-icon://message-error' }",
 										state: "{= ${QuantityResult} === true ? 'Success' : 'Error' }",
-										visible: "{= ${InspectionStatus} === 'QUANTITY' || ${InspectionStatus} === 'QUALITY' || ${InspectionStatus} === 'POSTED' || ${InspectionStatus} === 'COMPLETED' }"
+										visible: "{= ${InspectionStatus} === 'QUANTITY' || ${InspectionStatus} === 'QUALITY' || ${InspectionStatus} === 'POSTED' || ${InspectionStatus} === 'COMPLETED' || ${InspectionStatus} === 'LOADED' || ${InspectionStatus} === 'UNLOADED' }"
 									}),
 									new sap.m.ObjectStatus({
 										text: "{i18n>details.qualityResult}",
 										icon: "{= ${QualityResult} === true ? 'sap-icon://sys-enter-2' : 'sap-icon://message-error' }",
 										state: "{= ${QualityResult} === true ? 'Success' : 'Error' }",
-										visible: "{= ${InspectionStatus} === 'QUALITY' || ${InspectionStatus} === 'POSTED' || ${InspectionStatus} === 'COMPLETED' }"
+										visible: "{= ${InspectionStatus} === 'QUALITY' || ${InspectionStatus} === 'POSTED' || ${InspectionStatus} === 'COMPLETED' || ${InspectionStatus} === 'LOADED' || ${InspectionStatus} === 'UNLOADED' }"
 									})
 								]
 							}).addStyleClass("sapUiSmallMarginBegin sapUiSmallMarginEnd")

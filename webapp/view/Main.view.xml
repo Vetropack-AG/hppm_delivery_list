@@ -55,7 +55,7 @@
 					<Toolbar>
 						<ToolbarSeparator />
 						<Button  text="{i18n>main.createDelivery}" class="hppmTableHeaderButton" press="onNavToCreateDeliveryPress" />
-						<Input placeholder="{i18n>main.scanLabel}" submit="onLabelScanSubmit"/>
+						<Input placeholder="{i18n>main.scanLabel}" submit="onLabelScanSubmit" width="20rem"/>
 						<ToolbarSpacer />
 					
 						<ToolbarSeparator />
