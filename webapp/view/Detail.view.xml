@@ -4,7 +4,7 @@
 		<headerTitle>
 			<ObjectPageHeader objectTitle="{i18n>details.delivery}: {DeliveryKey}" objectSubtitle="{i18n>details.protocolNumber}: {DeliveryKey}">
 				<actions>
-					<ObjectPageHeaderActionButton icon="sap-icon://post" text="i18n>details.comment}" tooltip="i18n>details.comment}" press="onAddCommentPress" />
+					<ObjectPageHeaderActionButton icon="sap-icon://post" text="i18n>details.comment}" tooltip="i18n>details.comment}" press="onAddCommentPress"/>
 					<ObjectPageHeaderActionButton icon="sap-icon://pdf-attachment" text="{i18n>details.downloadPDF}" tooltip="{i18n>details.downloadPDF}"/>
 				</actions>
 			</ObjectPageHeader>
@@ -34,14 +34,16 @@
 		</sections>
 		<footer>
 			<m:OverflowToolbar>
-				<m:Button
-					icon="{ path: 'message>/', formatter: '.formatter.messageButtonIconFormatter' }"
-					type="{ path: 'message>/', formatter: '.formatter.messageButtonTypeFormatter' }"
-					text="{= ${message>/}.length}"
+				<m:Button icon="{ path: 'message>/', formatter: '.formatter.messageButtonIconFormatter' }"
+					type="{ path: 'message>/', formatter: '.formatter.messageButtonTypeFormatter' }" text="{= ${message>/}.length}"
 					press="onMessagePopoverPress"/>
-				<m:ToolbarSpacer /> 
+				<m:ToolbarSpacer/>
 				<m:Button text="{i18n>details.sapPosting}" type="Emphasized" press="onSapPostingPress" id="SapPostingButton"
 					visible="{= ${DeliveryType} === 'ZRET' &amp;&amp; ${InspectionStatus} !== 'POSTED' }"/>
+				<m:Button text="{i18n>details.finishLoading}" press="onConfirmLoadingPress" 
+					visible="{= ${InspectionStatus} === 'OPEN' || ${InspectionStatus} === 'QUALITY' || ${InspectionStatus} === 'QUANTITY' }"/>
+				<m:Button text="{i18n>details.finishUnloading}" press="onConfirmUnloadingPress" 
+					visible="{= ${InspectionStatus} === 'LOADED' }"/>
 			</m:OverflowToolbar>
 		</footer>
 	</ObjectPageLayout>

@@ -9,6 +9,9 @@ sap.ui.define([
 ], function (BaseController, Filter, FilterOperator, formatter, hppm, quantityCalculator, models) {
 	"use strict";
 
+	var BATCH_GROUP_CONFIRM_LOADING = "confirmLoading";
+	var BATCH_GROUP_CONFIRM_UNLOADING = "confirmUnloading";
+
 	return BaseController.extend("zvgt.hppm.delivery_list.controller.Detail", {
 		formatter: formatter,
 		quantityCalculator: quantityCalculator,
@@ -131,9 +134,98 @@ sap.ui.define([
 			this._navToUnloadPalletsApp();
 		},
 
+		onConfirmLoadingPress: function () {
+			this._confirmLoading()
+				.then(this._handleConfirmLoadingSuccess.bind(this));
+		},
+
+		onConfirmUnloadingPress: function () {
+			this._confirmUnloading()
+				.then(this._handleConfirmUnloadingSuccess.bind(this));
+		},
+
 		/* =========================================================== */
 		/* private methods                                             */
 		/* =========================================================== */
+
+		_confirmLoading: function () {
+			var oModel = this.getView().getModel();
+			this._getItems().forEach(function (oItem, iIndex) {
+				oModel.callFunction("/ConfirmLoading", {
+					urlParameters: {
+						DeliveryKey: oItem.DeliveryKey,
+						ItemKey: oItem.ItemKey
+					},
+					batchGroupId: BATCH_GROUP_CONFIRM_LOADING,
+					changeSetId: iIndex
+				});
+			});
+			oModel.setDeferredGroups([BATCH_GROUP_CONFIRM_LOADING]);
+			return new Promise(function (resolve, reject) {
+				sap.ui.core.BusyIndicator.show(0);
+				oModel.submitChanges({
+					batchGroupId: BATCH_GROUP_CONFIRM_LOADING,
+					success: resolve,
+					error: reject
+				});
+			});
+		},
+
+		_confirmUnloading: function () {
+			var oModel = this.getView().getModel();
+			this._getItems().forEach(function (oItem, iIndex) {
+				oModel.callFunction("/ConfirmUnloading", {
+					urlParameters: {
+						DeliveryKey: oItem.DeliveryKey,
+						ItemKey: oItem.ItemKey
+					},
+					batchGroupId: BATCH_GROUP_CONFIRM_UNLOADING,
+					changeSetId: iIndex
+				});
+			});
+			oModel.setDeferredGroups([BATCH_GROUP_CONFIRM_UNLOADING]);
+			return new Promise(function (resolve, reject) {
+				sap.ui.core.BusyIndicator.show(0);
+				oModel.submitChanges({
+					batchGroupId: BATCH_GROUP_CONFIRM_UNLOADING,
+					success: resolve,
+					error: reject
+				});
+			});
+		},
+
+		_handleConfirmLoadingSuccess: function () {
+			this.setDeliveryProperty("InspectionStatus", hppm.INSPECTION_STATUS.LOADED);
+			var oModel = this.getView().getModel();
+			oModel.submitChanges({
+				success: function () {
+					oModel.refresh(true);
+				}
+			});
+			this.showTranslatedMessageToast("message.deliveryLoaded");
+		},
+
+		_handleConfirmUnloadingSuccess: function () {
+			this.setDeliveryProperty("InspectionStatus", hppm.INSPECTION_STATUS.UNLOADED);
+			var oModel = this.getView().getModel();
+			oModel.submitChanges({
+				success: function () {
+					oModel.refresh(true);
+				}
+			});
+			this.showTranslatedMessageToast("message.deliveryUnloaded");
+		},
+
+		_getItems: function () {
+			var oList = this.getView().byId("ItemList");
+			var aItems = oList.getItems();
+			return aItems.map(function (oItem) {
+				return {
+					DeliveryKey: oItem.getBindingContext().getModel().getProperty(oItem.getBindingContext().getPath() + "/DeliveryKey"),
+					ItemKey: oItem.getBindingContext().getModel().getProperty(oItem.getBindingContext().getPath() + "/ItemKey")
+				};
+			});
+		},
 
 		_getPostItemsList: function () {
 			return this.getFragment("PostItemsDialog", this).getContent()[1];
@@ -245,44 +337,206 @@ sap.ui.define([
 		},
 
 		_handlePalletScan: function (sScan) {
-			var oPallet = this._parsePalletScan(sScan);
-			this._setNextPalletStatus(oPallet).then(this._showPalletStatusSuccessMessage.bind(this));
-		},
-
-		_showPalletStatusSuccessMessage: function (oData) {
-			this.showTranslatedMessageToast("message.palletStatusSet", [oData.CaseNumber, oData.Status]);
-			this.getView().getModel().refresh(true);
-		},
-
-		_setNextPalletStatus: function (oPallet) {
-			return new Promise(function (resolve, reject) {
-				this._getDeliveryItemStatus(oPallet.DeliveryKey, oPallet.ItemKey).then(function (sCurrentStatus) {
-					var oModel = this.getView().getModel();
-					oModel.callFunction("/SetPalletStatus", {
-						urlParameters: {
-							DeliveryKey: oPallet.DeliveryKey,
-							ItemKey: oPallet.ItemKey,
-							PalletNumber: oPallet.PalletNumber,
-							Status: this._getNextPalletStatus(sCurrentStatus)
-						},
-						success: resolve,
-						error: reject
-					});
+			this._checkIfPalletNotLoaded(sScan)
+				.then(function () {
+					this._handlePalletLoadScan(sScan);
+				}.bind(this))
+				.catch(function () {
+					this._checkIfPalletLoaded(sScan).then(function () {
+							this._handlePalletUnloadScan(sScan);
+						}.bind(this))
+						.catch(this._showPalletScanErrorMessage.bind(this));
 				}.bind(this));
+		},
+
+		_handlePalletUnloadScan: function (sCaseNumber) {
+			this._getPalletForUnloading(sCaseNumber)
+				.then(this._checkIfItemIsNotUnloaded.bind(this))
+				.then(this._unloadPallet.bind(this))
+				.then(this._submitUnload.bind(this));
+		},
+
+		_handlePalletLoadScan: function (sCaseNumber) {
+			this._getPalletForLoading(sCaseNumber)
+				.then(this._checkIfItemIsNotLoaded.bind(this))
+				.then(this._createLoadedPallet.bind(this))
+				.then(this._submitLoad.bind(this));
+		},
+
+		_checkIfItemIsNotLoaded: function (oPallet) {
+			return new Promise(function (resolve, reject) {
+				this._getDeliveryItemStatus(oPallet.DeliveryKey, oPallet.ItemKey)
+					.then(function (sStatus) {
+						if (sStatus === hppm.INSPECTION_STATUS.LOADED) {
+							reject(oPallet);
+							this.showTranslatedErrorMessage("message.deliveryItemAlreadyLoaded", [oPallet.ItemKey]);
+						} else {
+							resolve(oPallet);
+						}
+					}.bind(this));
 			}.bind(this));
 		},
 
-		_getNextPalletStatus: function (sCurrentStatus) {
-			switch (sCurrentStatus) {
-			case hppm.INSPECTION_STATUS.QUALITY:
-				return hppm.INSPECTION_STATUS.LOADED;
-			case hppm.INSPECTION_STATUS.QUANTITY:
-				return hppm.INSPECTION_STATUS.UNLOADED;
-			case hppm.INSPECTION_STATUS.LOADED:
-				return hppm.INSPECTION_STATUS.UNLOADED;
-			default:
-				throw new Error("Status invalid");
-			}
+		_checkIfItemIsNotUnloaded: function (oPallet) {
+			return new Promise(function (resolve, reject) {
+				this._getDeliveryItemStatus(oPallet.DeliveryKey, oPallet.ItemKey)
+					.then(function (sStatus) {
+						if (sStatus === hppm.INSPECTION_STATUS.UNLOADED) {
+							reject(oPallet);
+							this.showTranslatedErrorMessage("message.deliveryItemAlreadyUnloaded", [oPallet.ItemKey]);
+						} else {
+							resolve(oPallet);
+						}
+					}.bind(this));
+			}.bind(this));
+		},
+
+		_getItem: function (sDeliveryKey, sItemKey) {
+			return this.getItems().find(function (oItem) {
+				return oItem.DeliveryKey === sDeliveryKey && oItem.ItemKey === sItemKey;
+			});
+		},
+
+		_getPalletForLoading: function (sCaseNumber) {
+			sap.ui.core.BusyIndicator.show(0);
+			return new Promise(function (resolve, reject) {
+				this.getView().getModel().read("/PalletSet", {
+					filters: [
+						new sap.ui.model.Filter("CaseNumber", "EQ", sCaseNumber),
+						new sap.ui.model.Filter("Status", "EQ", "NEW")
+					],
+					success: function (oData) {
+						if (oData.results.length === 1) {
+							resolve(oData.results[0]);
+						} else {
+							reject(sCaseNumber);
+						}
+					},
+					error: reject
+				});
+			}.bind(this));
+		},
+
+		_getPalletForUnloading: function (sCaseNumber) {
+			sap.ui.core.BusyIndicator.show(0);
+			return new Promise(function (resolve, reject) {
+				this.getView().getModel().read("/PalletSet", {
+					filters: [
+						new sap.ui.model.Filter("CaseNumber", "EQ", sCaseNumber),
+						new sap.ui.model.Filter("Status", "EQ", "LOADED")
+					],
+					success: function (oData) {
+						if (oData.results.length === 1) {
+							resolve(oData.results[0]);
+						} else {
+							reject(sCaseNumber);
+						}
+					},
+					error: reject
+				});
+			}.bind(this));
+		},
+
+		_createLoadedPallet: function (oPallet) {
+			var oModel = this.getView().getModel();
+			return new Promise(function (resolve, reject) {
+				oPallet.Status = hppm.PALLET_STATUS.LOADED;
+				oPallet.DeliveryKey = oPallet.DeliveryKey;
+				oPallet.ItemKey = oPallet.ItemKey;
+				oPallet.PalletNumber = "";
+				oPallet.Original = false;
+				oModel.createEntry("/PalletSet", {
+					properties: oPallet
+				});
+				resolve(oPallet);
+			});
+		},
+
+		_unloadPallet: function (oPallet) {
+			var oModel = this.getView().getModel();
+			var sKey = oModel.createKey("/PalletSet", {
+				DeliveryKey: oPallet.DeliveryKey,
+				ItemKey: oPallet.ItemKey,
+				PalletNumber: oPallet.PalletNumber
+			});
+			sap.ui.core.BusyIndicator.show(0);
+			return new Promise(function (resolve, reject) {
+				var bResult = oModel.setProperty(sKey + "/Status", hppm.PALLET_STATUS.UNLOADED);
+				if (bResult) {
+					var oData = oModel.getProperty(sKey);
+					resolve(oData);
+				} else {
+					reject();
+				}
+			});
+		},
+
+		_checkIfPalletNotLoaded: function (sCaseNumber) {
+			return new Promise(function (resolve, reject) {
+				this.getView().getModel().read("/PalletSet", {
+					filters: [
+						new sap.ui.model.Filter("CaseNumber", "EQ", sCaseNumber),
+						new sap.ui.model.Filter("Status", "EQ", "LOADED"),
+						new sap.ui.model.Filter("Status", "EQ", "UNLOADED"),
+						new sap.ui.model.Filter("Status", "EQ", "USED")
+					],
+					success: function (oData) {
+						if (oData.results.length > 0) {
+							reject();
+						} else {
+							resolve();
+						}
+					},
+					error: resolve
+				});
+			}.bind(this));
+		},
+
+		_checkIfPalletLoaded: function (sCaseNumber) {
+			return new Promise(function (resolve, reject) {
+				this.getView().getModel().read("/PalletSet", {
+					filters: [
+						new sap.ui.model.Filter("CaseNumber", "EQ", sCaseNumber),
+						new sap.ui.model.Filter("Status", "EQ", "LOADED")
+					],
+					success: function (oData) {
+						if (oData.results.length > 0) {
+							resolve();
+						} else {
+							reject();
+						}
+					},
+					error: reject
+				});
+			}.bind(this));
+		},
+
+		_submitLoad: function () {
+			var oModel = this.getView().getModel();
+			sap.ui.core.BusyIndicator.show(0);
+			oModel.submitChanges({
+				success: this._showPalletLoadedSuccessMessage.bind(this)
+			});
+		},
+
+		_submitUnload: function () {
+			var oModel = this.getView().getModel();
+			sap.ui.core.BusyIndicator.show(0);
+			oModel.submitChanges({
+				success: this._showPalletUnloadedSuccessMessage.bind(this)
+			});
+		},
+
+		_showPalletLoadedSuccessMessage: function (oData) {
+			this.showTranslatedMessageToast("message.palletLoaded");
+		},
+
+		_showPalletUnloadedSuccessMessage: function (oData) {
+			this.showTranslatedMessageToast("message.palletUnloaded");
+		},
+
+		_showPalletScanErrorMessage: function (oData) {
+			this.showTranslatedErrorMessage("message.palletScanError");
 		},
 
 		_addToLastScannedPallets: function (sQuery) {
