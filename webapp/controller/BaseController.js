@@ -60,12 +60,15 @@ sap.ui.define([
 		getMaxReturnDelivery: function (sCustomer) {
 			var oModel = this.getView().getModel();
 			return new Promise(function (resolve, reject) {
-				if (!oModel) {
+				if (!oModel || !sCustomer) {
 					reject();
 				}
 				var sKey = oModel.createKey("/CustomerValueHelpSet", {
 					Key: sCustomer
 				});
+				if (!sKey) {
+					reject();
+				}
 				oModel.read(sKey, {
 					success: function (oData) {
 						resolve(oData.MaxReturn);
