@@ -149,6 +149,17 @@
 							</customData>
 							<Text text="{/#DeliveryHead/Claim/@sap:label}"/>
 						</Column>
+						
+						<Column id="DeliveryDate" width="7%" demandPopin="true" minScreenWidth="Desktop" popinDisplay="Inline">
+							<customData>
+								<core:CustomData key="p13nData"
+									value='\{	"columnKey": "DeliveryDate", 
+												"columnIndex":"8", 
+												"leadingProperty": "DeliveryDate", 
+												"type": "date" }'/>
+							</customData>
+							<Text text="{/#DeliveryHead/DeliveryDate/@sap:label}"/>
+						</Column>
 
 					</columns>
 					
@@ -174,6 +185,8 @@
 									text="{= ${Claim} ? ${i18n>general.yes} : ${i18n>general.no} }"
 									state="{= ${Claim} ? 'Error' : 'Success' }"
 									icon="{= ${Claim} ? 'sap-icon://error' : 'sap-icon://sys-enter' }" />
+									
+								<Text text="{ path: 'DeliveryDate', type: 'sap.ui.model.odata.type.Date', formatOptions: { style: 'short' } }"/>
 							</cells>
 							</ColumnListItem>
 					</items>
