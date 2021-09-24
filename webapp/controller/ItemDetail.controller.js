@@ -36,13 +36,17 @@ sap.ui.define([
 			}.bind(this));
 		},
 
-		onSavePress: function () {
+		onConfirmPress: function () {
 			this.setDeliveryProperty("DoConfirm", true);
 			this._saveItem();
 		},
 
 		onCancelPress: function () {
 			this.getView().getModel().resetChanges();
+		},
+
+		onSavePress: function () {
+			this._saveItem();
 		},
 
 		onSapPostingPress: function () {

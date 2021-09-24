@@ -32,8 +32,9 @@
 				<ToolbarSpacer/>
 				<Button text="{i18n>details.prePosting}" press="onPrePostingPress" enabled="{HasPallets}" visible="{= ${InspectionStatus} !== 'POSTED' }" />
 				<Button text="{i18n>details.sapPosting}" type="Emphasized" press="onSapPostingPress" enabled="{HasPallets}" visible="{= ${InspectionStatus} !== 'POSTED' }"/>
-				<Button text="{i18n>general.confirm}" type="Accept" press="onSavePress" enabled="{HasPallets}" visible="{= ${InspectionStatus} !== 'POSTED' }"/>
+				<Button text="{i18n>general.confirm}" type="Accept" press="onConfirmPress" enabled="{HasPallets}" visible="{= ${InspectionStatus} !== 'POSTED' }"/>
 				<Button text="{i18n>general.cancel}" type="Reject" press="onCancelPress" visible="{= ${InspectionStatus} !== 'POSTED' }"/>
+				<Button text="{i18n>general.save}" type="Emphasized" press="onSavePress" visible="{= ${InspectionStatus} === 'POSTED' || ${InspectionStatus} === 'COMPLETED' }"/>
 			</OverflowToolbar>
 		</uxap:footer>
 	</uxap:ObjectPageLayout>
