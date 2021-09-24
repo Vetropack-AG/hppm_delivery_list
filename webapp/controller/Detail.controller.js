@@ -678,6 +678,9 @@ sap.ui.define([
 					new sap.m.Text({
 						text: "{MaterialText}"
 					}),
+					new sap.m.Text({
+						text: "{= ${StockType} === 'O' ? ${i18n>postItemDialog.soldStock} : ${i18n>postItemDialog.rentStock} }"
+					}),
 					new sap.m.StepInput({
 						min: 1,
 						width: "8rem",

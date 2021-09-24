@@ -27,6 +27,11 @@
 								<Text text="{ItemText}"/>
 							</f:fields>
 						</f:FormElement>
+						<f:FormElement label="{i18n>postItemDialog.stockType}">
+							<f:fields>
+								<Text text="{= ${StockType} === 'O' ? ${i18n>postItemDialog.soldStock} : ${i18n>postItemDialog.rentStock} }"/>
+							</f:fields>
+						</f:FormElement>
 					</f:formElements>
 				</f:FormContainer>
 			</f:formContainers>
