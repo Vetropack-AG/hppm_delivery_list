@@ -129,6 +129,10 @@ sap.ui.define([
 			this.getView().getModel("ViewSettings").setProperty("/LayerResult", iSum);
 		},
 
+		onDeliveryQuantityChange: function (oEvent) {
+			quantityCalculator.calculateAllFields.call(this, oEvent);
+		},
+
 		onLayersCalculatorModeChange: function () {
 
 		},

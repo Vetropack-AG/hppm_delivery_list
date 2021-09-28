@@ -32,8 +32,13 @@
 				<!-- Editable as long as status not POSTED -->
 				<Label text="{i18n>details.actualQuantity}"/>
 				<HBox>
-					<StepInput value="{ path:'ActualQuantity', type:'sap.ui.model.odata.type.Decimal' }" id="ActualQuantityInput"
-						min="0" change=".quantityCalculator.calculateAllFields" editable="false" />
+					<StepInput value="{ path:'ActualQuantity', type:'sap.ui.model.odata.type.Decimal' }" 
+						id="ActualQuantityInput"
+						min="0"
+						editable="false" 
+						change="onDeliveryQuantityChange"
+						enabled="{= ${InspectionStatus} !== 'POSTED' }"
+						/>
 					<Button icon="sap-icon://simulate" width="1rem" class="sapUiTinyMarginBegin" press="onOpenPalletsCalculatorPress" enabled="{= ${InspectionStatus} !== 'POSTED' }"/>
 				</HBox>
 				
