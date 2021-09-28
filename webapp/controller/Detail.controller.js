@@ -72,7 +72,6 @@ sap.ui.define([
 			var sDeliveryKey = oEvent.getParameter("arguments").DeliveryKey;
 			this.getOwnerComponent().getModel().metadataLoaded(true).then(function () {
 				this._bindView(sDeliveryKey);
-
 			}.bind(this));
 		},
 
@@ -262,13 +261,17 @@ sap.ui.define([
 			}).then(this._showItemsPosted.bind(this));
 		},
 
-		_preSelectMaxReturn: function () {
-			setTimeout(function () { // eslint-disable-line
-				var sCustomer = this.getDeliveryProperty("SoldToParty");
-				this.getMaxReturnDelivery(sCustomer)
-					.then(this._setMaxReturnDelivery.bind(this));
-			}.bind(this), 5000);
-
+		_preSelectMaxReturn: function (sDeliveryKey) {
+			var oModel = this.getOwnerComponent().getModel();
+			var sKey = oModel.createKey("/DeliveryHeadSet", {
+				DeliveryKey: sDeliveryKey
+			});
+			oModel.read(sKey, {
+				success: function (oData) {
+					this.getMaxReturnDelivery(oData.SoldToParty)
+						.then(this._setMaxReturnDelivery.bind(this));
+				}.bind(this)
+			});
 		},
 
 		_setMaxReturnDelivery: function (iValue) {
@@ -720,7 +723,7 @@ sap.ui.define([
 			this._bindItemList(sDeliveryKey);
 			this._checkAllItemsHavePallets(sDeliveryKey)
 				.then(this._setSapPostingEnabled.bind(this));
-			this._preSelectMaxReturn();
+			this._preSelectMaxReturn(sDeliveryKey);
 		},
 
 		_bindItemList: function (sDeliveryKey) {
