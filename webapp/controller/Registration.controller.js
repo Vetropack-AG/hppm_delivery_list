@@ -25,6 +25,7 @@ sap.ui.define([
 			var sDeliveryKey = oEvent.getParameter("arguments").DeliveryKey;
 			this.getOwnerComponent().getModel().metadataLoaded(true).then(function () {
 				this._bindView(sDeliveryKey);
+				this.bindUploadCollection(sDeliveryKey);
 			}.bind(this));
 		},
 

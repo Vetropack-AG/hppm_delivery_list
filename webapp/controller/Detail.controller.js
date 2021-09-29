@@ -721,6 +721,7 @@ sap.ui.define([
 			this.getView().getModel().refresh(true);
 
 			this._bindItemList(sDeliveryKey);
+			this.bindUploadCollection(sDeliveryKey);
 			this._checkAllItemsHavePallets(sDeliveryKey)
 				.then(this._setSapPostingEnabled.bind(this));
 			this._preSelectMaxReturn(sDeliveryKey);

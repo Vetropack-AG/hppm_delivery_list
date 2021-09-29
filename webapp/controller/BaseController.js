@@ -7,6 +7,8 @@ sap.ui.define([
 ], function (Controller, MessageBox, ResourceBundle, History, MessageToast) {
 	"use strict";
 
+	var SERVICE_URL = "/sap/opu/odata/sap/ZVGT_UI_HPPM_DELIVERY_LIST_SRV/";
+
 	/**
 	 * @constructor zvgt.hppm.delivery_list.controller.BaseController
 	 * 
@@ -27,6 +29,99 @@ sap.ui.define([
 	 */
 
 	return Controller.extend("zvgt.hppm.delivery_list.controller.BaseController", {
+
+		/* =========================================================== */
+		/* begin of upload collection methods                          */
+		/* =========================================================== */
+
+		onFilePress: function (oEvent) {
+			var oItem = oEvent.getSource();
+			var sDocumentId = oItem.getBindingContext().getProperty("DocumentId");
+			this.openFile(sDocumentId);
+		},
+
+		onFileUploaderChange: function (oEvent) {
+			var oUploader = oEvent.getSource();
+			var oModel = this.getView().getModel();
+			oModel.refreshSecurityToken();
+			var oCustomerHeaderToken = new sap.m.UploadCollectionParameter({
+				name: "x-csrf-token",
+				value: oModel.getSecurityToken()
+			});
+
+			oUploader.addHeaderParameter(oCustomerHeaderToken);
+
+			var sFileName = oEvent.getParameter("files")[0].name;
+			var oCustomerHeaderSlug = new sap.m.UploadCollectionParameter({
+				name: "slug",
+				value: sFileName + "||" + this.getDeliveryProperty("DeliveryKey")
+			});
+
+			oUploader.addHeaderParameter(oCustomerHeaderSlug);
+		},
+
+		onFileDelete: function (oEvent) {
+			var oItem = oEvent.getParameter("item");
+			var sDocumentId = oItem.getBindingContext().getProperty("DocumentId");
+			this.deleteFile(sDocumentId);
+		},
+
+		onFileUploadComplete: function () {
+			this.refreshUploader();
+		},
+
+		createUploadCollectionTemplate: function () {
+			return new sap.m.UploadCollectionItem({
+				documentId: "{DocumentId}",
+				visibleEdit: false,
+				fileName: "{Filename}",
+				url: "/",
+				contributor: "{CreatedBy}",
+				mimeType: "{MimeType}",
+				uploadedDate: "{ path: 'CreatedOn', type: 'sap.ui.model.odata.type.Date', formatOptions: { style: 'short' } }",
+				press: this.onFilePress.bind(this)
+			});
+		},
+
+		openFile: function (sDocumentId) {
+			var oModel = this.getView().getModel();
+			var sKey = oModel.createKey("/FileSet", {
+				DocumentId: sDocumentId
+			});
+			sKey = SERVICE_URL + sKey + "/$value";
+			window.open(sKey);
+		},
+
+		deleteFile: function (sDocumentId) {
+			var oModel = this.getView().getModel();
+			var sKey = oModel.createKey("/FileSet", {
+				DocumentId: sDocumentId
+			});
+			oModel.remove(sKey, {
+				success: function () {
+					this.refreshUploader();
+				}.bind(this)
+			});
+		},
+
+		refreshUploader: function () {
+			var oUploader = this.getView().byId("uploadCollection");
+			oUploader.getBinding("items").refresh(true);
+		},
+
+		bindUploadCollection: function (sDeliveryKey) {
+			var oUploader = this.getView().byId("uploadCollection");
+			oUploader.bindAggregation("items", {
+				path: "/FileSet",
+				template: this.createUploadCollectionTemplate(),
+				templateShareable: false,
+				filters: [new sap.ui.model.Filter("ObjectId", "EQ", sDeliveryKey)]
+			});
+		},
+
+		/* =========================================================== */
+		/* end of upload collection methods                          */
+		/* =========================================================== */
 
 		_parsePalletScan: function (sScan) {
 			if (!this._isPalletScan(sScan)) {

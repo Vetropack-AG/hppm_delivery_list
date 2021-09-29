@@ -1,5 +1,5 @@
 <mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" controllerName="zvgt.hppm.delivery_list.controller.Detail" xmlns="sap.uxap"
-	xmlns:m="sap.m">
+	xmlns:m="sap.m" xmlns:hppm="zvgt.hppm.controls">
 	<ObjectPageLayout upperCaseAnchorBar="false" showFooter="true">
 		<headerTitle>
 			<ObjectPageHeader objectTitle="{i18n>details.delivery}: {DeliveryKey}" objectSubtitle="{i18n>details.protocolNumber}: {DeliveryKey}">
@@ -26,7 +26,14 @@
 				<subSections>
 					<ObjectPageSubSection titleUppercase="false">
 						<blocks>
-							<m:ObjectAttribute title="Label" text="In Stock"/>
+							<hppm:UploadCollection
+								id="uploadCollection"
+								uploadUrl="/sap/opu/odata/sap/ZVGT_UI_HPPM_DELIVERY_LIST_SRV/FileSet"
+								change="onFileUploaderChange"
+								uploadComplete="onFileUploadComplete"
+								fileDeleted="onFileDelete"
+								fileType="jpg,png,pdf">
+							</hppm:UploadCollection>
 						</blocks>
 					</ObjectPageSubSection>
 				</subSections>

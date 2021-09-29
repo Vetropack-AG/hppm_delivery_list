@@ -1,5 +1,6 @@
 <mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m"
-	controllerName="zvgt.hppm.delivery_list.controller.Registration" xmlns:uxap="sap.uxap" xmlns:f="sap.ui.layout.form">
+	controllerName="zvgt.hppm.delivery_list.controller.Registration" xmlns:uxap="sap.uxap" xmlns:f="sap.ui.layout.form"
+	xmlns:hppm="zvgt.hppm.controls">
 	<uxap:ObjectPageLayout upperCaseAnchorBar="false" showFooter="true">
 		<uxap:headerTitle>
 			<uxap:ObjectPageHeader objectTitle="{i18n>registration.title}"/>
@@ -74,6 +75,23 @@
 					<uxap:ObjectPageSubSection titleUppercase="false">
 						<uxap:blocks>
 							<List id="MaterialList" headerText="{i18n>registration.customer}: {SoldToPartyText}"></List>
+						</uxap:blocks>
+					</uxap:ObjectPageSubSection>
+				</uxap:subSections>
+			</uxap:ObjectPageSection>
+			
+					<uxap:ObjectPageSection titleUppercase="false" title="{i18n>general.documents}" showTitle="true">
+				<uxap:subSections>
+					<uxap:ObjectPageSubSection titleUppercase="false">
+						<uxap:blocks>
+							<hppm:UploadCollection
+								id="uploadCollection"
+								uploadUrl="/sap/opu/odata/sap/ZVGT_UI_HPPM_DELIVERY_LIST_SRV/FileSet"
+								change="onFileUploaderChange"
+								uploadComplete="onFileUploadComplete"
+								fileDeleted="onFileDelete"
+								fileType="jpg,png,pdf">
+							</hppm:UploadCollection>
 						</uxap:blocks>
 					</uxap:ObjectPageSubSection>
 				</uxap:subSections>
