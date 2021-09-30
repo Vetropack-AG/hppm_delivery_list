@@ -59,8 +59,8 @@ sap.ui.define([
 			if (oCrossAppNav) {
 				oCrossAppNav.toExternal({ // eslint-disable-line
 					target: {
-						semanticObject: "delivery_create",
-						action: "display"
+						semanticObject: "OutboundDelivery",
+						action: "create"
 					}
 				});
 			}
