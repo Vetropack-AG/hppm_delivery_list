@@ -48,7 +48,13 @@ sap.ui.define([
 					sMessage = oEvent.getParameter("response").message;
 				}
 			} catch (err) {
-				sMessage = oEvent.getParameter("response").message;
+				try {
+					var parser = new DOMParser();
+					var xmlDoc = parser.parseFromString(oResponse.responseText, "text/xml");
+					sMessage = xmlDoc.getElementsByTagName("message")[0].childNodes[0].nodeValue;
+				} catch (err2) {
+					sMessage = oEvent.getParameter("response").message;
+				}
 			}
 			MessageBox.error(sMessage);
 			sap.ui.getCore().getMessageManager().addMessages(
