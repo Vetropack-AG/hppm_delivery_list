@@ -25,6 +25,7 @@ sap.ui.define([
 			this._registerMessageManager();
 			this._registerODataModelHandlers();
 			this._addShellHeaderHomeButton();
+			this.getModel().setSizeLimit(9999);
 		},
 
 		_registerODataModelHandlers: function () {
