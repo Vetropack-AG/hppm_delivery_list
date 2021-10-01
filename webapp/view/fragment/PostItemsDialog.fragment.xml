@@ -17,6 +17,11 @@
 								<Text text="{ShipToPartyText} ({ShipToParty})"/>
 							</f:fields>
 						</f:FormElement>
+						<f:FormElement label="{i18n>postItemDialog.owner}">
+							<f:fields>
+								<Text text="{Plant} ({PlantText})"/>
+							</f:fields>
+						</f:FormElement>
 					</f:formElements>
 				</f:FormContainer>
 			</f:formContainers>
