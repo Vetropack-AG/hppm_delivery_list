@@ -58,7 +58,7 @@ sap.ui.define([
 			var iScrapQuantityAboveTolerance = parseInt(sNeedScrapQuantity, 10) - parseInt(sScrapQuantity, 10);
 			if (!isNaN(iScrapQuantityAboveTolerance)) {
 				oContext.getModel().setProperty(oContext.getPath() + "/ScrapQuantityAboveTolerance", iScrapQuantityAboveTolerance > 0 ?
-					iScrapQuantityAboveTolerance.toString() : "0");
+					iScrapQuantityAboveTolerance.toString() : sScrapQuantity);
 			}
 		},
 

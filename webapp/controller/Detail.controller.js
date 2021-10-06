@@ -21,11 +21,13 @@ sap.ui.define([
 		/* =========================================================== */
 
 		onInit: function () {
-			this.getOwnerComponent().getRouter().getRoute("Detail").attachPatternMatched(this.onRoutePatternMatched, this);
 			this.getView().setModel(new sap.ui.model.json.JSONModel({
 				LastScannedPallets: [],
 				NewItemQuantity: 1
 			}), "ViewSettings");
+			this.getView().setModel(new sap.ui.model.json.JSONModel(), "Header");
+
+			this.getOwnerComponent().getRouter().getRoute("Detail").attachPatternMatched(this.onRoutePatternMatched, this);
 		},
 
 		/* =========================================================== */
@@ -725,6 +727,19 @@ sap.ui.define([
 			this._checkAllItemsHavePallets(sDeliveryKey)
 				.then(this._setSapPostingEnabled.bind(this));
 			this._preSelectMaxReturn(sDeliveryKey);
+			this._bindHeaderData(sDeliveryKey);
+		},
+
+		_bindHeaderData: function (sDeliveryKey) {
+			var oModel = this.getOwnerComponent().getModel();
+			var sPath = oModel.createKey("/DeliveryHeadSet", {
+				DeliveryKey: sDeliveryKey
+			});
+			this.getView().getModel().read(sPath, {
+				success: function (oData) {
+					this.getView().getModel("Header").setProperty("/", oData);
+				}.bind(this)
+			});
 		},
 
 		_bindItemList: function (sDeliveryKey) {
@@ -758,10 +773,12 @@ sap.ui.define([
 							new sap.m.VBox({
 								items: [
 									new sap.m.Text({
-										text: "{i18n>details.currentlyLoaded}: {LoadedAmount} {i18n>general.pieces} ({LoadedPallets})"
+										text: "{i18n>details.currentlyLoaded}: {LoadedAmount} {i18n>general.pieces} ({LoadedPallets})",
+										visible: "{= ${Header>/DeliveryType} !== 'ZRET' }"
 									}),
 									new sap.m.Text({
-										text: "{i18n>details.currentlyUnloaded}: {UnloadedAmount} {i18n>general.pieces} ({UnloadedPallets})"
+										text: "{i18n>details.currentlyUnloaded}: {UnloadedAmount} {i18n>general.pieces} ({UnloadedPallets})",
+										visible: "{= ${Header>/DeliveryType} !== 'ZRET' }"
 									})
 								]
 							}).addStyleClass("sapUiSmallMarginBegin sapUiSmallMarginTopBottom"),
