@@ -39,7 +39,8 @@
 						change="onDeliveryQuantityChange"
 						enabled="{= ${InspectionStatus} !== 'POSTED' }"
 						/>
-					<Button icon="sap-icon://simulate" width="1rem" class="sapUiTinyMarginBegin" press="onOpenPalletsCalculatorPress" enabled="{= ${InspectionStatus} !== 'POSTED' }"/>
+					<Button icon="sap-icon://simulate" width="1rem" class="sapUiTinyMarginBegin" press="onOpenPalletsCalculatorPress" enabled="{= ${InspectionStatus} !== 'POSTED' }"
+						 />
 				</HBox>
 				
 				<!-- Editable -->

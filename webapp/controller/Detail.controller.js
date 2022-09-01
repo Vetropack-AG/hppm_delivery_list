@@ -145,6 +145,33 @@ sap.ui.define([
 				.then(this._handleConfirmUnloadingSuccess.bind(this));
 		},
 
+		onPrintItemPress: function () {
+			var oSelectedItem = this._getSelectedDeliveryItem();
+			if (!oSelectedItem) {
+				this.showTranslatedMessageToast("message.selectItem");
+				return;
+			}
+			this.getView().getModel("ViewSettings").setProperty("/PalletAmount", oSelectedItem.PalletAmount);
+			this.getFragment("CreateLabelDialog", this).open();
+		},
+
+		onCreateLabelDialogSavePress: function (oEvent) {
+			var oDialog = oEvent.getSource().getParent();
+			oDialog.close();
+			var iAmount = oDialog.getContent()[1].getItems()[1].getValue();
+			var oSelectedItem = this._getSelectedDeliveryItem();
+			var sDeliveryKey = oSelectedItem.DeliveryKey;
+			var sItemKey = oSelectedItem.ItemKey;
+			this.printItem(sDeliveryKey, sItemKey, iAmount)
+				.then(function () {
+					this.showTranslatedMessageToast("message.itemPrinted", [sItemKey]);
+				}.bind(this));
+		},
+
+		onCreateLabelDialogCancelPress: function (oEvent) {
+			oEvent.getSource().getParent().close();
+		},
+
 		/* =========================================================== */
 		/* private methods                                             */
 		/* =========================================================== */

@@ -51,7 +51,7 @@ sap.ui.define([
 			}
 			this.navTo(sTarget, {
 				DeliveryKey: oContext.getModel().getProperty(oContext.getPath() + "/DeliveryKey")
-			});
+			}, sTarget === "Registration");
 		},
 
 		onNavToCreateDeliveryPress: function () {

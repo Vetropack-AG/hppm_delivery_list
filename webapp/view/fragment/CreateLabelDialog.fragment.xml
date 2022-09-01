@@ -2,7 +2,7 @@
 	<Dialog draggable="true" title="{i18n>createLabelDialog.title}">
 		<HBox class="sapUiMediumMargin">
 			<Label text="{i18n>createLabelDialog.palletAmount}:"  class="sapUiTinyMarginEnd"/>
-			<Text text="{PalletAmount}" />
+			<Text text="{ViewSettings>/PalletAmount}" />
 		</HBox>
 		
 		<VBox justifyContent="Center" class="sapUiMediumMargin">

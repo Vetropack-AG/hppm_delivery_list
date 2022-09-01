@@ -19,5 +19,5 @@ builder:
         app:
           name: ZVGT_DEL_LIST
           description: "HPPM: Delivery List"
-          package: ZVGT_HPPM_DEL_LIST
-          transport: "123"
+          package: ZVGT_HPPM_DELIVERY_LIST
+          transport: "D91K912362"

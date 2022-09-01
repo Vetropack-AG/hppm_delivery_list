@@ -64,13 +64,15 @@ sap.ui.define([
 		},
 
 		onPrintItemPress: function () {
+			var sAmount = this.getDeliveryProperty("PalletAmount");
+			this.getView().getModel("ViewSettings").setProperty("/PalletAmount", sAmount);
 			this.getFragment("CreateLabelDialog", this).open();
 		},
 
 		onCreateLabelDialogSavePress: function (oEvent) {
 			var oDialog = oEvent.getSource().getParent();
 			oDialog.close();
-			var iAmount = oDialog.getContent()[0].getItems()[1].getValue();
+			var iAmount = oDialog.getContent()[1].getItems()[1].getValue();
 			var sDeliveryKey = this.getDeliveryProperty("DeliveryKey");
 			var sItemKey = this.getDeliveryProperty("ItemKey");
 			this.printItem(sDeliveryKey, sItemKey, iAmount)

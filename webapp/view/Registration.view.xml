@@ -21,7 +21,7 @@
 											<f:formElements>
 												<f:FormElement label="{i18n>registration.shipmentArrival}">
 													<f:fields>
-														<DatePicker value="{ path: 'ArrivalDate', type: 'sap.ui.model.odata.type.Date', formatOptions: { style: 'short' } }"/>
+														<DatePicker value="{ path: 'ArrivalDate', type: 'sap.ui.model.odata.type.DateTime', constraints: { displayFormat: 'Date' }, formatOptions: { style: 'short' } }"/>
 														<TimePicker value="{ path: 'ArrivalTime', type: 'sap.ui.model.odata.type.Time' }"/>
 													</f:fields>
 												</f:FormElement>

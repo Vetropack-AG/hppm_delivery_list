@@ -17,8 +17,10 @@
 				<uxap:subSections>
 					<uxap:ObjectPageSubSection titleUppercase="false">
 						<uxap:blocks>
-							<MessageStrip text="{i18n>message.noPallets}" type="Error" showIcon="true" showCloseButton="false" visible="{= ${HasPallets} === false }"/>
-							<core:Fragment fragmentName="zvgt.hppm.delivery_list.view.fragment.ItemDetailData" type="XML"/>
+							<VBox>
+								<MessageStrip text="{i18n>message.noPallets}" type="Error" showIcon="true" showCloseButton="false" visible="{= ${HasPallets} === false }"/>
+								<core:Fragment fragmentName="zvgt.hppm.delivery_list.view.fragment.ItemDetailData" type="XML"/>
+							</VBox>
 						</uxap:blocks>
 					</uxap:ObjectPageSubSection>
 				</uxap:subSections>
@@ -30,12 +32,15 @@
 					type="{ path: 'message>/', formatter: '.formatter.messageButtonTypeFormatter' }" text="{= ${message>/}.length}"
 					press="onMessagePopoverPress"/>
 				<ToolbarSpacer/>
-				<Button text="{i18n>details.prePosting}" press="onPrePostingPress" enabled="{HasPallets}" 
-					visible="{= ${MaterialDocumentFinalPosting} === '' &amp;&amp; ${MaterialDocumentPrePosting} === '' }" />
-				<Button text="{i18n>details.sapPosting}" type="Emphasized" press="onSapPostingPress" enabled="{HasPallets}" visible="{= ${MaterialDocumentFinalPosting} === '' }"/>
-				<Button text="{i18n>general.confirm}" type="Accept" press="onConfirmPress" enabled="{HasPallets}" visible="{= ${MaterialDocumentFinalPosting} === '' }"/>
+				<Button text="{i18n>details.prePosting}" press="onPrePostingPress" enabled="{HasPallets}"
+					visible="{= ${MaterialDocumentFinalPosting} === '' &amp;&amp; ${MaterialDocumentPrePosting} === '' }"/>
+				<Button text="{i18n>details.sapPosting}" type="Emphasized" press="onSapPostingPress" enabled="{HasPallets}"
+					visible="{= ${MaterialDocumentFinalPosting} === '' }"/>
+				<Button text="{i18n>general.confirm}" type="Accept" press="onConfirmPress" enabled="{HasPallets}"
+					visible="{= ${MaterialDocumentFinalPosting} === '' }"/>
 				<Button text="{i18n>general.cancel}" type="Reject" press="onCancelPress" visible="{= ${MaterialDocumentFinalPosting} === '' }"/>
-				<Button text="{i18n>general.save}" type="Emphasized" press="onSavePress" visible="{= ${InspectionStatus} === 'POSTED' || ${InspectionStatus} === 'COMPLETED' }"/>
+				<Button text="{i18n>general.save}" type="Emphasized" press="onSavePress"
+					visible="{= ${InspectionStatus} === 'POSTED' || ${InspectionStatus} === 'COMPLETED' }"/>
 			</OverflowToolbar>
 		</uxap:footer>
 	</uxap:ObjectPageLayout>
