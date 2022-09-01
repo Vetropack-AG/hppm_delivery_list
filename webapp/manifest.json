@@ -1,189 +1,190 @@
 {
-	"_version": "1.12.0",
-	"sap.app": {
-		"id": "zvgt.hppm.delivery_list",
-		"type": "application",
-		"i18n": "i18n/i18n.properties",
-		"applicationVersion": {
-			"version": "1.0.0"
-		},
-		"title": "{{appTitle}}",
-		"description": "{{appDescription}}",
-		"sourceTemplate": {
-			"id": "servicecatalog.connectivityComponentForManifest",
-			"version": "0.0.0"
-		},
-		"dataSources": {
-			"ZVGT_UI_HPPM_DELIVERY_LIST_SRV": {
-				"uri": "/sap/opu/odata/sap/ZVGT_UI_HPPM_DELIVERY_LIST_SRV/",
-				"type": "OData",
-				"settings": {
-					"localUri": "localService/metadata.xml",
-					"annotations": [
-						"annotation0"
-					]
-				}
-			},
-			"annotation0": {
-				"type": "ODataAnnotation",
-				"uri": "annotation/annotation0.xml",
-				"settings": {
-					"localUri": "annotation/annotation0.xml"
-				}
-			}
-		}
-	},
-	"sap.ui": {
-		"technology": "UI5",
-		"icons": {
-			"icon": "",
-			"favIcon": "",
-			"phone": "",
-			"phone@2": "",
-			"tablet": "",
-			"tablet@2": ""
-		},
-		"deviceTypes": {
-			"desktop": true,
-			"tablet": true,
-			"phone": true
-		}
-	},
-	"sap.ui5": {
-		"flexEnabled": false,
-		"rootView": {
-			"viewName": "zvgt.hppm.delivery_list.view.App",
-			"type": "XML",
-			"async": true,
-			"id": "App"
-		},
-		"dependencies": {
-			"minUI5Version": "1.60.1",
-			"libs": {
-				"sap.ui.layout": {},
-				"sap.ui.core": {},
-				"sap.m": {},
-				"zvgt.hppm": {
-					"minVersion": "1.0.0"
-				}
-			}
-		},
-		"contentDensities": {
-			"compact": true,
-			"cozy": true
-		},
-		"models": {
-			"i18n": {
-				"type": "sap.ui.model.resource.ResourceModel",
-				"settings": {
-					"bundleName": "zvgt.hppm.delivery_list.i18n.i18n"
-				}
-			},
-			"": {
-				"type": "sap.ui.model.odata.v2.ODataModel",
-				"settings": {
-					"defaultOperationMode": "Server",
-					"defaultBindingMode": "TwoWay",
-					"defaultCountMode": "None",
-					"useBatch": true,
-					"refreshAfterChange": true,
-					"defaultUpdateMethod": "PUT"
-				},
-				"dataSource": "ZVGT_UI_HPPM_DELIVERY_LIST_SRV",
-				"preload": true
-			},
-			"@i18n": {
-				"type": "sap.ui.model.resource.ResourceModel",
-				"uri": "i18n/i18n.properties"
-			}
-		},
-		"resources": {
-			"css": [
-				{
-					"uri": "css/style.css"
-				}
-			]
-		},
-		"routing": {
-			"config": {
-				"routerClass": "sap.m.routing.Router",
-				"viewType": "XML",
-				"async": true,
-				"viewPath": "zvgt.hppm.delivery_list.view",
-				"controlAggregation": "pages",
-				"controlId": "app",
-				"clearControlAggregation": false,
-				"bypassed": {
-					"target": []
-				}
-			},
-			"routes": [
-				{
-					"name": "RouteMain",
-					"pattern": "",
-					"target": [
-						"Main"
-					]
-				},
-				{
-					"name": "Registration",
-					"pattern": "Registration/{DeliveryKey}",
-					"titleTarget": "",
-					"greedy": false,
-					"target": [
-						"Registration"
-					]
-				},
-				{
-					"name": "Detail",
-					"pattern": "Detail/{DeliveryKey}",
-					"titleTarget": "",
-					"greedy": false,
-					"target": [
-						"Detail"
-					]
-				},
-				{
-					"name": "ItemDetail",
-					"pattern": "Detail/{DeliveryKey}/Item/{ItemKey}",
-					"titleTarget": "",
-					"greedy": false,
-					"target": [
-						"ItemDetail"
-					]
-				}
-			],
-			"targets": {
-				"App": {
-					"viewType": "XML",
-					"viewName": "App"
-				},
-				"Main": {
-					"viewType": "XML",
-					"transition": "slide",
-					"clearControlAggregation": false,
-					"viewName": "Main",
-					"viewId": "Main"
-				},
-				"Registration": {
-					"viewType": "XML",
-					"viewName": "Registration",
-					"viewId": "Registration"
-				},
-				"Detail": {
-					"viewType": "XML",
-					"viewName": "Detail",
-					"viewId": "Detail"
-				},
-				"ItemDetail": {
-					"viewType": "XML",
-					"viewName": "ItemDetail"
-				}
-			}
-		}
-	},
-	"sap.platform.abap": {
-		"uri": "/sap/bc/ui5_ui5/sap/zvgt_del_list/webapp",
-		"_version": "1.1.0"
-	}
+    "_version": "1.12.0",
+    "sap.app": {
+        "id": "zvgt.hppm.delivery_list",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "1.0.0"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "sourceTemplate": {
+            "id": "servicecatalog.connectivityComponentForManifest",
+            "version": "0.0.0",
+            "toolsId": "23442d62-478a-41b2-afb5-a0a2596d9147"
+        },
+        "dataSources": {
+            "ZVGT_UI_HPPM_DELIVERY_LIST_SRV": {
+                "uri": "/sap/opu/odata/sap/ZVGT_UI_HPPM_DELIVERY_LIST_SRV/",
+                "type": "OData",
+                "settings": {
+                    "localUri": "localService/metadata.xml",
+                    "annotations": [
+                        "annotation0"
+                    ]
+                }
+            },
+            "annotation0": {
+                "type": "ODataAnnotation",
+                "uri": "annotation/annotation0.xml",
+                "settings": {
+                    "localUri": "annotation/annotation0.xml"
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        }
+    },
+    "sap.ui5": {
+        "flexEnabled": false,
+        "rootView": {
+            "viewName": "zvgt.hppm.delivery_list.view.App",
+            "type": "XML",
+            "async": true,
+            "id": "App"
+        },
+        "dependencies": {
+            "minUI5Version": "1.60.1",
+            "libs": {
+                "sap.ui.layout": {},
+                "sap.ui.core": {},
+                "sap.m": {},
+                "zvgt.hppm": {
+                    "minVersion": "1.0.0"
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "settings": {
+                    "bundleName": "zvgt.hppm.delivery_list.i18n.i18n"
+                }
+            },
+            "": {
+                "type": "sap.ui.model.odata.v2.ODataModel",
+                "settings": {
+                    "defaultOperationMode": "Server",
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "None",
+                    "useBatch": true,
+                    "refreshAfterChange": true,
+                    "defaultUpdateMethod": "PUT"
+                },
+                "dataSource": "ZVGT_UI_HPPM_DELIVERY_LIST_SRV",
+                "preload": true
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            }
+        },
+        "resources": {
+            "css": [
+                {
+                    "uri": "css/style.css"
+                }
+            ]
+        },
+        "routing": {
+            "config": {
+                "routerClass": "sap.m.routing.Router",
+                "viewType": "XML",
+                "async": true,
+                "viewPath": "zvgt.hppm.delivery_list.view",
+                "controlAggregation": "pages",
+                "controlId": "app",
+                "clearControlAggregation": false,
+                "bypassed": {
+                    "target": []
+                }
+            },
+            "routes": [
+                {
+                    "name": "RouteMain",
+                    "pattern": "",
+                    "target": [
+                        "Main"
+                    ]
+                },
+                {
+                    "name": "Registration",
+                    "pattern": "Registration/{DeliveryKey}",
+                    "titleTarget": "",
+                    "greedy": false,
+                    "target": [
+                        "Registration"
+                    ]
+                },
+                {
+                    "name": "Detail",
+                    "pattern": "Detail/{DeliveryKey}",
+                    "titleTarget": "",
+                    "greedy": false,
+                    "target": [
+                        "Detail"
+                    ]
+                },
+                {
+                    "name": "ItemDetail",
+                    "pattern": "Detail/{DeliveryKey}/Item/{ItemKey}",
+                    "titleTarget": "",
+                    "greedy": false,
+                    "target": [
+                        "ItemDetail"
+                    ]
+                }
+            ],
+            "targets": {
+                "App": {
+                    "viewType": "XML",
+                    "viewName": "App"
+                },
+                "Main": {
+                    "viewType": "XML",
+                    "transition": "slide",
+                    "clearControlAggregation": false,
+                    "viewName": "Main",
+                    "viewId": "Main"
+                },
+                "Registration": {
+                    "viewType": "XML",
+                    "viewName": "Registration",
+                    "viewId": "Registration"
+                },
+                "Detail": {
+                    "viewType": "XML",
+                    "viewName": "Detail",
+                    "viewId": "Detail"
+                },
+                "ItemDetail": {
+                    "viewType": "XML",
+                    "viewName": "ItemDetail"
+                }
+            }
+        }
+    },
+    "sap.platform.abap": {
+        "uri": "/sap/bc/ui5_ui5/sap/zvgt_del_list/webapp",
+        "_version": "1.1.0"
+    }
 }
