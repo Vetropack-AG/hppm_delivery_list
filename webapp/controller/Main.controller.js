@@ -1,149 +1,157 @@
 sap.ui.define([
-	"zvgt/hppm/delivery_list/controller/BaseController",
-	"zvgt/hppm/delivery_list/model/formatter",
-	"zvgt/hppm/library",
-	"sap/m/PDFViewer"
+    "zvgt/hppm/delivery_list/controller/BaseController",
+    "zvgt/hppm/delivery_list/model/formatter",
+    "zvgt/hppm/library",
+    "sap/m/PDFViewer"
 ], function (BaseController, formatter, hppm, PDFViewer) {
-	"use strict";
+    "use strict";
 
-	return BaseController.extend("zvgt.hppm.delivery_list.controller.Main", {
-		formatter: formatter,
+    return BaseController.extend("zvgt.hppm.delivery_list.controller.Main", {
+        formatter: formatter,
 
-		/* =========================================================== */
-		/* lifecycle methods                                           */
-		/* =========================================================== */
+        /* =========================================================== */
+        /* lifecycle methods                                           */
+        /* =========================================================== */
 
-		onInit: function () {
-			jQuery.sap.addUrlWhitelist("blob");
-			this._oPdfViewer = new PDFViewer();
-			this.getView().addDependent(this._oPdfViewer);
-		},
+        onInit: function () {
+            jQuery.sap.addUrlWhitelist("blob");
+            this._oPdfViewer = new PDFViewer();
+            this.getView().addDependent(this._oPdfViewer);
+        },
 
-		/* =========================================================== */
-		/* event handlers                                              */
-		/* =========================================================== */
+        /* =========================================================== */
+        /* event handlers                                              */
+        /* =========================================================== */
 
-		onPrintProtocolPress: function () {
-			var sDeliveryKey = this._getSelectedDeliveryKey();
-			this.printProtocol(sDeliveryKey)
-				.then(function (oData) {
-					this._openProtocol(oData.Protocol);
-					this.showTranslatedMessageToast("message.protocolPrinted", [sDeliveryKey]);
-				}.bind(this));
-		},
+        onPrintProtocolPress: function () {
+            var sDeliveryKey = this._getSelectedDeliveryKey();
+            this.printProtocol(sDeliveryKey)
+                .then(function (oData) {
+                    this._openProtocol(oData.Protocol);
+                    this.showTranslatedMessageToast("message.protocolPrinted", [sDeliveryKey]);
+                }.bind(this));
+        },
 
-		onCancelDeliveryPress: function () {
-			var sDeliveryKey = this._getSelectedDeliveryKey();
-			this.cancelDelivery(sDeliveryKey)
-				.then(function () {
-					this.showTranslatedMessageToast("message.deliveryCanceled", [sDeliveryKey]);
-				}.bind(this));
-		},
+        onCancelDeliveryPress: function () {
+            var sDeliveryKey = this._getSelectedDeliveryKey();
+            this.cancelDelivery(sDeliveryKey)
+                .then(function () {
+                    this.showTranslatedMessageToast("message.deliveryCanceled", [sDeliveryKey]);
+                }.bind(this));
+        },
 
-		onItemPress: function (oEvent) {
-			var oItem = oEvent.getParameter("listItem");
-			var oContext = oItem.getBindingContext();
-			var sTarget;
-			if (oContext.getProperty("DeliveryType") === hppm.DELIVERY_TYPE.INTERNAL) {
-				sTarget = "Detail";
-			} else {
-				sTarget = oContext.getProperty("ShipmentStatus") === hppm.SHIPMENT_STATUS.NEW ? "Registration" : "Detail";
-			}
-			this.navTo(sTarget, {
-				DeliveryKey: oContext.getModel().getProperty(oContext.getPath() + "/DeliveryKey")
-			}, sTarget === "Registration");
-		},
+        onItemPress: function (oEvent) {
+            var oItem = oEvent.getParameter("listItem");
+            var oContext = oItem.getBindingContext();
+            var sTarget;
+            if (oContext.getProperty("DeliveryType") === hppm.DELIVERY_TYPE.INTERNAL) {
+                sTarget = "Detail";
+            } else if (this._isShipmentStatusForRegistration(oContext.getProperty("ShipmentStatus"))) {
+                sTarget = "Registration";
+            } else {
+                sTarget = "Detail";
+            }
+            this.navTo(sTarget, {
+                DeliveryKey: oContext.getModel().getProperty(oContext.getPath() + "/DeliveryKey")
+            }, sTarget === "Registration");
+        },
 
-		onNavToCreateDeliveryPress: function () {
-			var oCrossAppNav = sap.ushell.Container.getService("CrossApplicationNavigation");
-			if (oCrossAppNav) {
-				oCrossAppNav.toExternal({ // eslint-disable-line
-					target: {
-						semanticObject: "OutboundDelivery",
-						action: "create"
-					}
-				});
-			}
-		},
 
-		onLabelScanSubmit: function (oEvent) {
-			var sValue = oEvent.getParameter("value");
-			oEvent.getSource().setValue("");
-			this._getDeliveryItemByCaseNumber(sValue)
-				.then(this._navToItemDetail.bind(this))
-				.catch(this._handleScanLabelError.bind(this));
-		},
 
-		/* =========================================================== */
-		/* private methods                                             */
-		/* =========================================================== */
+        onNavToCreateDeliveryPress: function () {
+            var oCrossAppNav = sap.ushell.Container.getService("CrossApplicationNavigation");
+            if (oCrossAppNav) {
+                oCrossAppNav.toExternal({ // eslint-disable-line
+                    target: {
+                        semanticObject: "OutboundDelivery",
+                        action: "create"
+                    }
+                });
+            }
+        },
 
-		_getDeliveryItemByCaseNumber: function (sCaseNumber) {
-			sap.ui.core.BusyIndicator.show(0);
-			return new Promise(function (resolve, reject) {
-				var oModel = this.getView().getModel();
-				oModel.read("/PalletSet", {
-					filters: [
-						new sap.ui.model.Filter("CaseNumber", "EQ", sCaseNumber),
-						new sap.ui.model.Filter("Original", "EQ", true)
-					],
-					success: function (oData) {
-						if (oData.results.length > 0) {
-							resolve({
-								DeliveryKey: oData.results[0].DeliveryKey,
-								ItemKey: oData.results[0].ItemKey
-							});
-						} else {
-							reject();
-						}
-					},
-					error: reject
-				});
-			}.bind(this));
-		},
+        onLabelScanSubmit: function (oEvent) {
+            var sValue = oEvent.getParameter("value");
+            oEvent.getSource().setValue("");
+            this._getDeliveryItemByCaseNumber(sValue)
+                .then(this._navToItemDetail.bind(this))
+                .catch(this._handleScanLabelError.bind(this));
+        },
 
-		_handleScanLabelError: function () {
-			this.showTranslatedErrorMessage("message.labelScanError");
-		},
+        /* =========================================================== */
+        /* private methods                                             */
+        /* =========================================================== */
 
-		_navToItemDetail: function (oDelivery) {
-			this.navTo("ItemDetail", oDelivery);
-		},
+        _isShipmentStatusForRegistration: function (sStatus) {
+            return sStatus === hppm.SHIPMENT_STATUS.NEW || sStatus === hppm.SHIPMENT_STATUS.PLANNED;
+        },
 
-		_openProtocol: function (sBase64Data) {
-			var sSource = this._convertPdf(sBase64Data);
-			this._oPdfViewer.setSource(sSource);
-			this._oPdfViewer.open();
-		},
+        _getDeliveryItemByCaseNumber: function (sCaseNumber) {
+            sap.ui.core.BusyIndicator.show(0);
+            return new Promise(function (resolve, reject) {
+                var oModel = this.getView().getModel();
+                oModel.read("/PalletSet", {
+                    filters: [
+                        new sap.ui.model.Filter("CaseNumber", "EQ", sCaseNumber),
+                        new sap.ui.model.Filter("Original", "EQ", true)
+                    ],
+                    success: function (oData) {
+                        if (oData.results.length > 0) {
+                            resolve({
+                                DeliveryKey: oData.results[0].DeliveryKey,
+                                ItemKey: oData.results[0].ItemKey
+                            });
+                        } else {
+                            reject();
+                        }
+                    },
+                    error: reject
+                });
+            }.bind(this));
+        },
 
-		_convertPdf: function (sBase64) {
-			var decodedPdfContent = atob(sBase64);
-			var byteArray = new Uint8Array(decodedPdfContent.length); // eslint-disable-line
-			for (var i = 0; i < decodedPdfContent.length; i++) {
-				byteArray[i] = decodedPdfContent.charCodeAt(i);
-			}
-			var blob = new Blob([byteArray.buffer], {
-				type: "application/pdf"
-			});
-			return URL.createObjectURL(blob);
-		},
+        _handleScanLabelError: function () {
+            this.showTranslatedErrorMessage("message.labelScanError");
+        },
 
-		_getSelectedDeliveryKey: function () {
-			var oData = this._getSelectedDelivery();
-			return oData ? oData.DeliveryKey : undefined;
-		},
+        _navToItemDetail: function (oDelivery) {
+            this.navTo("ItemDetail", oDelivery);
+        },
 
-		_getSelectedDelivery: function () {
-			var oTable = this._getTable();
-			var aContexts = oTable.getSelectedContexts();
-			if (aContexts[0]) {
-				return aContexts[0].getModel().getProperty(aContexts[0].getPath());
-			}
-			return undefined;
-		},
+        _openProtocol: function (sBase64Data) {
+            var sSource = this._convertPdf(sBase64Data);
+            this._oPdfViewer.setSource(sSource);
+            this._oPdfViewer.open();
+        },
 
-		_getTable: function () {
-			return this.getView().byId("SmartTable").getTable();
-		}
-	});
+        _convertPdf: function (sBase64) {
+            var decodedPdfContent = atob(sBase64);
+            var byteArray = new Uint8Array(decodedPdfContent.length); // eslint-disable-line
+            for (var i = 0; i < decodedPdfContent.length; i++) {
+                byteArray[i] = decodedPdfContent.charCodeAt(i);
+            }
+            var blob = new Blob([byteArray.buffer], {
+                type: "application/pdf"
+            });
+            return URL.createObjectURL(blob);
+        },
+
+        _getSelectedDeliveryKey: function () {
+            var oData = this._getSelectedDelivery();
+            return oData ? oData.DeliveryKey : undefined;
+        },
+
+        _getSelectedDelivery: function () {
+            var oTable = this._getTable();
+            var aContexts = oTable.getSelectedContexts();
+            if (aContexts[0]) {
+                return aContexts[0].getModel().getProperty(aContexts[0].getPath());
+            }
+            return undefined;
+        },
+
+        _getTable: function () {
+            return this.getView().byId("SmartTable").getTable();
+        }
+    });
 });
