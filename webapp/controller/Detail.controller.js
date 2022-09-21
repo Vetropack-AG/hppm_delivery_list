@@ -55,6 +55,7 @@ sap.ui.define([
             var oSelectedItem = this._getSelectedDeliveryItem();
             if (oSelectedItem.InspectionStatus === hppm.INSPECTION_STATUS.COMPLETED) {
                 this.showTranslatedErrorMessage("message.itemCannotBeDeleted");
+                return;
             }
 
             this._deleteSelectedItem().then(function () {
@@ -686,10 +687,10 @@ sap.ui.define([
 
         _mapListItemToGoodsMovementItemData: function (oListItem) {
             return {
-                Quantity: oListItem.getContent()[0].getItems()[0].getValue().toString(),
+                Quantity: oListItem.getCells()[3].getValue().toString(),
                 ItemKey: oListItem.getCustomData()[0].getValue(),
                 DeliveryKey: this.getDeliveryProperty("DeliveryKey"),
-                MaxReturn: oListItem.getContent()[0].getItems()[1].getValue().toString()
+                MaxReturn: oListItem.getCells()[4].getValue().toString()
             };
         },
 
