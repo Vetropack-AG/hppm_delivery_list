@@ -43,6 +43,7 @@ sap.ui.define([
 
 		onCancelPress: function () {
 			this.getView().getModel().resetChanges();
+            this.navBack();
 		},
 
 		onSavePress: function () {
@@ -448,7 +449,8 @@ sap.ui.define([
 					ItemKey: this.getDeliveryProperty("ItemKey"),
 					MaterialDocument: this.getView().getModel("ViewSettings").getProperty("/MaterialDocument") || "",
 					ManualPosting: this.getView().getModel("ViewSettings").getProperty("/ManualPosting") || false,
-					MaxReturn: this.getView().getModel("ViewSettings").getProperty("/MaxReturn")
+					MaxReturn: this.getView().getModel("ViewSettings").getProperty("/MaxReturn"),
+                    PostingDate: this.getView().getModel("ViewSettings").getProperty("/PostingDate")
 				}).then(this._showItemPosted.bind(this));
 			}.bind(this));
 		},

@@ -207,7 +207,8 @@ sap.ui.define([
 						ItemKey: oData.ItemKey,
 						MaterialDocument: oData.MaterialDocument || "",
 						ManualPosting: oData.ManualPosting || false,
-						MaxReturn: oData.MaxReturn.toString() || ""
+						MaxReturn: oData.MaxReturn.toString() || "",
+                        PostingDate: oData.PostingDate || new Date(),
 					},
 					groupId: "FinalPosting",
 					success: resolve,

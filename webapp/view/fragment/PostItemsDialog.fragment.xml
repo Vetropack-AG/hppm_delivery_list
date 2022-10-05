@@ -1,5 +1,5 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form">
-	<Dialog draggable="true" title="{i18n>postItemsDialog.title}" contentWidth="45%">
+	<Dialog draggable="true" title="{i18n>postItemsDialog.title}" contentWidth="65%">
 		<f:Form editable="false">
 			<f:layout>
 				<f:ResponsiveGridLayout labelSpanXL="3" labelSpanL="3" labelSpanM="3" labelSpanS="5" singleContainerFullSize="true"/>
@@ -28,20 +28,23 @@
 		</f:Form>
 		<Table>
 			<columns>
-				<Column width="15%">
+				<Column width="7%">
 					<Text text="{i18n>details.sapNo}"/>
 				</Column>
 				<Column width="auto" demandPopin="true" minScreenWidth="Desktop" popinDisplay="Inline">
 					<Text text="{i18n>details.sapName}"/>
 				</Column>
-				<Column width="20%" demandPopin="true" minScreenWidth="Desktop" popinDisplay="Inline">
+				<Column width="15%" demandPopin="true" minScreenWidth="Desktop" popinDisplay="Inline">
 					<Text text="{i18n>postItemDialog.stockType}"/>
 				</Column>
-				<Column width="20%" demandPopin="true" minScreenWidth="Desktop" popinDisplay="Inline">
+				<Column width="15%" demandPopin="true" minScreenWidth="Desktop" popinDisplay="Inline">
 					<Text text="{i18n>postItemDialog.postingQuantity}"/>
 				</Column>
-				<Column width="20%" demandPopin="true" minScreenWidth="Desktop" popinDisplay="Inline">
+				<Column width="15%" demandPopin="true" minScreenWidth="Desktop" popinDisplay="Inline">
 					<Text text="{i18n>postItemDialog.maxReturnDelivery}"/>
+				</Column>
+				<Column width="15%" demandPopin="true" minScreenWidth="Desktop" popinDisplay="Inline">
+					<Text text="{i18n>postItemDialog.postindDate}"/>
 				</Column>
 			</columns>
 		</Table>

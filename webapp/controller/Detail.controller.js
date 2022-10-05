@@ -690,7 +690,8 @@ sap.ui.define([
                 Quantity: oListItem.getCells()[3].getValue().toString(),
                 ItemKey: oListItem.getCustomData()[0].getValue(),
                 DeliveryKey: this.getDeliveryProperty("DeliveryKey"),
-                MaxReturn: oListItem.getCells()[4].getValue().toString()
+                MaxReturn: oListItem.getCells()[4].getValue().toString(),
+                PostingDate: oListItem.getCells()[5].getValue() || new Date()
             };
         },
 
@@ -728,6 +729,10 @@ sap.ui.define([
                         min: 1,
                         width: "8rem",
                         value: this._iMaxReturn || 31
+                    }),
+                    new sap.m.DatePicker({
+                        visible: "{= ${SpecialStock} === 'O' }",
+                        value:"{ path: 'PostingDate', type: 'sap.ui.model.odata.type.DateTime', constraints: { displayFormat: 'Date' } }"
                     })
                 ],
                 customData: new sap.ui.core.CustomData({
