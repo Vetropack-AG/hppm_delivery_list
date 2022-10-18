@@ -731,7 +731,7 @@ sap.ui.define([
                         value: this._iMaxReturn || 31
                     }),
                     new sap.m.DatePicker({
-                        visible: "{= ${SpecialStock} === 'O' }",
+                        visible: "{= ${SpecialStock} !== 'O' }",
                         value:"{ path: 'PostingDate', type: 'sap.ui.model.odata.type.DateTime', constraints: { displayFormat: 'Date' } }"
                     })
                 ],

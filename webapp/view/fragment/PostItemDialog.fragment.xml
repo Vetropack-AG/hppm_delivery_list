@@ -53,12 +53,12 @@
 								<StepInput value="{ path:'QtyPosted', type:'sap.ui.model.odata.type.Decimal' }" min="1"/>
 							</f:fields>
 						</f:FormElement>
-						<f:FormElement label="{i18n>postItemDialog.maxReturnDelivery}" visible="{= ${SpecialStock} !== 'O' }">
+						<f:FormElement label="{i18n>postItemDialog.maxReturnDelivery}" visible="{= ${SpecialStock} === 'O' }">
 							<f:fields>
 								<StepInput value="{ path:'ViewSettings>/MaxReturn', type:'sap.ui.model.odata.type.Decimal' }" min="1"/>
 							</f:fields>
 						</f:FormElement>
-						<f:FormElement label="{i18n>postItemDialog.postindDate}" visible="{= ${SpecialStock} === 'O' }">
+						<f:FormElement label="{i18n>postItemDialog.postindDate}" visible="{= ${SpecialStock} !== 'O' }">
 							<f:fields>
 							    <DatePicker value="{ path: 'ViewSettings>/PostingDate', type: 'sap.ui.model.odata.type.DateTime', constraints: { displayFormat: 'Date' } }"/>
 							</f:fields>
