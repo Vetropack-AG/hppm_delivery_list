@@ -46,7 +46,7 @@
 					press="onMessagePopoverPress"/>
 				<m:ToolbarSpacer/>
 				<m:Button text="{i18n>details.sapPosting}" type="Emphasized" press="onSapPostingPress" id="SapPostingButton"
-					visible="{= ${DeliveryType} === 'ZRET' &amp;&amp; ${InspectionStatus} !== 'POSTED' }"/>
+					visible="{= ${DeliveryType} === 'ZRET' &amp;&amp; ${InspectionStatus} !== 'POSTED' &amp;&amp; ${InspectionStatus} !== 'COMPLETED'  }"/>
 				<m:Button text="{i18n>details.finishLoading}" press="onConfirmLoadingPress" 
 					visible="{= ( ${InspectionStatus} === 'OPEN' || ${InspectionStatus} === 'QUALITY' || ${InspectionStatus} === 'QUANTITY' ) &amp;&amp; ${Header>/DeliveryType} !== 'ZRET' }"/>
 				<m:Button text="{i18n>details.finishUnloading}" press="onConfirmUnloadingPress" 

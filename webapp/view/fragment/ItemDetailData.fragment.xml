@@ -60,7 +60,9 @@
 					<CheckBox selected="{NoScrap}" text="{i18n>details.noScrap}" wrapping="true" select="onNoScrapChange"/>
 				</VBox>
 				
-				<!-- Editable but Calculated: ActualQuantity - TotalClaimQuantity -->
+				<!-- Editable but Calculated: ActualQuantity - TotalClaimQuantity (=RepairQuantityAboveTolerance + ScrapQuantityAboveTolerance) -->
+                <!-- Logic above not relevant anymore from mail Janis on 20.10.2022 -->
+                <!-- New logic: WashedQuantity + NeedScrapQuantity - ScrapQuantity -->
 				<Label text="{i18n>details.bookedQuantity}" />
 				<StepInput value="{ path:'QtyPosted', type:'sap.ui.model.odata.type.Decimal' }" editable="{= ${InspectionStatus} !== 'POSTED' }" 
 					min="0"/>
