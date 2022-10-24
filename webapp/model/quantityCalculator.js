@@ -30,12 +30,16 @@ sap.ui.define([
 			if (sStatus === "POSTED") {
 				return;
 			}
+
+            var sActualQuantity = oContext.getProperty("ActualQuantity") || 0;
+			var sTotalClaimQuantity = oContext.getProperty("TotalClaimQuantity") || 0;
+			var iQtyPosted = parseInt(sActualQuantity, 10) - parseInt(sTotalClaimQuantity, 10);
             
             // New logic: WashedQuantity + NeedScrapQuantity - ScrapQuantity --> mail from Janis on 20.10.2022
-			var sWashedQuantity = oContext.getProperty("WashedQuantity") || 0;
-			var sNeedScrapQuantity = oContext.getProperty("NeedScrapQuantity") || 0;
-            var sScrapQuantity = oContext.getProperty("ScrapQuantity") || 0;
-			var iQtyPosted = parseInt(sWashedQuantity, 10) + parseInt(sNeedScrapQuantity, 10) - parseInt(sScrapQuantity, 10);
+			//var sWashedQuantity = oContext.getProperty("WashedQuantity") || 0;
+			//var sNeedScrapQuantity = oContext.getProperty("NeedScrapQuantity") || 0;
+            //var sScrapQuantityAboveTolerance = oContext.getProperty("ScrapQuantityAboveTolerance") || 0;
+			//var iQtyPosted = parseInt(sWashedQuantity, 10) + parseInt(sNeedScrapQuantity, 10) - parseInt(sScrapQuantityAboveTolerance, 10);
 			if (!isNaN(iQtyPosted)) {
 				oContext.getModel().setProperty(oContext.getPath() + "/QtyPosted", iQtyPosted > 0 ? iQtyPosted.toString() : "0");
 			}
