@@ -28,6 +28,8 @@
 					<smartFilterBar:ControlConfiguration key="StockType" visibleInAdvancedArea="true" controlType="dropDownList" displayBehaviour="descriptionOnly" />
 					<smartFilterBar:ControlConfiguration key="SalesAdmin" visibleInAdvancedArea="true" hasValueHelpDialog="true" preventInitialDataFetchInValueHelpDialog="false" />
 					<smartFilterBar:ControlConfiguration key="SalesRep" visibleInAdvancedArea="true" hasValueHelpDialog="true" preventInitialDataFetchInValueHelpDialog="false" />
+					<smartFilterBar:ControlConfiguration key="Plant" visibleInAdvancedArea="true" hasValueHelpDialog="true" preventInitialDataFetchInValueHelpDialog="false"
+						label="{i18n>main.owner}" />
 				</smartFilterBar:controlConfiguration>
 				
 			<!-- layout data used to make the table growing but the filter bar fixed -->
