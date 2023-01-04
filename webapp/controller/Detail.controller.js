@@ -289,6 +289,8 @@ sap.ui.define([
         },
 
         _handleFinalPosting: function (oData) {
+            console.log(oData)
+            return;
             this.doFinalPosting({
                 DeliveryKey: oData.DeliveryKey,
                 ItemKey: oData.ItemKey,
@@ -691,7 +693,7 @@ sap.ui.define([
                 ItemKey: oListItem.getCustomData()[0].getValue(),
                 DeliveryKey: this.getDeliveryProperty("DeliveryKey"),
                 MaxReturn: oListItem.getCells()[4].getValue().toString(),
-                PostingDate: oListItem.getCells()[5].getValue() || new Date()
+                PostingDate: oListItem.getCells()[5].getDateValue() || new Date()
             };
         },
 
@@ -731,8 +733,7 @@ sap.ui.define([
                         value: this._iMaxReturn || 31
                     }),
                     new sap.m.DatePicker({
-                        visible: "{= ${SpecialStock} !== 'O' }",
-                        value:"{ path: 'PostingDate', type: 'sap.ui.model.odata.type.DateTime', constraints: { displayFormat: 'Date' } }"
+                        visible: "{= ${SpecialStock} !== 'O' }"
                     })
                 ],
                 customData: new sap.ui.core.CustomData({

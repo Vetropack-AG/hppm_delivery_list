@@ -14,10 +14,10 @@ builder:
       afterTask: generateCachebusterInfo
       configuration:
         target:
-          destination: ERP_EMBEDDED_D91
+          destination: ERP_EMBEDDED_D91_100
           url: http://vpavd910.vetropack.corporate.ads:44300
         app:
           name: ZVGT_DEL_LIST
           description: "HPPM: Delivery List"
           package: ZVGT_HPPM_DELIVERY_LIST
-          transport: "D91K912362"
+          transport: "D91K913353"

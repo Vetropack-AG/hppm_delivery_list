@@ -44,7 +44,7 @@
 					<Text text="{i18n>postItemDialog.maxReturnDelivery}"/>
 				</Column>
 				<Column width="15%" demandPopin="true" minScreenWidth="Desktop" popinDisplay="Inline">
-					<Text text="{i18n>postItemDialog.postindDate}"/>
+					<Text text="{i18n>postItemDialog.postingDate}"/>
 				</Column>
 			</columns>
 		</Table>
