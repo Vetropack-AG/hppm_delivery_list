@@ -209,6 +209,8 @@ sap.ui.define([
 						ManualPosting: oData.ManualPosting || false,
 						MaxReturn: oData.MaxReturn.toString() || "",
                         PostingDate: oData.PostingDate || new Date(),
+						LastItem: oData.LastItem || false,
+						SinglePost: oData.SinglePost === undefined ? true : oData.SinglePost
 					},
 					groupId: "FinalPosting",
 					success: resolve,

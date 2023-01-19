@@ -450,7 +450,9 @@ sap.ui.define([
 					MaterialDocument: this.getView().getModel("ViewSettings").getProperty("/MaterialDocument") || "",
 					ManualPosting: this.getView().getModel("ViewSettings").getProperty("/ManualPosting") || false,
 					MaxReturn: this.getView().getModel("ViewSettings").getProperty("/MaxReturn"),
-                    PostingDate: this.getView().getModel("ViewSettings").getProperty("/PostingDate")
+                    PostingDate: this.getView().getModel("ViewSettings").getProperty("/PostingDate"),
+					SinglePost: true,
+					LastItem: true
 				}).then(this._showItemPosted.bind(this));
 			}.bind(this));
 		},

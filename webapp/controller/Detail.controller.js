@@ -290,11 +290,12 @@ sap.ui.define([
 
         _handleFinalPosting: function (oData) {
             console.log(oData)
-            return;
             this.doFinalPosting({
                 DeliveryKey: oData.DeliveryKey,
                 ItemKey: oData.ItemKey,
-                MaxReturn: oData.MaxReturn
+                MaxReturn: oData.MaxReturn,
+                SinglePost: false,
+                LastItem: oData.LastItem,
             }).then(this._showItemsPosted.bind(this));
         },
 
@@ -687,13 +688,14 @@ sap.ui.define([
             return undefined;
         },
 
-        _mapListItemToGoodsMovementItemData: function (oListItem) {
+        _mapListItemToGoodsMovementItemData: function (oListItem, iIndex, aItems) {
             return {
                 Quantity: oListItem.getCells()[3].getValue().toString(),
                 ItemKey: oListItem.getCustomData()[0].getValue(),
                 DeliveryKey: this.getDeliveryProperty("DeliveryKey"),
                 MaxReturn: oListItem.getCells()[4].getValue().toString(),
-                PostingDate: oListItem.getCells()[5].getDateValue() || new Date()
+                PostingDate: oListItem.getCells()[5].getDateValue() || new Date(),
+                LastItem: iIndex === (aItems.length - 1)
             };
         },
 
