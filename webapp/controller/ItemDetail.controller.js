@@ -57,6 +57,7 @@ sap.ui.define([
 		},
 
 		onPostItemDialogSavePress: function (oEvent) {
+			this.getFragment("PostItemDialog", this).close();
 			this._handleFinalPosting();
 		},
 
@@ -467,8 +468,6 @@ sap.ui.define([
 		},
 
 		_showItemPosted: function () {
-			var oDialog = this.getFragment("PostItemDialog", this);
-			oDialog.close();
 			this.showTranslatedMessageToast("message.itemPosted", [this.getDeliveryProperty("ItemKey")]);
 		},
 

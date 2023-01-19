@@ -105,8 +105,7 @@ sap.ui.define([
         },
 
         onPostItemsDialogSavePress: function (oEvent) {
-            var oDialog = this.getFragment("PostItemsDialog", this);
-            oDialog.close();
+            this.getFragment("PostItemsDialog", this).close();
             var oList = this._getPostItemsList();
 
             this._saveItems().then(function () {
@@ -289,7 +288,6 @@ sap.ui.define([
         },
 
         _handleFinalPosting: function (oData) {
-            console.log(oData)
             this.doFinalPosting({
                 DeliveryKey: oData.DeliveryKey,
                 ItemKey: oData.ItemKey,
