@@ -73,6 +73,14 @@
 								</Input>
 							</f:fields>
 						</f:FormElement>
+						<f:FormElement label="{i18n>postItemDialog.soldTo}">
+							<f:fields>
+								<Select items="{ path: '/SoldToValueHelpSet' }">
+										<core:ListItem key="{Key}" text="{Text} ({Key})" />
+								</Select>
+							</f:fields>
+						</f:FormElement>
+
 					</f:formElements>
 				</f:FormContainer>
 			</f:formContainers>

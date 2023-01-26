@@ -107,7 +107,6 @@ sap.ui.define([
         onPostItemsDialogSavePress: function (oEvent) {
             this.getFragment("PostItemsDialog", this).close();
             var oList = this._getPostItemsList();
-
             this._saveItems().then(function () {
                 oList.getItems()
                     .map(this._mapListItemToGoodsMovementItemData, this)
@@ -294,6 +293,7 @@ sap.ui.define([
                 MaxReturn: oData.MaxReturn,
                 SinglePost: false,
                 LastItem: oData.LastItem,
+                SoldToParty: this._getPostItemsSoldToParty()
             }).then(this._showItemsPosted.bind(this));
         },
 
@@ -695,6 +695,14 @@ sap.ui.define([
                 PostingDate: oListItem.getCells()[5].getDateValue() || new Date(),
                 LastItem: iIndex === (aItems.length - 1)
             };
+        },
+
+        _getPostItemsSoldToParty: function () {
+            var oForm = this.getFragment("PostItemsDialog", this).getContent()[0];
+            var oContainer = oForm.getFormContainers()[0];
+            var oElement = oContainer.getFormElements()[3];
+            var oField = oElement.getFields()[0];
+            return oField.getSelectedKey();
         },
 
         _bindPostItemsDialog: function () {

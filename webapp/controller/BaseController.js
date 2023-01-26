@@ -210,7 +210,8 @@ sap.ui.define([
 						MaxReturn: oData.MaxReturn.toString() || "",
                         PostingDate: oData.PostingDate || new Date(),
 						LastItem: oData.LastItem || false,
-						SinglePost: oData.SinglePost === undefined ? true : oData.SinglePost
+						SinglePost: oData.SinglePost === undefined ? true : oData.SinglePost,
+						SoldToParty: oData.SoldToParty || ""
 					},
 					groupId: "FinalPosting",
 					success: resolve,

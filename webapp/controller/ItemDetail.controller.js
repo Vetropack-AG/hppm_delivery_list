@@ -232,6 +232,15 @@ sap.ui.define([
 		/* private methods                                             */
 		/* =========================================================== */
 
+
+        _getPostItemsSoldToParty: function () {
+            var oForm = this.getFragment("PostItemDialog", this).getContent()[1];
+            var oContainer = oForm.getFormContainers()[0];
+            var oElement = oContainer.getFormElements()[4];
+            var oField = oElement.getFields()[0];
+            return oField.getSelectedKey();
+        },
+
 		_preSelectMaxReturn: function () {
 			var sCustomer = this.getView().getModel("Header").getProperty("/SoldToParty");
 			this.getMaxReturnDelivery(sCustomer)
@@ -453,7 +462,8 @@ sap.ui.define([
 					MaxReturn: this.getView().getModel("ViewSettings").getProperty("/MaxReturn"),
                     PostingDate: this.getView().getModel("ViewSettings").getProperty("/PostingDate"),
 					SinglePost: true,
-					LastItem: true
+					LastItem: true,
+					SoldToParty: this._getPostItemsSoldToParty()
 				}).then(this._showItemPosted.bind(this));
 			}.bind(this));
 		},

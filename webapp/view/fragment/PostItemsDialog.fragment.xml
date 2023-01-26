@@ -1,6 +1,6 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form">
 	<Dialog draggable="true" title="{i18n>postItemsDialog.title}" contentWidth="65%">
-		<f:Form editable="false">
+		<f:Form editable="true">
 			<f:layout>
 				<f:ResponsiveGridLayout labelSpanXL="3" labelSpanL="3" labelSpanM="3" labelSpanS="5" singleContainerFullSize="true"/>
 			</f:layout>
@@ -19,7 +19,15 @@
 						</f:FormElement>
 						<f:FormElement label="{i18n>postItemDialog.owner}">
 							<f:fields>
-								<Text text="{Plant} ({PlantText})"/>
+								<Text text="{PlantText} ({Plant})"/>
+							</f:fields>
+						</f:FormElement>
+
+						<f:FormElement label="{i18n>postItemDialog.soldTo}">
+							<f:fields>
+								<Select items="{ path: '/SoldToValueHelpSet' }">
+										<core:ListItem key="{Key}" text="{Text} ({Key})" />
+								</Select>
 							</f:fields>
 						</f:FormElement>
 					</f:formElements>
