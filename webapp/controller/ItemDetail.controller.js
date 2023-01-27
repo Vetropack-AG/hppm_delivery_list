@@ -53,6 +53,7 @@ sap.ui.define([
 		onSapPostingPress: function () {
 			this.getView().getModel("ViewSettings").setProperty("/ManualPosting", false);
 			this.getView().getModel("ViewSettings").setProperty("/MaterialDocument", undefined);
+			this._filterPostItemsSoldToPartyWithDelivery();
 			this.getFragment("PostItemDialog", this).open();
 		},
 
@@ -234,11 +235,19 @@ sap.ui.define([
 
 
         _getPostItemsSoldToParty: function () {
+            return this._getPostItemsSoldToPartyControl().getSelectedKey();
+        },
+
+		_getPostItemsSoldToPartyControl: function () {
             var oForm = this.getFragment("PostItemDialog", this).getContent()[1];
             var oContainer = oForm.getFormContainers()[0];
             var oElement = oContainer.getFormElements()[4];
-            var oField = oElement.getFields()[0];
-            return oField.getSelectedKey();
+            return oElement.getFields()[0];
+        },
+
+        _filterPostItemsSoldToPartyWithDelivery: function() {
+            var oBinding = this._getPostItemsSoldToPartyControl().getBinding("items");
+            oBinding.filter([new sap.ui.model.Filter("DeliveryNumber", "EQ", this.getDeliveryProperty("DeliveryKey"))], "Applikcation");
         },
 
 		_preSelectMaxReturn: function () {

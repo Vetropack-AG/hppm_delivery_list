@@ -698,14 +698,23 @@ sap.ui.define([
         },
 
         _getPostItemsSoldToParty: function () {
+            return this._getPostItemsSoldToPartyControl().getSelectedKey();
+        },
+
+        _getPostItemsSoldToPartyControl: function () {
             var oForm = this.getFragment("PostItemsDialog", this).getContent()[0];
             var oContainer = oForm.getFormContainers()[0];
             var oElement = oContainer.getFormElements()[3];
-            var oField = oElement.getFields()[0];
-            return oField.getSelectedKey();
+            return oElement.getFields()[0];
+        },
+
+        _filterPostItemsSoldToPartyWithDelivery: function() {
+            var oBinding = this._getPostItemsSoldToPartyControl().getBinding("items");
+            oBinding.filter([new sap.ui.model.Filter("DeliveryNumber", "EQ", this.getDeliveryProperty("DeliveryKey"))], "Applikcation");
         },
 
         _bindPostItemsDialog: function () {
+            this._filterPostItemsSoldToPartyWithDelivery();
             var oList = this._getPostItemsList();
             var sDeliveryKey = this.getDeliveryProperty("DeliveryKey");
             oList.bindAggregation("items", {
