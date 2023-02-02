@@ -95,12 +95,37 @@ sap.ui.define([
 			this._openCalculator(sMaterialGroup, sMaterial);
 		},
 
+		_fnPalletCountValidation: function () {
+			var bPalletCount = true;
+			var iSum = 0;
+			var oDialog = this.getFragment("LayersCalculatorDialog", this);
+			var oTable = oDialog.getContent()[0];
+			var aItems = oTable.getItems();
+			aItems.forEach(function (oItem) {
+				var oCell = oItem.getCells()[2];
+				var sValue = oCell.getValue();
+				var iValue = parseInt(sValue, 10);
+				if (!isNaN(iValue)) {
+					iSum = iSum + iValue;
+				}
+			}, this);
+			
+			if (iSum > 100) {
+				bPalletCount = false;
+			}
+			return bPalletCount;
+		},
+
 		onLayersCalculatorOkPress: function (oEvent) {
-			oEvent.getSource().getParent().close();
-			var iResult = this.getView().getModel("ViewSettings").getProperty("/LayerResult");
-			this.setDeliveryProperty("ActualQuantity", iResult.toString());
-			this._triggerQuantityCalculation(iResult);
-			this.getView().getModel().submitChanges();
+			if(this._fnPalletCountValidation()) {
+				oEvent.getSource().getParent().close();
+				var iResult = this.getView().getModel("ViewSettings").getProperty("/LayerResult");
+				this.setDeliveryProperty("ActualQuantity", iResult.toString());
+				this._triggerQuantityCalculation(iResult);
+				this.getView().getModel().submitChanges();
+			} else {
+				this.showErrorMessage(this.translateText("layersCalculatorDialog.maxpallets"), true);
+			}
 		},
 
 		onPalletsCalculatorOkPress: function (oEvent) {

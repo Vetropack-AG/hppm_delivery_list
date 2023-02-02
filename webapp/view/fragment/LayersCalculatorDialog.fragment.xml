@@ -34,7 +34,7 @@
 						<StepInput value="{ path:'Pieces', type:'sap.ui.model.odata.type.Int16' }" visible="{= ${ViewSettings>/LayersCalculatorMode} === 'PIECES' }"/>
 					</VBox>
 					<Text text="x"/>
-					<StepInput value="{ path:'PalletCount', type:'sap.ui.model.odata.type.Int16' }"/>
+					<StepInput value="{ path:'PalletCount', type:'sap.ui.model.odata.type.Int16' }" max="100" valueStateText="{i18n>layersCalculatorDialog.maxpallets}"/>
 					<Text text="="/>
 					<Text
 						text="{ parts: [ 'Pieces', 'PalletCount', 'Height', 'ViewSettings>/LayersCalculatorMode' ], formatter: '.formatter.calculateLayerLineResult', events: { change: '.onLayerResultChange' } }"/>
