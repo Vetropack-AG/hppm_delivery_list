@@ -12,8 +12,8 @@
 				<Button icon="sap-icon://BusinessSuiteInAppSymbols/icon-truck-load" tooltip="{i18n>main.load}" press="onLoadPress" visible="{= ${DeliveryType} !== 'ZRET' }"/>
 				<Button icon="sap-icon://BusinessSuiteInAppSymbols/icon-truck-unload" tooltip="{i18n>main.unload}" press="onUnloadPress" visible="{= ${DeliveryType} !== 'ZRET' }"/>
 				<ToolbarSeparator />
-				<Button icon="sap-icon://add" press="onAddItemPress"/>
-				<Button icon="sap-icon://delete" press="onDeleteItemPress" />
+				<Button icon="sap-icon://add" press="onAddItemPress" visible="{= ${UI>/IsInternalUser} === true }"/>
+				<Button icon="sap-icon://delete" press="onDeleteItemPress" visible="{= ${UI>/IsInternalUser} === true }"/>
 			</OverflowToolbar>
 		</headerToolbar>
 	</List>

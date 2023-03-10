@@ -2,8 +2,9 @@ sap.ui.define([
 	"sap/ui/core/UIComponent",
 	"sap/ui/Device",
 	"zvgt/hppm/delivery_list/model/models",
-	"sap/m/MessageBox"
-], function (UIComponent, Device, models, MessageBox) {
+	"sap/m/MessageBox",
+	"zvgt/hppm/library"
+], function (UIComponent, Device, models, MessageBox, hppm) {
 	"use strict";
 
 	return UIComponent.extend("zvgt.hppm.delivery_list.Component", {
@@ -26,6 +27,11 @@ sap.ui.define([
 			this._registerODataModelHandlers();
 			this._addShellHeaderHomeButton();
 			this.getModel().setSizeLimit(9999);
+			this.getModel("UI").setProperty("/IsInternalUser", !hppm.isExternalUser());
+
+			sap.ushell.Container.getServiceAsync("UserInfo").then(UserInfo => {
+				console.log("Current logged-in user: " + UserInfo.getFullName?.())
+			});
 		},
 
 		_registerODataModelHandlers: function () {
@@ -41,7 +47,7 @@ sap.ui.define([
 		_showServerErrorMessage: function (oEvent) {
 			var sMessage;
 			try {
-				var oResponse = oEvent.getParameter("response");
+				var oResponse = oEvent.getParameter ? oEvent.getParameter("response") : oEvent;
 				var oResponseText = JSON.parse(oResponse.responseText);
 				sMessage = oResponseText.error.message.value;
 				if (!sMessage || sMessage === "") {

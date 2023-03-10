@@ -96,6 +96,9 @@
             "@i18n": {
                 "type": "sap.ui.model.resource.ResourceModel",
                 "uri": "i18n/i18n.properties"
+            },
+            "UI": {
+                "type": "sap.ui.model.json.JSONModel"
             }
         },
         "resources": {
@@ -186,5 +189,18 @@
     "sap.platform.abap": {
         "uri": "/sap/bc/ui5_ui5/sap/zvgt_del_list/webapp",
         "_version": "1.1.0"
-    }
+    },
+
+        "sap.cloud.service": {
+            "xsuaa": {
+              "name": "cf-userinfo-uaa",
+              "plan": "application",
+              "credentials": {
+                "clientid": "sb-cfuserinfo!t77973",
+                "url": "https://cf-userinfo-shiny-baboon-zp.cfapps.eu10.hana.ondemand.com/user-api/currentUser",
+                "xsappname": "cfuserinfo!t77973",
+                "tenantid": "eaab0862-0bbe-475e-9792-651f25664b76"
+              }
+            }
+          }
 }

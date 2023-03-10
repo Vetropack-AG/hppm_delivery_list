@@ -58,6 +58,16 @@
 			"entryPath": "/sap/opu/odata"
 		},
 		"description": "D80_Dev"
-	}],
+	},
+	{
+		"path": "/services/userapi",
+		"target": {
+			"type": "service",
+			"name": "userapi"
+		},
+		"description": "userapi"
+	}
+
+],
 	"sendWelcomeFileRedirect": true
 }

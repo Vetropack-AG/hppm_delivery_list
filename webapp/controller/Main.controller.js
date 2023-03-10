@@ -51,6 +51,9 @@ sap.ui.define([
             } else {
                 sTarget = "Detail";
             }
+            if (hppm.isExternalUser()) {
+                sTarget = "Detail";
+            }
             this.navTo(sTarget, {
                 DeliveryKey: oContext.getModel().getProperty(oContext.getPath() + "/DeliveryKey")
             }, sTarget === "Registration");
@@ -76,6 +79,17 @@ sap.ui.define([
             this._getDeliveryItemByCaseNumber(sValue)
                 .then(this._navToItemDetail.bind(this))
                 .catch(this._handleScanLabelError.bind(this));
+        },
+
+        onShipmentFilterChange: function (oEvent) {
+            var mParams = oEvent.getParameters().getParameters?.();
+            if (mParams) {
+                if (mParams?.id.includes("DeliveryKey") && mParams?.value.startsWith("096_")) {
+                    oEvent.getSource().setFilterData({
+                        DeliveryKey: mParams.value.split("_")[1]
+                    }, false);
+                }
+            }
         },
 
         /* =========================================================== */

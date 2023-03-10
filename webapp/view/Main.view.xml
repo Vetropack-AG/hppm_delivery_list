@@ -12,7 +12,8 @@
 				id="smartFilterBar" 
 				entitySet="DeliveryHeadSet" 
 				persistencyKey="DELIVERY_LIST_FILTERBAR"
-				showFilterConfiguration="true">
+				showFilterConfiguration="true"
+				filterChange="onShipmentFilterChange">
 				
 				<smartFilterBar:controlConfiguration>
 					<smartFilterBar:ControlConfiguration label="{i18n>main.shipment}" key="DeliveryKey" visibleInAdvancedArea="true" hasValueHelpDialog="true" />

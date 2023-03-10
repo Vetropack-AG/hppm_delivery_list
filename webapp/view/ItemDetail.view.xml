@@ -33,14 +33,33 @@
 					press="onMessagePopoverPress"/>
 				<ToolbarSpacer/>
 				<Button text="{i18n>details.prePosting}" press="onPrePostingPress" enabled="{HasPallets}"
-					visible="{= ${MaterialDocumentFinalPosting} === '' &amp;&amp; ${MaterialDocumentPrePosting} === '' }"/>
+					visible="{= 	${MaterialDocumentFinalPosting} === '' &amp;&amp; 
+									${MaterialDocumentPrePosting} === '' &amp;&amp; 
+									${UI>/IsInternalUser} === true
+								}"/>
+
 				<Button text="{i18n>details.sapPosting}" type="Emphasized" press="onSapPostingPress" enabled="{HasPallets}"
-					visible="{= ${MaterialDocumentFinalPosting} === '' &amp;&amp; ${InspectionStatus} !== 'COMPLETED' }"/>
+					visible="{= ${MaterialDocumentFinalPosting} === '' &amp;&amp; 
+								${InspectionStatus} !== 'COMPLETED' &amp;&amp; 
+								${UI>/IsInternalUser} === true
+							}"/>
+
 				<Button text="{i18n>general.confirm}" type="Accept" press="onConfirmPress" enabled="{HasPallets}"
-					visible="{= ${MaterialDocumentFinalPosting} === '' }"/>
-				<Button text="{i18n>general.cancel}" type="Reject" press="onCancelPress" visible="{= ${MaterialDocumentFinalPosting} === '' }"/>
+					visible="{= ${MaterialDocumentFinalPosting} === '' &amp;&amp; 
+								${UI>/IsInternalUser} === true
+							}"/>
+
+				<Button text="{i18n>general.cancel}" type="Reject" press="onCancelPress" 
+					visible="{= ${MaterialDocumentFinalPosting} === '' &amp;&amp; 
+								${UI>/IsInternalUser} === true
+							}"/>
+
 				<Button text="{i18n>general.save}" type="Emphasized" press="onSavePress"
-					visible="{= ${InspectionStatus} === 'POSTED' || ${InspectionStatus} === 'COMPLETED' }"/>
+					visible="{= ${InspectionStatus} === 'POSTED' || 
+								${InspectionStatus} === 'COMPLETED' &amp;&amp; 
+								${UI>/IsInternalUser} === true
+							}"/>
+
 			</OverflowToolbar>
 		</uxap:footer>
 	</uxap:ObjectPageLayout>

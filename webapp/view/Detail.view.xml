@@ -46,11 +46,23 @@
 					press="onMessagePopoverPress"/>
 				<m:ToolbarSpacer/>
 				<m:Button text="{i18n>details.sapPosting}" type="Emphasized" press="onSapPostingPress" id="SapPostingButton"
-					visible="{= ${DeliveryType} === 'ZRET' &amp;&amp; ${InspectionStatus} !== 'POSTED' &amp;&amp; ${InspectionStatus} !== 'COMPLETED'  }"/>
+					visible="{= ${DeliveryType} === 'ZRET' &amp;&amp; 
+								${InspectionStatus} !== 'POSTED' &amp;&amp; 
+								${InspectionStatus} !== 'COMPLETED' &amp;&amp; 
+								${UI>/IsInternalUser} === true
+							}"/>
 				<m:Button text="{i18n>details.finishLoading}" press="onConfirmLoadingPress" 
-					visible="{= ( ${InspectionStatus} === 'OPEN' || ${InspectionStatus} === 'QUALITY' || ${InspectionStatus} === 'QUANTITY' ) &amp;&amp; ${Header>/DeliveryType} !== 'ZRET' }"/>
+					visible="{= ( 	${InspectionStatus} === 'OPEN' || 
+									${InspectionStatus} === 'QUALITY' || 
+									${InspectionStatus} === 'QUANTITY' ) &amp;&amp; 
+									${Header>/DeliveryType} !== 'ZRET' &amp;&amp; 
+									${UI>/IsInternalUser} === true
+								}"/>
 				<m:Button text="{i18n>details.finishUnloading}" press="onConfirmUnloadingPress" 
-					visible="{= ${InspectionStatus} === 'LOADED' &amp;&amp; ${Header>/DeliveryType} !== 'ZRET' }"/>
+					visible="{= 	${InspectionStatus} === 'LOADED' &amp;&amp; 
+									${Header>/DeliveryType} !== 'ZRET' &amp;&amp; 
+									${UI>/IsInternalUser} === true
+							}"/>
 			</m:OverflowToolbar>
 		</footer>
 	</ObjectPageLayout>
