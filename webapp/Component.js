@@ -29,9 +29,11 @@ sap.ui.define([
 			this.getModel().setSizeLimit(9999);
 			this.getModel("UI").setProperty("/IsInternalUser", !hppm.isExternalUser());
 
-			sap.ushell.Container.getServiceAsync("UserInfo").then(UserInfo => {
-				console.log("Current logged-in user: " + UserInfo.getFullName?.())
-			});
+			if (sap && sap.ushell && sap.ushell.Container) {
+				sap.ushell.Container.getServiceAsync("UserInfo").then(UserInfo => {
+					console.log("Current logged-in user: " + UserInfo.getFullName?.())
+				});
+			}
 		},
 
 		_registerODataModelHandlers: function () {
