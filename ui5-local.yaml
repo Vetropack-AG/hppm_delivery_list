@@ -1,14 +1,14 @@
 specVersion: "2.4"
 metadata:
-  name: zvgt.hppm.delivery_list
+  name: zvgt.hppm.delivery.list
 type: application
 framework:
   name: SAPUI5
   version: 1.79.0
   libraries:
-    - name: sap.ui.layout
-    - name: sap.ui.core
     - name: sap.m
+    - name: sap.ui.core
+    - name: sap.ui.layout
     - name: sap.f
     - name: sap.ui.comp
     - name: sap.ui.generic.app
@@ -27,6 +27,16 @@ server:
             url: http://vpavd910.vetropack.corporate.ads:44300
             client: "200"
             destination: ERP_EMBEDDED_D91
+          - path: /webapp/resources/zvgt/hppm
+            destination: ERP_EMBEDDED_D91
+            url: http://vpavd910.vetropack.corporate.ads:44300
+            client: "200"
+            pathPrefix: /sap/bc/ui5_ui5/sap/ZVGT_CONTROLS
+          - path: /resources/zvgt/hppm
+            destination: ERP_EMBEDDED_D91
+            url: http://vpavd910.vetropack.corporate.ads:44300
+            client: "200"
+            pathPrefix: /sap/bc/ui5_ui5/sap/ZVGT_CONTROLS
     - name: fiori-tools-appreload
       afterMiddleware: compression
       configuration:
@@ -36,5 +46,5 @@ server:
     - name: fiori-tools-preview
       afterMiddleware: fiori-tools-appreload
       configuration:
-        component: zvgt.hppm.delivery_list
+        component: zvgt.hppm.delivery.list
         ui5Theme: sap_fiori_3

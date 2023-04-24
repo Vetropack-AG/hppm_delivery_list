@@ -1,13 +1,12 @@
 sap.ui.define([
 	"sap/ui/core/UIComponent",
 	"sap/ui/Device",
-	"zvgt/hppm/delivery_list/model/models",
-	"sap/m/MessageBox",
-	"zvgt/hppm/library"
-], function (UIComponent, Device, models, MessageBox, hppm) {
+	"zvgt/hppm/delivery/list/model/models",
+	"sap/m/MessageBox"
+], function (UIComponent, Device, models, MessageBox) {
 	"use strict";
 
-	return UIComponent.extend("zvgt.hppm.delivery_list.Component", {
+	return UIComponent.extend("zvgt.hppm.delivery.list.Component", {
 
 		metadata: {
 			manifest: "json"
@@ -21,19 +20,29 @@ sap.ui.define([
 		init: function () {
 			// call the base component's init function
 			UIComponent.prototype.init.apply(this, arguments);
+			
+			this._loadHppmLibrary();
+			zvgt.hppm.addBTPCustomerNumberToHttpHeader(this);
+
 			this.getRouter().initialize();
 			this.setModel(models.createDeviceModel(), "device");
 			this._registerMessageManager();
 			this._registerODataModelHandlers();
 			this._addShellHeaderHomeButton();
 			this.getModel().setSizeLimit(9999);
-			this.getModel("UI").setProperty("/IsInternalUser", !hppm.isExternalUser());
+			this.getModel("UI").setProperty("/IsInternalUser", !zvgt.hppm.isExternalUser());
+		},
 
-			if (sap && sap.ushell && sap.ushell.Container) {
-				sap.ushell.Container.getServiceAsync("UserInfo").then(UserInfo => {
-					console.log("Current logged-in user: " + UserInfo.getFullName?.())
-				});
-			}
+		_loadHppmLibrary: function() {
+			var sAppId = this.getManifestEntry("/sap.app/id");
+			var sAppPath = sAppId.replaceAll(".", "/");
+			var sAppModulePath = jQuery.sap.getModulePath(sAppPath);
+			var sLibraryPath = this._isCloudEnvironment() ? `${sAppModulePath}/zvgt/hppm` : "/sap/bc/ui5_ui5/sap/zvgt_controls/";
+			sap.ui.getCore().loadLibrary("zvgt.hppm", sLibraryPath);
+		},
+
+		_isCloudEnvironment: function() {
+			return location.hostname.includes("hana.ondemand") || location.hostname.includes("cfapps.eu");
 		},
 
 		_registerODataModelHandlers: function () {

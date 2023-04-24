@@ -1,4 +1,4 @@
-<mvc:View controllerName="zvgt.hppm.delivery_list.controller.Main" 
+<mvc:View controllerName="zvgt.hppm.delivery.list.controller.Main" 
 	xmlns:mvc="sap.ui.core.mvc"  
 	xmlns:core="sap.ui.core"
 	xmlns="sap.m" 

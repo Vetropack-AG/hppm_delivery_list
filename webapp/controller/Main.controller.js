@@ -1,12 +1,11 @@
 sap.ui.define([
-    "zvgt/hppm/delivery_list/controller/BaseController",
-    "zvgt/hppm/delivery_list/model/formatter",
-    "zvgt/hppm/library",
+    "zvgt/hppm/delivery/list/controller/BaseController",
+    "zvgt/hppm/delivery/list/model/formatter",
     "sap/m/PDFViewer"
-], function (BaseController, formatter, hppm, PDFViewer) {
+], function (BaseController, formatter, PDFViewer) {
     "use strict";
 
-    return BaseController.extend("zvgt.hppm.delivery_list.controller.Main", {
+    return BaseController.extend("zvgt.hppm.delivery.list.controller.Main", {
         formatter: formatter,
 
         /* =========================================================== */
@@ -44,14 +43,14 @@ sap.ui.define([
             var oItem = oEvent.getParameter("listItem");
             var oContext = oItem.getBindingContext();
             var sTarget;
-            if (oContext.getProperty("DeliveryType") === hppm.DELIVERY_TYPE.INTERNAL) {
+            if (oContext.getProperty("DeliveryType") === zvgt.hppm.DELIVERY_TYPE.INTERNAL) {
                 sTarget = "Detail";
             } else if (this._isShipmentStatusForRegistration(oContext.getProperty("ShipmentStatus"))) {
                 sTarget = "Registration";
             } else {
                 sTarget = "Detail";
             }
-            if (hppm.isExternalUser()) {
+            if (zvgt.hppm.isExternalUser()) {
                 sTarget = "Detail";
             }
             this.navTo(sTarget, {
@@ -97,7 +96,7 @@ sap.ui.define([
         /* =========================================================== */
 
         _isShipmentStatusForRegistration: function (sStatus) {
-            return sStatus === hppm.SHIPMENT_STATUS.NEW || sStatus === hppm.SHIPMENT_STATUS.PLANNED;
+            return sStatus === zvgt.hppm.SHIPMENT_STATUS.NEW || sStatus === zvgt.hppm.SHIPMENT_STATUS.PLANNED;
         },
 
         _getDeliveryItemByCaseNumber: function (sCaseNumber) {

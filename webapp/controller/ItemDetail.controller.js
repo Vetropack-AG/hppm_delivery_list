@@ -1,12 +1,11 @@
 sap.ui.define([
-	"zvgt/hppm/delivery_list/controller/BaseController",
-	"zvgt/hppm/delivery_list/model/formatter",
-	"zvgt/hppm/library",
-	"zvgt/hppm/delivery_list/model/quantityCalculator"
-], function (BaseController, formatter, hppm, quantityCalculator) {
+	"zvgt/hppm/delivery/list/controller/BaseController",
+	"zvgt/hppm/delivery/list/model/formatter",
+	"zvgt/hppm/delivery/list/model/quantityCalculator"
+], function (BaseController, formatter, quantityCalculator) {
 	"use strict";
 
-	return BaseController.extend("zvgt.hppm.delivery_list.controller.ItemDetail", {
+	return BaseController.extend("zvgt.hppm.delivery.list.controller.ItemDetail", {
 		formatter: formatter,
 		quantityCalculator: quantityCalculator,
 
@@ -398,7 +397,7 @@ sap.ui.define([
 		_openCalculator: function (sMaterialGroup, sMaterial) {
 			var sId = this._determineCalculatorFragment(sMaterialGroup);
 			if (sId) {
-				if (sMaterialGroup === hppm.MATERIAL_GROUP.LAYER) {
+				if (sMaterialGroup === zvgt.hppm.MATERIAL_GROUP.LAYER) {
 					this._prefillMaterialHeight(sMaterial);
 				}
 				var oDialog = this.getFragment(sId, this);

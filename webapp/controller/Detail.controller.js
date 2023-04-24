@@ -1,18 +1,17 @@
 sap.ui.define([
-    "zvgt/hppm/delivery_list/controller/BaseController",
+    "zvgt/hppm/delivery/list/controller/BaseController",
     "sap/ui/model/Filter",
     "sap/ui/model/FilterOperator",
-    "zvgt/hppm/delivery_list/model/formatter",
-    "zvgt/hppm/library",
-    "zvgt/hppm/delivery_list/model/quantityCalculator",
-    "zvgt/hppm/delivery_list/model/models"
-], function (BaseController, Filter, FilterOperator, formatter, hppm, quantityCalculator, models) {
+    "zvgt/hppm/delivery/list/model/formatter",
+    "zvgt/hppm/delivery/list/model/quantityCalculator",
+    "zvgt/hppm/delivery/list/model/models"
+], function (BaseController, Filter, FilterOperator, formatter, quantityCalculator, models) {
     "use strict";
 
     var BATCH_GROUP_CONFIRM_LOADING = "confirmLoading";
     var BATCH_GROUP_CONFIRM_UNLOADING = "confirmUnloading";
 
-    return BaseController.extend("zvgt.hppm.delivery_list.controller.Detail", {
+    return BaseController.extend("zvgt.hppm.delivery.list.controller.Detail", {
         formatter: formatter,
         quantityCalculator: quantityCalculator,
 
@@ -53,7 +52,7 @@ sap.ui.define([
 
         onDeleteItemPress: function () {
             var oSelectedItem = this._getSelectedDeliveryItem();
-            if (oSelectedItem.InspectionStatus === hppm.INSPECTION_STATUS.COMPLETED) {
+            if (oSelectedItem.InspectionStatus === zvgt.hppm.INSPECTION_STATUS.COMPLETED) {
                 this.showTranslatedErrorMessage("message.itemCannotBeDeleted");
                 return;
             }
@@ -91,9 +90,9 @@ sap.ui.define([
                 return;
             }
             this._getDeliveryType().then(function (sDeliveryType) {
-                if (sDeliveryType === hppm.DELIVERY_TYPE.EXTERNAL) {
+                if (sDeliveryType === zvgt.hppm.DELIVERY_TYPE.EXTERNAL) {
                     this._navToDetail(oContext.getProperty("DeliveryKey"), oContext.getProperty("ItemKey"));
-                } else if (sDeliveryType === hppm.DELIVERY_TYPE.INTERNAL) {
+                } else if (sDeliveryType === zvgt.hppm.DELIVERY_TYPE.INTERNAL) {
                     this._handleInternalDeliveryNavigation(oContext.getProperty("DeliveryKey"), oContext.getProperty("ItemKey"));
                 }
             }.bind(this));
@@ -227,7 +226,7 @@ sap.ui.define([
         },
 
         _handleConfirmLoadingSuccess: function () {
-            this.setDeliveryProperty("InspectionStatus", hppm.INSPECTION_STATUS.LOADED);
+            this.setDeliveryProperty("InspectionStatus", zvgt.hppm.NSPECTION_STATUS.LOADED);
             var oModel = this.getView().getModel();
             oModel.submitChanges({
                 success: function () {
@@ -238,7 +237,7 @@ sap.ui.define([
         },
 
         _handleConfirmUnloadingSuccess: function () {
-            this.setDeliveryProperty("InspectionStatus", hppm.INSPECTION_STATUS.UNLOADED);
+            this.setDeliveryProperty("InspectionStatus", zvgt.hppm.INSPECTION_STATUS.UNLOADED);
             var oModel = this.getView().getModel();
             oModel.submitChanges({
                 success: function () {
@@ -406,7 +405,7 @@ sap.ui.define([
             return new Promise(function (resolve, reject) {
                 this._getDeliveryItemStatus(oPallet.DeliveryKey, oPallet.ItemKey)
                     .then(function (sStatus) {
-                        if (sStatus === hppm.INSPECTION_STATUS.LOADED) {
+                        if (sStatus === zvgt.hppm.INSPECTION_STATUS.LOADED) {
                             reject(oPallet);
                             this.showTranslatedErrorMessage("message.deliveryItemAlreadyLoaded", [oPallet.ItemKey]);
                         } else {
@@ -420,7 +419,7 @@ sap.ui.define([
             return new Promise(function (resolve, reject) {
                 this._getDeliveryItemStatus(oPallet.DeliveryKey, oPallet.ItemKey)
                     .then(function (sStatus) {
-                        if (sStatus === hppm.INSPECTION_STATUS.UNLOADED) {
+                        if (sStatus === zvgt.hppm.INSPECTION_STATUS.UNLOADED) {
                             reject(oPallet);
                             this.showTranslatedErrorMessage("message.deliveryItemAlreadyUnloaded", [oPallet.ItemKey]);
                         } else {
@@ -479,7 +478,7 @@ sap.ui.define([
         _createLoadedPallet: function (oPallet) {
             var oModel = this.getView().getModel();
             return new Promise(function (resolve, reject) {
-                oPallet.Status = hppm.PALLET_STATUS.LOADED;
+                oPallet.Status = zvgt.hppm.PALLET_STATUS.LOADED;
                 oPallet.DeliveryKey = oPallet.DeliveryKey;
                 oPallet.ItemKey = oPallet.ItemKey;
                 oPallet.PalletNumber = "";
@@ -500,7 +499,7 @@ sap.ui.define([
             });
             sap.ui.core.BusyIndicator.show(0);
             return new Promise(function (resolve, reject) {
-                var bResult = oModel.setProperty(sKey + "/Status", hppm.PALLET_STATUS.UNLOADED);
+                var bResult = oModel.setProperty(sKey + "/Status", zvgt.hppm.PALLET_STATUS.UNLOADED);
                 if (bResult) {
                     var oData = oModel.getProperty(sKey);
                     resolve(oData);
@@ -594,9 +593,9 @@ sap.ui.define([
 
         _handleInternalDeliveryNavigation: function (sDeliveryKey, sItemKey) {
             var sStatus = this.getView().getBindingContext().getProperty("InspectionStatus");
-            if (sStatus === hppm.INSPECTION_STATUS.OPEN) {
+            if (sStatus === zvgt.hppm.INSPECTION_STATUS.OPEN) {
                 this._navToLoadPalletsApp(sDeliveryKey, sItemKey);
-            } else if (sStatus === hppm.INSPECTION_STATUS.LOADED) {
+            } else if (sStatus === zvgt.hppm.INSPECTION_STATUS.LOADED) {
                 this._navToUnloadPalletsApp(sDeliveryKey, sItemKey);
             }
         },
@@ -722,7 +721,7 @@ sap.ui.define([
                 template: this._createPostItemsDialogTemplate(),
                 filters: [
                     new Filter("DeliveryKey", FilterOperator.EQ, sDeliveryKey),
-                    new Filter("InspectionStatus", FilterOperator.NE, hppm.INSPECTION_STATUS.POSTED)
+                    new Filter("InspectionStatus", FilterOperator.NE, zvgt.hppm.INSPECTION_STATUS.POSTED)
                 ]
             });
         },

@@ -1,5 +1,5 @@
 <mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns:uxap="sap.uxap" xmlns="sap.m"
-	controllerName="zvgt.hppm.delivery_list.controller.ItemDetail">
+	controllerName="zvgt.hppm.delivery.list.controller.ItemDetail">
 	<uxap:ObjectPageLayout upperCaseAnchorBar="false" showFooter="true">
 		<uxap:headerTitle>
 			<uxap:ObjectPageHeader objectTitle="{i18n>details.delivery}: {DeliveryKey} / {ItemKey}" objectSubtitle="{ItemText}">
@@ -10,7 +10,7 @@
 			</uxap:ObjectPageHeader>
 		</uxap:headerTitle>
 		<uxap:headerContent>
-			<core:Fragment fragmentName="zvgt.hppm.delivery_list.view.fragment.ItemDetailHeader" type="XML"/>
+			<core:Fragment fragmentName="zvgt.hppm.delivery.list.view.fragment.ItemDetailHeader" type="XML"/>
 		</uxap:headerContent>
 		<uxap:sections>
 			<uxap:ObjectPageSection showTitle="false">
@@ -19,7 +19,7 @@
 						<uxap:blocks>
 							<VBox>
 								<MessageStrip text="{i18n>message.noPallets}" type="Error" showIcon="true" showCloseButton="false" visible="{= ${HasPallets} === false }"/>
-								<core:Fragment fragmentName="zvgt.hppm.delivery_list.view.fragment.ItemDetailData" type="XML"/>
+								<core:Fragment fragmentName="zvgt.hppm.delivery.list.view.fragment.ItemDetailData" type="XML"/>
 							</VBox>
 						</uxap:blocks>
 					</uxap:ObjectPageSubSection>

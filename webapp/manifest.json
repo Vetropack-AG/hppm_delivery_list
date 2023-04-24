@@ -1,7 +1,7 @@
 {
     "_version": "1.12.0",
     "sap.app": {
-        "id": "zvgt.hppm.delivery_list",
+        "id": "zvgt.hppm.delivery.list",
         "type": "application",
         "i18n": "i18n/i18n.properties",
         "applicationVersion": {
@@ -32,6 +32,19 @@
                     "localUri": "annotation/annotation0.xml"
                 }
             }
+        },
+        "crossNavigation": {
+            "inbounds": {
+                "intent1": {
+                    "signature": {
+                        "parameters": {},
+                        "additionalParameters": "allowed"
+                    },
+                    "semanticObject": "OutboundDelivery",
+                    "action": "manage",
+                    "title": "{{appTitle.cf}}"
+                }
+            }
         }
     },
     "sap.ui": {
@@ -53,7 +66,7 @@
     "sap.ui5": {
         "flexEnabled": false,
         "rootView": {
-            "viewName": "zvgt.hppm.delivery_list.view.App",
+            "viewName": "zvgt.hppm.delivery.list.view.App",
             "type": "XML",
             "async": true,
             "id": "App"
@@ -63,10 +76,7 @@
             "libs": {
                 "sap.ui.layout": {},
                 "sap.ui.core": {},
-                "sap.m": {},
-                "zvgt.hppm": {
-                    "minVersion": "1.0.0"
-                }
+                "sap.m": {}
             }
         },
         "contentDensities": {
@@ -77,7 +87,7 @@
             "i18n": {
                 "type": "sap.ui.model.resource.ResourceModel",
                 "settings": {
-                    "bundleName": "zvgt.hppm.delivery_list.i18n.i18n"
+                    "bundleName": "zvgt.hppm.delivery.list.i18n.i18n"
                 }
             },
             "": {
@@ -113,7 +123,7 @@
                 "routerClass": "sap.m.routing.Router",
                 "viewType": "XML",
                 "async": true,
-                "viewPath": "zvgt.hppm.delivery_list.view",
+                "viewPath": "zvgt.hppm.delivery.list.view",
                 "controlAggregation": "pages",
                 "controlId": "app",
                 "clearControlAggregation": false,
@@ -190,17 +200,20 @@
         "uri": "/sap/bc/ui5_ui5/sap/zvgt_del_list/webapp",
         "_version": "1.1.0"
     },
-
-        "sap.cloud.service": {
-            "xsuaa": {
-              "name": "cf-userinfo-uaa",
-              "plan": "application",
-              "credentials": {
+    "sap.cloud.service": {
+        "xsuaa": {
+            "name": "cf-userinfo-uaa",
+            "plan": "application",
+            "credentials": {
                 "clientid": "sb-cfuserinfo!t77973",
                 "url": "https://cf-userinfo-shiny-baboon-zp.cfapps.eu10.hana.ondemand.com/user-api/currentUser",
                 "xsappname": "cfuserinfo!t77973",
                 "tenantid": "eaab0862-0bbe-475e-9792-651f25664b76"
-              }
             }
-          }
+        }
+    },
+    "sap.cloud": {
+        "public": true,
+        "service": "zvgthppmdeliverylist"
+    }
 }

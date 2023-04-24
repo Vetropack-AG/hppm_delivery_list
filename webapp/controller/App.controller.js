@@ -3,7 +3,7 @@ sap.ui.define([
 ], function (Controller) {
 	"use strict";
 
-	return Controller.extend("zvgt.hppm.delivery_list.controller.App", {
+	return Controller.extend("zvgt.hppm.delivery.list.controller.App", {
 
 	});
 

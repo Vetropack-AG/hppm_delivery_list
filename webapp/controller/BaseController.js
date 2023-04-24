@@ -10,7 +10,7 @@ sap.ui.define([
 	var SERVICE_URL = "/sap/opu/odata/sap/ZVGT_UI_HPPM_DELIVERY_LIST_SRV/";
 
 	/**
-	 * @constructor zvgt.hppm.delivery_list.controller.BaseController
+	 * @constructor zvgt.hppm.delivery.list.controller.BaseController
 	 * 
 	 * @param {string} [sId] id for the new control, generated automatically if no id is given
 	 * @param {object} [mSettings] initial settings for the new control
@@ -24,11 +24,11 @@ sap.ui.define([
 	 * @extends sap.ui.core.mvc.Controller
 	 *
 	 * @public
-	 * @alias zvgt.hppm.delivery_list.controller.BaseController
+	 * @alias zvgt.hppm.delivery.list.controller.BaseController
 	 * @class 
 	 */
 
-	return Controller.extend("zvgt.hppm.delivery_list.controller.BaseController", {
+	return Controller.extend("zvgt.hppm.delivery.list.controller.BaseController", {
 
 		/* =========================================================== */
 		/* begin of upload collection methods                          */
@@ -351,7 +351,7 @@ sap.ui.define([
 		 */
 		getFragment: function (sFragmentId, oContext) {
 			if (!oContext[sFragmentId]) {
-				oContext[sFragmentId] = sap.ui.xmlfragment("zvgt.hppm.delivery_list.view.fragment." + sFragmentId, oContext);
+				oContext[sFragmentId] = sap.ui.xmlfragment("zvgt.hppm.delivery.list.view.fragment." + sFragmentId, oContext);
 				oContext.getView().addDependent(oContext[sFragmentId]);
 			}
 			return oContext[sFragmentId];
@@ -440,7 +440,7 @@ sap.ui.define([
 		getResourceBundle: function () {
 			if (!this._oBundle) {
 				this._oBundle = ResourceBundle.create({
-					url: jQuery.sap.getModulePath("zvgt.hppm.delivery_list") + "/i18n/i18n.properties",
+					url: jQuery.sap.getModulePath("zvgt.hppm.delivery.list") + "/i18n/i18n.properties",
 					async: false
 				});
 			}
