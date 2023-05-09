@@ -292,6 +292,7 @@ sap.ui.define([
                 MaxReturn: oData.MaxReturn,
                 SinglePost: false,
                 LastItem: oData.LastItem,
+                PostingDate: oData.PostingDate,
                 SoldToParty: this._getPostItemsSoldToParty()
             }).then(this._showItemsPosted.bind(this));
         },
