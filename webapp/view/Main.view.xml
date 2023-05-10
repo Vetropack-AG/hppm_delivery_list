@@ -31,6 +31,7 @@
 					<smartFilterBar:ControlConfiguration key="SalesRep" visibleInAdvancedArea="true" hasValueHelpDialog="true" preventInitialDataFetchInValueHelpDialog="false" />
 					<smartFilterBar:ControlConfiguration key="Plant" visibleInAdvancedArea="true" hasValueHelpDialog="true" preventInitialDataFetchInValueHelpDialog="false"
 						label="{i18n>main.owner}" />
+					<smartFilterBar:ControlConfiguration key="CreatedBy" visibleInAdvancedArea="true" hasValueHelpDialog="true"  label="{i18n>main.createdby}"/>	
 				</smartFilterBar:controlConfiguration>
 				
 			<!-- layout data used to make the table growing but the filter bar fixed -->
