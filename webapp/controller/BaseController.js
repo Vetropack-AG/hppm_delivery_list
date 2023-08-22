@@ -40,6 +40,17 @@ sap.ui.define([
 			this.openFile(sDocumentId);
 		},
 
+		onBeforeUploadStarts: function (oEvent) {
+			var oUploader = oEvent.getParameters();
+			var sFileName = oEvent.getParameter("fileName");
+			var oCustomerHeaderSlug = new sap.m.UploadCollectionParameter({
+				name: "slug",
+				value: sFileName + "||" + this.getDeliveryProperty("DeliveryKey")
+			});
+			
+			oUploader.addHeaderParameter(oCustomerHeaderSlug);
+		},
+
 		onFileUploaderChange: function (oEvent) {
 			var oUploader = oEvent.getSource();
 			var oModel = this.getView().getModel();
@@ -50,14 +61,6 @@ sap.ui.define([
 			});
 
 			oUploader.addHeaderParameter(oCustomerHeaderToken);
-
-			var sFileName = oEvent.getParameter("files")[0].name;
-			var oCustomerHeaderSlug = new sap.m.UploadCollectionParameter({
-				name: "slug",
-				value: sFileName + "||" + this.getDeliveryProperty("DeliveryKey")
-			});
-
-			oUploader.addHeaderParameter(oCustomerHeaderSlug);
 		},
 
 		onFileDelete: function (oEvent) {

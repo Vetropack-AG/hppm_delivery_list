@@ -28,11 +28,13 @@
 						<blocks>
 							<hppm:UploadCollection
 								id="uploadCollection"
+								multiple="true"
 								uploadUrl="/sap/opu/odata/sap/ZVGT_UI_HPPM_DELIVERY_LIST_SRV/FileSet"
+								beforeUploadStarts="onBeforeUploadStarts"
 								change="onFileUploaderChange"
 								uploadComplete="onFileUploadComplete"
 								fileDeleted="onFileDelete"
-								fileType="jpg,png,pdf">
+								fileType="jpg,png,pdf,txt">
 							</hppm:UploadCollection>
 						</blocks>
 					</ObjectPageSubSection>
