@@ -114,6 +114,7 @@ sap.ui.define([
 
 		bindUploadCollection: function (sDeliveryKey) {
 			var oUploader = this.getView().byId("uploadCollection");
+			oUploader.setUploadUrl(this.getOwnerComponent().getModel().sServiceUrl + "/FileSet")
 			oUploader.bindAggregation("items", {
 				path: "/FileSet",
 				template: this.createUploadCollectionTemplate(),

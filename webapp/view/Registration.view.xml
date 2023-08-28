@@ -87,7 +87,6 @@
 							<hppm:UploadCollection
 								id="uploadCollection"
 								multiple="true"
-								uploadUrl="/sap/opu/odata/sap/ZVGT_UI_HPPM_DELIVERY_LIST_SRV/FileSet"
 								beforeUploadStarts="onBeforeUploadStarts"
 								change="onFileUploaderChange"
 								uploadComplete="onFileUploadComplete"
