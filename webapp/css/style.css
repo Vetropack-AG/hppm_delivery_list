@@ -1,3 +1,7 @@
 .hppmTableHeaderButton .sapMBtnInner {
 	font-size: 1.125rem;
 }
+
+.hideShellLogo .sapMShellLogo {
+	display: none !important;
+}
