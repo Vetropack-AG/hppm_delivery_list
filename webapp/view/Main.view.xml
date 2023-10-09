@@ -71,7 +71,8 @@
 					</Toolbar>
 				</smartTable:customToolbar>
 				
-				<Table mode="SingleSelectLeft" sticky="ColumnHeaders,HeaderToolbar" itemPress="onItemPress">
+				<Table mode="SingleSelectLeft" sticky="ColumnHeaders,HeaderToolbar" itemPress="onItemPress" 
+					  	growing="true" growingThreshold="10">
 
 					<columns>
 						
