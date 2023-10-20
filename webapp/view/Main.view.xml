@@ -51,7 +51,7 @@
 				useVariantManagement="true"
 				useTablePersonalisation="true" 
 				header="{i18n>main.shipments}" 
-				showRowCount="true" 
+				showRowCount="false" 
 				persistencyKey="DELIVERY_LIST_TABLE"
 				enableAutoBinding="true" 
 				placeToolbarInTable="true"
