@@ -11,6 +11,7 @@
 		</VBox>
 		
 		<buttons>
+			<Button text="{i18n>general.printLabelLocal}" type="Emphasized" press="onCreateLabelDialogLabelLocalPrintPress" />
 			<Button text="{i18n>general.print}" type="Emphasized" press="onCreateLabelDialogSavePress"/>
 			<Button text="{i18n>general.cancel}" press="onCreateLabelDialogCancelPress"/>
 		</buttons>

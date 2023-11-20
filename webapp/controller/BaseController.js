@@ -278,6 +278,21 @@ sap.ui.define([
 				});
 			}.bind(this));
 		},
+		printLabelLocal: function (sDeliveryKey, sItemKey, iAmount, iPalletAmount) {
+			return new Promise(function (resolve, reject) {
+				this.getView().getModel().callFunction("/PrintLabelLocal", {
+					urlParameters: {
+						DeliveryKey: sDeliveryKey,
+						ItemKey: sItemKey,
+						Quantity: iAmount,
+						PalletsCount: iPalletAmount
+					},
+					groupId: "PrintLabelLocal",
+					success: resolve,
+					error: reject
+				});
+			}.bind(this));
+		},
 
 		getDeliveryProperty: function (sProperty) {
 			var oContext = this.getView().getBindingContext();

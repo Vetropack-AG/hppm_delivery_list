@@ -1,8 +1,9 @@
 sap.ui.define([
 	"zvgt/hppm/delivery/list/controller/BaseController",
 	"zvgt/hppm/delivery/list/model/formatter",
-	"zvgt/hppm/delivery/list/model/quantityCalculator"
-], function (BaseController, formatter, quantityCalculator) {
+	"zvgt/hppm/delivery/list/model/quantityCalculator",
+	"sap/m/PDFViewer"
+], function (BaseController, formatter, quantityCalculator, PDFViewer) {
 	"use strict";
 
 	return BaseController.extend("zvgt.hppm.delivery.list.controller.ItemDetail", {
@@ -16,6 +17,9 @@ sap.ui.define([
 		onInit: function () {
 			this._setModels();
 			this.getOwnerComponent().getRouter().getRoute("ItemDetail").attachPatternMatched(this.onRoutePatternMatched, this);
+			jQuery.sap.addUrlWhitelist("blob");
+            this._oPdfViewer = new PDFViewer();
+            this.getView().addDependent(this._oPdfViewer);
 		},
 
 		/* =========================================================== */
@@ -70,7 +74,41 @@ sap.ui.define([
 			this.getView().getModel("ViewSettings").setProperty("/PalletAmount", sAmount);
 			this.getFragment("CreateLabelDialog", this).open();
 		},
+		onCreateLabelDialogLabelLocalPrintPress: function(oEvent){
+            var oDialog = oEvent.getSource().getParent();
+			oDialog.close();
+            
+            var sDeliveryKey = this.getDeliveryProperty("DeliveryKey");
+            var sItemKey = this.getDeliveryProperty("ItemKey");
+            var iAmount = oDialog.getContent()[1].getItems()[1].getValue();
+            //var iActualQuantity = this.getDeliveryProperty("ActualQuantity");
+            var iPalletAmount = this.getDeliveryProperty("PalletAmount");;
+            
+            this.printLabelLocal(sDeliveryKey, sItemKey, iAmount, iPalletAmount)
+                .then(function (oData) {
+					this._openProtocol(oData.PrintLabel);
+                    this.showTranslatedMessageToast("message.itemPrinted", [sItemKey]);
+                }.bind(this));
+        },
 
+		_openProtocol: function (sBase64Data) {
+            var sSource = this._convertPdf(sBase64Data);
+            this._oPdfViewer.setSource(sSource);
+            this._oPdfViewer.open();
+        },
+
+        _convertPdf: function (sBase64) {
+            var decodedPdfContent = atob(sBase64);
+            var byteArray = new Uint8Array(decodedPdfContent.length); // eslint-disable-line
+            for (var i = 0; i < decodedPdfContent.length; i++) {
+                byteArray[i] = decodedPdfContent.charCodeAt(i);
+            }
+            var blob = new Blob([byteArray.buffer], {
+                type: "application/pdf"
+            });
+            return URL.createObjectURL(blob);
+        },
+		
 		onCreateLabelDialogSavePress: function (oEvent) {
 			var oDialog = oEvent.getSource().getParent();
 			oDialog.close();
