@@ -3,8 +3,9 @@ sap.ui.define([
 	"sap/m/MessageBox",
 	"sap/base/i18n/ResourceBundle",
 	"sap/ui/core/routing/History",
-	"sap/m/MessageToast"
-], function (Controller, MessageBox, ResourceBundle, History, MessageToast) {
+	"sap/m/MessageToast",
+	"sap/m/PDFViewer"
+], function (Controller, MessageBox, ResourceBundle, History, MessageToast, PDFViewer) {
 	"use strict";
 
 	var SERVICE_URL = "/sap/opu/odata/sap/ZVGT_UI_HPPM_DELIVERY_LIST_SRV/";
@@ -566,6 +567,28 @@ sap.ui.define([
 			}
 			oControl.setValueState(sValueState);
 			return sValueState === "Error" ? false : true;
-		}
+		},
+		_initializePDFViewer: function () {
+			jQuery.sap.addUrlWhitelist("blob");
+            this._oPdfViewer = new PDFViewer();
+            this.getView().addDependent(this._oPdfViewer);
+		},
+		_openProtocol: function (sBase64Data) {
+            var sSource = this._convertPdf(sBase64Data);
+            this._oPdfViewer.setSource(sSource);
+            this._oPdfViewer.open();
+        },
+
+        _convertPdf: function (sBase64) {
+            var decodedPdfContent = atob(sBase64);
+            var byteArray = new Uint8Array(decodedPdfContent.length); // eslint-disable-line
+            for (var i = 0; i < decodedPdfContent.length; i++) {
+                byteArray[i] = decodedPdfContent.charCodeAt(i);
+            }
+            var blob = new Blob([byteArray.buffer], {
+                type: "application/pdf"
+            });
+            return URL.createObjectURL(blob);
+        }
 	});
 });

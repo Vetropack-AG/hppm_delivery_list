@@ -1,8 +1,7 @@
 sap.ui.define([
     "zvgt/hppm/delivery/list/controller/BaseController",
-    "zvgt/hppm/delivery/list/model/formatter",
-    "sap/m/PDFViewer"
-], function (BaseController, formatter, PDFViewer) {
+    "zvgt/hppm/delivery/list/model/formatter"
+], function (BaseController, formatter) {
     "use strict";
 
     return BaseController.extend("zvgt.hppm.delivery.list.controller.Main", {
@@ -13,9 +12,8 @@ sap.ui.define([
         /* =========================================================== */
 
         onInit: function () {
-            jQuery.sap.addUrlWhitelist("blob");
-            this._oPdfViewer = new PDFViewer();
-            this.getView().addDependent(this._oPdfViewer);
+            this._initializePDFViewer();
+            
         },
 
         /* =========================================================== */
@@ -131,23 +129,7 @@ sap.ui.define([
             this.navTo("ItemDetail", oDelivery);
         },
 
-        _openProtocol: function (sBase64Data) {
-            var sSource = this._convertPdf(sBase64Data);
-            this._oPdfViewer.setSource(sSource);
-            this._oPdfViewer.open();
-        },
-
-        _convertPdf: function (sBase64) {
-            var decodedPdfContent = atob(sBase64);
-            var byteArray = new Uint8Array(decodedPdfContent.length); // eslint-disable-line
-            for (var i = 0; i < decodedPdfContent.length; i++) {
-                byteArray[i] = decodedPdfContent.charCodeAt(i);
-            }
-            var blob = new Blob([byteArray.buffer], {
-                type: "application/pdf"
-            });
-            return URL.createObjectURL(blob);
-        },
+        
 
         _getSelectedDeliveryKey: function () {
             var oData = this._getSelectedDelivery();
