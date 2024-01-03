@@ -35,13 +35,13 @@
 				<Button text="{i18n>details.prePosting}" press="onPrePostingPress" enabled="{HasPallets}"
 					visible="{= 	${MaterialDocumentFinalPosting} === '' &amp;&amp; 
 									${MaterialDocumentPrePosting} === '' &amp;&amp; 
-									${UI>/IsInternalUser} === true
+									${UI>/IsAllowedPosting} === true
 								}"/>
 
 				<Button text="{i18n>details.sapPosting}" type="Emphasized" press="onSapPostingPress" enabled="{HasPallets}"
 					visible="{= ${MaterialDocumentFinalPosting} === '' &amp;&amp; 
 								${InspectionStatus} !== 'COMPLETED' &amp;&amp; 
-								${UI>/IsInternalUser} === true
+								${UI>/IsAllowedPosting} === true
 							}"/>
 
 				<Button text="{i18n>general.confirm}" type="Accept" press="onConfirmPress" enabled="{HasPallets}"

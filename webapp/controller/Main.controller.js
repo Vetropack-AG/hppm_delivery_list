@@ -48,9 +48,15 @@ sap.ui.define([
             } else {
                 sTarget = "Detail";
             }
-            if (zvgt.hppm.isExternalUser()) {
+
+            var bQualQuanCheck = oContext.getProperty("QualQuanCheck");
+            if (zvgt.hppm.isExternalUser() && !bQualQuanCheck) {
                 sTarget = "Detail";
+            } else if (zvgt.hppm.isExternalUser()) {
+                //Service Providers in some case needs to do Qunt. and Qual. check
+                this.getView().getModel("UI").setProperty("/IsInternalUser", bQualQuanCheck);
             }
+            
             this.navTo(sTarget, {
                 DeliveryKey: oContext.getModel().getProperty(oContext.getPath() + "/DeliveryKey")
             }, sTarget === "Registration");

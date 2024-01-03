@@ -43,8 +43,8 @@
 			<smartTable:SmartTable 
 				id="SmartTable"
 				entitySet="DeliveryHeadSet" 
-				requestAtLeastFields="SoldToParty,DeliveryType,ShipToPartyText,SoldToPartyText,ShipToPartyPostalCode,ShipToPartyCity,ShipToPartyStreet,ShipToPartyCountry,SoldToPartyPostalCode,SoldToPartyCity,SoldToPartyStreet,SoldToPartyCountry,ShipmentStatus,InspectionStatus"
-				ignoreFromPersonalisation="ArrivalDate,WeightUnit,VolumeUnit,Protocol,Comment,ExistingComment,Material,MaterialGroup,Progress,Plant,VetropackAccount,InspectionStatus"
+				requestAtLeastFields="SoldToParty,DeliveryType,ShipToPartyText,SoldToPartyText,ShipToPartyPostalCode,ShipToPartyCity,ShipToPartyStreet,ShipToPartyCountry,SoldToPartyPostalCode,SoldToPartyCity,SoldToPartyStreet,SoldToPartyCountry,ShipmentStatus,InspectionStatus,QualQuanCheck"
+				ignoreFromPersonalisation="ArrivalDate,WeightUnit,VolumeUnit,Protocol,Comment,ExistingComment,Material,MaterialGroup,Progress,Plant,VetropackAccount,InspectionStatus,QualQuanCheck"
 				smartFilterId="smartFilterBar" 
 				tableType="ResponsiveTable" 
 				useExportToExcel="true" 

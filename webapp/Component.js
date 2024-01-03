@@ -31,6 +31,7 @@ sap.ui.define([
 			this._addShellHeaderHomeButton();
 			this.getModel().setSizeLimit(9999);
 			this.getModel("UI").setProperty("/IsInternalUser", !zvgt.hppm.isExternalUser());
+			this.getModel("UI").setProperty("/IsAllowedPosting", !zvgt.hppm.isExternalUser());
 		},
 
 		_loadHppmLibrary: function() {

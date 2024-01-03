@@ -50,7 +50,7 @@
 					visible="{= ${DeliveryType} === 'ZRET' &amp;&amp; 
 								${InspectionStatus} !== 'POSTED' &amp;&amp; 
 								${InspectionStatus} !== 'COMPLETED' &amp;&amp; 
-								${UI>/IsInternalUser} === true
+								${UI>/IsAllowedPosting} === true
 							}"/>
 				<m:Button text="{i18n>details.finishLoading}" press="onConfirmLoadingPress" 
 					visible="{= ( 	${InspectionStatus} === 'OPEN' || 
