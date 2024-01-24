@@ -43,8 +43,8 @@
 			<smartTable:SmartTable 
 				id="SmartTable"
 				entitySet="DeliveryHeadSet" 
-				requestAtLeastFields="SoldToParty,DeliveryType,ShipToPartyText,SoldToPartyText,ShipToPartyPostalCode,ShipToPartyCity,ShipToPartyStreet,ShipToPartyCountry,SoldToPartyPostalCode,SoldToPartyCity,SoldToPartyStreet,SoldToPartyCountry,ShipmentStatus,InspectionStatus,QualQuanCheck"
-				ignoreFromPersonalisation="ArrivalDate,WeightUnit,VolumeUnit,Protocol,Comment,ExistingComment,Material,MaterialGroup,Progress,Plant,VetropackAccount,InspectionStatus,QualQuanCheck"
+				requestAtLeastFields="SoldToParty,DeliveryType,ShipToPartyText,SoldToPartyText,ShipToPartyPostalCode,ShipToPartyCity,ShipToPartyStreet,ShipToPartyCountry,SoldToPartyPostalCode,SoldToPartyCity,SoldToPartyStreet,SoldToPartyCountry,ShipmentStatus,InspectionStatus,QualQuanCheck,CreatedByEmailId"
+				ignoreFromPersonalisation="ArrivalDate,WeightUnit,VolumeUnit,Protocol,Comment,ExistingComment,Material,MaterialGroup,Progress,Plant,VetropackAccount,InspectionStatus,QualQuanCheck,CreatedByEmailId"
 				smartFilterId="smartFilterBar" 
 				tableType="ResponsiveTable" 
 				useExportToExcel="true" 
@@ -174,7 +174,7 @@
 								<Text text="{DeliveryKey}"/>
 								<ObjectStatus text="{ShipmentStatusText}" state= "{ path: 'ShipmentStatus', formatter: '.formatter.shipmentStatusState' }"/>
 								<ObjectStatus text="{InspectionStatusText}"	state= "{ path: 'InspectionStatus', formatter: '.formatter.inspectionStatusState' }" />
-								<Text text="{CreatedBy}"/>
+								<Text text="{= (${CreatedBy} === 'GLOB_WM_B_01' &amp;&amp; ${CreatedByEmailId}) ? ${CreatedByEmailId} : ${CreatedBy}}"/>
 								<VBox>
 									<Text text="{ShipToPartyText} ({ShipToParty})"/>
 									<Text text="{ShipToPartyCountry}-{ShipToPartyPostalCode}"/>
