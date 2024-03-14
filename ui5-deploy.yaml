@@ -25,4 +25,4 @@ builder:
           name: ZVGT_DEL_LIST
           description: "HPPM: Delivery List"
           package: ZVGT_HPPM_DELIVERY_LIST
-          transport: "D91K918231"
+          transport: "D91K919142"

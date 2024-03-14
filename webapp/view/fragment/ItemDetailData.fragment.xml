@@ -16,8 +16,7 @@
 				<!-- Not editable for detail data, Only for new item -->
 				<Label text="{i18n>details.deliveryQuantity}"/>
 				<StepInput value="{ path:'Quantity', type:'sap.ui.model.odata.type.Decimal' }" min="1"
-					change="calculateClaimQuantity" editable="{= 	${InspectionStatus} === '' || 
-																	${InspectionStatus} === undefined &amp;&amp; 
+					change="calculateClaimQuantity" editable="{= (${InspectionStatus} !== 'COMPLETED' &amp;&amp; ${InspectionStatus} !== 'POSTED') &amp;&amp; 
 																	${UI>/IsInternalUser} === true
 																}">
 				</StepInput>
