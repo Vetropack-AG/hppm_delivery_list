@@ -92,7 +92,7 @@ sap.ui.define([
 			var sKey = oModel.createKey("/FileSet", {
 				DocumentId: sDocumentId
 			});
-			sKey = SERVICE_URL + sKey + "/$value";
+			sKey = this.getOwnerComponent().getModel().sServiceUrl + sKey + "/$value";
 			window.open(sKey);
 		},
 
