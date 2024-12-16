@@ -144,7 +144,7 @@
 							<Text text="{/#DeliveryHead/SoldToParty/@sap:label}"/>
 						</Column>
 						
-						<Column id="Claim" width="7%" demandPopin="true" minScreenWidth="Desktop" popinDisplay="Inline">
+						<Column id="Claim" width="9%" demandPopin="true" minScreenWidth="Desktop" popinDisplay="Inline">
 							<customData>
 								<core:CustomData key="p13nData"
 									value='\{	"columnKey": "Claim", 
