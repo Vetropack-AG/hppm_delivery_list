@@ -13,6 +13,7 @@ sap.ui.define([
 
         onInit: function () {
             this._initializePDFViewer();
+            this._openPOD();
             
         },
 
@@ -153,6 +154,19 @@ sap.ui.define([
 
         _getTable: function () {
             return this.getView().byId("SmartTable").getTable();
+        },
+        _openPOD: function () {
+            var oStartUpParameters = this.getOwnerComponent().getComponentData().startupParameters;
+            if (oStartUpParameters){
+                if (oStartUpParameters.DeliveryKey && oStartUpParameters.DeliveryKey[0]) {
+                    var sDeliveryKey = oStartUpParameters.DeliveryKey[0];
+                    this.navTo("Registration", {
+                        DeliveryKey: sDeliveryKey 
+                    });
+                }                     
+            }
+             
+
         }
     });
 });
