@@ -26,6 +26,8 @@
 					<smartFilterBar:ControlConfiguration key="MaterialGroup" visibleInAdvancedArea="true" controlType="dropDownList" displayBehaviour="descriptionOnly" />
 					<smartFilterBar:ControlConfiguration key="ShipmentStatus" visibleInAdvancedArea="true" controlType="dropDownList" displayBehaviour="descriptionOnly" />
 					<smartFilterBar:ControlConfiguration key="InspectionStatus" visibleInAdvancedArea="true" controlType="dropDownList" displayBehaviour="descriptionOnly" />
+					<smartFilterBar:ControlConfiguration key="QUALQUAN_CHECK_STAT" visibleInAdvancedArea="true" controlType="dropDownList" displayBehaviour="descriptionOnly"
+						label="{i18n>main.qualQuanCheckStatus}" />
 					<smartFilterBar:ControlConfiguration key="StockType" visibleInAdvancedArea="true" controlType="dropDownList" displayBehaviour="descriptionOnly" />
 					<smartFilterBar:ControlConfiguration key="SalesAdmin" visibleInAdvancedArea="true" hasValueHelpDialog="true" preventInitialDataFetchInValueHelpDialog="false" />
 					<smartFilterBar:ControlConfiguration key="SalesRep" visibleInAdvancedArea="true" hasValueHelpDialog="true" preventInitialDataFetchInValueHelpDialog="false" />
