@@ -151,6 +151,22 @@ sap.ui.define([
                 .then(this._handleConfirmUnloadingSuccess.bind(this));
         },
 
+        onOpenInternalClaimPress: function () {
+            this._openClaim("INTERNAL");
+        },
+
+        onOpenExternalClaimPress: function () {
+            this._openClaim("EXTERNAL");
+        },
+
+        onCloseInternalClaimPress: function () {
+            this._closeClaim("INTERNAL");
+        },
+
+        onCloseExternalClaimPress: function () {
+            this._closeClaim("EXTERNAL");
+        },
+
         onPrintItemPress: function () {
             var oSelectedItem = this._getSelectedDeliveryItem();
             if (!oSelectedItem) {
@@ -905,6 +921,22 @@ sap.ui.define([
 
         _setSapPostingEnabled: function (bValue) {
             this.getView().byId("SapPostingButton").setEnabled(bValue);
+        },
+
+        _openClaim: function (sClaimType) {
+            // TODO: implement actual claim opening logic (e.g. call backend action, navigate to claim app, etc.)
+            var sDeliveryKey = this._getCurrentDeliveryKey();
+            sap.m.MessageToast.show(sClaimType === "INTERNAL" ?
+                this.getResourceBundle().getText("details.openInternalClaim") + " - " + sDeliveryKey :
+                this.getResourceBundle().getText("details.openExternalClaim") + " - " + sDeliveryKey);
+        },
+
+        _closeClaim: function (sClaimType) {
+            // TODO: implement actual claim closing logic (e.g. call backend action, navigate to claim app, etc.)
+            var sDeliveryKey = this._getCurrentDeliveryKey();
+            sap.m.MessageToast.show(sClaimType === "INTERNAL" ?
+                this.getResourceBundle().getText("details.closeInternalClaim") + " - " + sDeliveryKey :
+                this.getResourceBundle().getText("details.closeExternalClaim") + " - " + sDeliveryKey);
         }
 
     });
