@@ -6,42 +6,21 @@
 				<actions>
 					<ObjectPageHeaderActionButton icon="sap-icon://post" text="{i18n>details.comment}" tooltip="{i18n>details.comment}" press="onAddCommentPress"/>
 					<ObjectPageHeaderActionButton icon="sap-icon://print" text="{i18n>details.print}" tooltip="{i18n>details.print}" press="onPrintItemPress"/>
+					<m:MenuButton text="{i18n>details.claimActions}" id="ClaimActionsMenuButton">
+						<m:menu>
+							<m:Menu>
+								<m:MenuItem text="{i18n>details.openInternalClaim}" press="onOpenInternalClaimPress"/>
+								<m:MenuItem text="{i18n>details.openExternalClaim}" press="onOpenExternalClaimPress"/>
+								<m:MenuItem text="{i18n>details.closeInternalClaim}" press="onCloseInternalClaimPress"/>
+								<m:MenuItem text="{i18n>details.closeExternalClaim}" press="onCloseExternalClaimPress"/>
+							</m:Menu>
+						</m:menu>
+					</m:MenuButton>
 				</actions>
 			</ObjectPageHeader>
 		</headerTitle>
 		<headerContent>
 			<core:Fragment fragmentName="zvgt.hppm.delivery.list.view.fragment.DetailHeader" type="XML"/>
-			<m:OverflowToolbar width="100%" id="ClaimActionsToolbar">
-				<m:ToolbarSpacer/>
-				<m:MenuButton text="{i18n>details.openInternalClaim}" id="OpenInternalClaimMenuButton">
-					<m:menu>
-						<m:Menu>
-							<m:MenuItem text="{i18n>details.openInternalClaim}" press="onOpenInternalClaimPress"/>
-						</m:Menu>
-					</m:menu>
-				</m:MenuButton>
-				<m:MenuButton text="{i18n>details.openExternalClaim}" id="OpenExternalClaimMenuButton">
-					<m:menu>
-						<m:Menu>
-							<m:MenuItem text="{i18n>details.openExternalClaim}" press="onOpenExternalClaimPress"/>
-						</m:Menu>
-					</m:menu>
-				</m:MenuButton>
-				<m:MenuButton text="{i18n>details.closeInternalClaim}" id="CloseInternalClaimMenuButton">
-					<m:menu>
-						<m:Menu>
-							<m:MenuItem text="{i18n>details.closeInternalClaim}" press="onCloseInternalClaimPress"/>
-						</m:Menu>
-					</m:menu>
-				</m:MenuButton>
-				<m:MenuButton text="{i18n>details.closeExternalClaim}" id="CloseExternalClaimMenuButton">
-					<m:menu>
-						<m:Menu>
-							<m:MenuItem text="{i18n>details.closeExternalClaim}" press="onCloseExternalClaimPress"/>
-						</m:Menu>
-					</m:menu>
-				</m:MenuButton>
-			</m:OverflowToolbar>
 		</headerContent>
 		<sections>
 			<ObjectPageSection titleUppercase="false" title="{i18n>details.items}">
