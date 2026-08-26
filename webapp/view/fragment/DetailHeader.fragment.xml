@@ -15,7 +15,7 @@
 			text="{ChangedBy} {i18n>details.on} { path: 'ChangedOn', type: 'sap.ui.model.odata.type.Date', formatOptions: { style: 'short' } }"/>
 	</layout:VerticalLayout>
 	<layout:VerticalLayout>
-		<m:ObjectStatus title="{i18n>details.qualQuanCheckStatus}" text="{QUALQUAN_CHECK_STAT}"/>
+		<m:ObjectStatus title="{i18n>details.qualQuanCheckStatus}" text="{QualquanCheckStat}"/>
 	</layout:VerticalLayout>
 	<layout:VerticalLayout>
 		<m:ObjectStatus title="{i18n>details.progress}"/>
