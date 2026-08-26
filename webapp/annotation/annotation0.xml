@@ -137,6 +137,24 @@
 					</Record>
 				</Annotation>
 			</Annotations>
+			<Annotations Target="Metadata.DeliveryHead/QualquanCheckStat">
+				<Annotation Term="Common.ValueList">
+					<Record Type="Common.ValueListType">
+						<PropertyValue Property="CollectionPath" String="QualquanCheckStatValueHelpSet"/>
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterInOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="QualquanCheckStat"/>
+									<PropertyValue Property="ValueListProperty" String="Key"/>
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="Text"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
 			<Annotations Target="Metadata.DeliveryHead/StockType">
 				<Annotation Term="Common.ValueList">
 					<Record Type="Common.ValueListType">
