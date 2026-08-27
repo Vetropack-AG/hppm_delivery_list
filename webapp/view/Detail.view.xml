@@ -6,6 +6,16 @@
 				<actions>
 					<ObjectPageHeaderActionButton icon="sap-icon://post" text="{i18n>details.comment}" tooltip="{i18n>details.comment}" press="onAddCommentPress"/>
 					<ObjectPageHeaderActionButton icon="sap-icon://print" text="{i18n>details.print}" tooltip="{i18n>details.print}" press="onPrintItemPress"/>
+					<m:MenuButton text="{i18n>details.claimActions}" id="ClaimActionsMenuButton">
+						<m:menu>
+							<m:Menu>
+								<m:MenuItem text="{i18n>details.openInternalClaim}" press="onOpenInternalClaimPress"/>
+								<m:MenuItem text="{i18n>details.openExternalClaim}" press="onOpenExternalClaimPress"/>
+								<m:MenuItem text="{i18n>details.closeInternalClaim}" press="onCloseInternalClaimPress"/>
+								<m:MenuItem text="{i18n>details.closeExternalClaim}" press="onCloseExternalClaimPress"/>
+							</m:Menu>
+						</m:menu>
+					</m:MenuButton>
 				</actions>
 			</ObjectPageHeader>
 		</headerTitle>

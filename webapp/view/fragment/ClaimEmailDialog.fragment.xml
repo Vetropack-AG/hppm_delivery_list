@@ -1,0 +1,20 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m">
+	<Dialog title="{i18n>claimEmailDialog.title}" contentWidth="32rem" id="ClaimEmailDialog">
+		<content>
+			<VBox class="sapUiSmallMargin">
+				<Label text="{i18n>claimEmailDialog.to}" required="true" labelFor="ClaimEmailToInput"/>
+				<Input id="ClaimEmailToInput" type="Email" required="true" placeholder="{i18n>claimEmailDialog.toPlaceholder}"
+					value="{ViewSettings>/ClaimEmail/To}" liveChange="onClaimEmailToLiveChange" valueState="{ViewSettings>/ClaimEmail/ToValueState}"
+					valueStateText="{i18n>claimEmailDialog.toValueStateText}"/>
+				<Label text="{i18n>claimEmailDialog.subject}" class="sapUiTinyMarginTop"/>
+				<Input value="{ViewSettings>/ClaimEmail/Subject}"/>
+				<Label text="{i18n>claimEmailDialog.body}" class="sapUiTinyMarginTop"/>
+				<TextArea rows="8" value="{ViewSettings>/ClaimEmail/Body}" width="100%"/>
+			</VBox>
+		</content>
+		<buttons>
+			<Button text="{i18n>claimEmailDialog.send}" type="Emphasized" enabled="{ViewSettings>/ClaimEmail/SendEnabled}" press="onClaimEmailDialogSendPress"/>
+			<Button text="{i18n>general.cancel}" press="onClaimEmailDialogCancelPress"/>
+		</buttons>
+	</Dialog>
+</core:FragmentDefinition>
