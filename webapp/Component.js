@@ -22,7 +22,14 @@ sap.ui.define([
 			UIComponent.prototype.init.apply(this, arguments);
 			
 			this._loadHppmLibrary();
-			zvgt.hppm.addBTPCustomerNumberToHttpHeader(this);
+			// set an initial empty UserInfo model synchronously so getModel("UserInfo") is
+			// never undefined, even before the /user-api/currentUser request resolves
+			this.setModel(new sap.ui.model.json.JSONModel({
+				firstname: "",
+				lastname: "",
+				email: ""
+			}), "UserInfo");
+			this._pUserInfoLoaded = zvgt.hppm.addBTPCustomerNumberToHttpHeader(this);
 
 			this.getRouter().initialize();
 			this.setModel(models.createDeviceModel(), "device");
@@ -32,6 +39,18 @@ sap.ui.define([
 			this.getModel().setSizeLimit(9999);
 			this.getModel("UI").setProperty("/IsInternalUser", !zvgt.hppm.isExternalUser());
 			this.getModel("UI").setProperty("/IsAllowedPosting", !zvgt.hppm.isExternalUser());
+		},
+
+		/**
+		 * Returns a promise that resolves once the "UserInfo" model has been populated with
+		 * the current user's first/last name/email (fetched from /user-api/currentUser).
+		 * Callers (e.g. controllers) should await this promise before relying on the
+		 * "UserInfo" model's data being fully loaded.
+		 * @returns {Promise} The user info loaded promise.
+		 * @public
+		 */
+		getUserInfoLoaded: function () {
+			return this._pUserInfoLoaded || Promise.resolve();
 		},
 
 		_loadHppmLibrary: function() {
