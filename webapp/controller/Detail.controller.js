@@ -12,6 +12,13 @@ sap.ui.define([
     var BATCH_GROUP_CONFIRM_LOADING = "confirmLoading";
     var BATCH_GROUP_CONFIRM_UNLOADING = "confirmUnloading";
 
+    var ACTION_STATUS = {
+        OPEN_INTERNAL_CLAIM: "01",
+        OPEN_EXTERNAL_CLAIM: "02",
+        CLOSE_INTERNAL_CLAIM: "03",
+        CLOSE_EXTERNAL_CLAIM: "04"
+    };
+
     return BaseController.extend("zvgt.hppm.delivery.list.controller.Detail", {
         formatter: formatter,
         quantityCalculator: quantityCalculator,
@@ -152,19 +159,45 @@ sap.ui.define([
         },
 
         onOpenInternalClaimPress: function () {
-            this._openClaim("INTERNAL");
+            sap.ui.core.BusyIndicator.show(0);
+            this._prepareInternalClaimEmail().then(function () {
+                sap.ui.core.BusyIndicator.hide();
+                this.getFragment("ClaimEmailDialog", this).open();
+            }.bind(this));
         },
 
         onOpenExternalClaimPress: function () {
-            this._openClaim("EXTERNAL");
+            this._setActionStatus(ACTION_STATUS.OPEN_EXTERNAL_CLAIM, "message.externalClaimOpened");
         },
 
         onCloseInternalClaimPress: function () {
-            this._closeClaim("INTERNAL");
+            this._setActionStatus(ACTION_STATUS.CLOSE_INTERNAL_CLAIM, "message.internalClaimClosed");
         },
 
         onCloseExternalClaimPress: function () {
-            this._closeClaim("EXTERNAL");
+            this._setActionStatus(ACTION_STATUS.CLOSE_EXTERNAL_CLAIM, "message.externalClaimClosed");
+        },
+
+        onClaimEmailToLiveChange: function (oEvent) {
+            var sValue = oEvent.getParameter("value");
+            var bValid = this._isValidEmail(sValue);
+            this.getView().getModel("ViewSettings").setProperty("/ClaimEmail/ToValueState", bValid || sValue === "" ? "None" : "Error");
+            this.getView().getModel("ViewSettings").setProperty("/ClaimEmail/SendEnabled", bValid);
+        },
+
+        onClaimEmailDialogSendPress: function () {
+            var oClaimEmail = this.getView().getModel("ViewSettings").getProperty("/ClaimEmail");
+            if (!this._isValidEmail(oClaimEmail.To)) {
+                this.getView().getModel("ViewSettings").setProperty("/ClaimEmail/ToValueState", "Error");
+                return;
+            }
+            this._openMailClient(oClaimEmail);
+            this.getFragment("ClaimEmailDialog", this).close();
+            this._setActionStatus(ACTION_STATUS.OPEN_INTERNAL_CLAIM, "message.internalClaimOpened");
+        },
+
+        onClaimEmailDialogCancelPress: function () {
+            this.getFragment("ClaimEmailDialog", this).close();
         },
 
         onPrintItemPress: function () {
@@ -923,20 +956,133 @@ sap.ui.define([
             this.getView().byId("SapPostingButton").setEnabled(bValue);
         },
 
-        _openClaim: function (sClaimType) {
-            // TODO: implement actual claim opening logic (e.g. call backend action, navigate to claim app, etc.)
+        /**
+         * Calls the backend SetActionStatus function import to persist the new action status
+         * code (01-04) against the current delivery, then refreshes the model and shows a
+         * translated success toast.
+         * @param {string} sActionStatus One of the ACTION_STATUS codes ("01".."04").
+         * @param {string} sSuccessMessageKey The i18n key for the success toast message.
+         * @private
+         */
+        _setActionStatus: function (sActionStatus, sSuccessMessageKey) {
             var sDeliveryKey = this._getCurrentDeliveryKey();
-            sap.m.MessageToast.show(sClaimType === "INTERNAL" ?
-                this.getResourceBundle().getText("details.openInternalClaim") + " - " + sDeliveryKey :
-                this.getResourceBundle().getText("details.openExternalClaim") + " - " + sDeliveryKey);
+            var oModel = this.getView().getModel();
+            sap.ui.core.BusyIndicator.show(0);
+            oModel.callFunction("/SetActionStatus", {
+                method: "POST",
+                urlParameters: {
+                    DeliveryKey: sDeliveryKey,
+                    ActionStatus: sActionStatus
+                },
+                success: function () {
+                    sap.ui.core.BusyIndicator.hide();
+                    this.getView().getModel().refresh(true);
+                    this._bindHeaderData(sDeliveryKey);
+                    this.showTranslatedMessageToast(sSuccessMessageKey);
+                }.bind(this),
+                error: function () {
+                    sap.ui.core.BusyIndicator.hide();
+                }
+            });
         },
 
-        _closeClaim: function (sClaimType) {
-            // TODO: implement actual claim closing logic (e.g. call backend action, navigate to claim app, etc.)
+        /**
+         * Builds the (temporary, client-side) email template for the "Open Internal Claim"
+         * action and stores it in the ViewSettings model so the ClaimEmailDialog can bind to it.
+         * TODO: replace this client-side dummy template with real calls to the backend
+         * function imports GetInternalClaimEmailBody / GetInternalClaimEmailAddress once they
+         * are available, passing DeliveryLink, FirstName and LastName as parameters.
+         * @private
+         */
+        _prepareInternalClaimEmail: function () {
             var sDeliveryKey = this._getCurrentDeliveryKey();
-            sap.m.MessageToast.show(sClaimType === "INTERNAL" ?
-                this.getResourceBundle().getText("details.closeInternalClaim") + " - " + sDeliveryKey :
-                this.getResourceBundle().getText("details.closeExternalClaim") + " - " + sDeliveryKey);
+            var sDeepLink = this._getDeepLinkToDetail(sDeliveryKey);
+
+            return this._getUserInfo().then(function (oUserInfo) {
+                var sSubject = this.translateText("claimEmailDialog.dummySubject", [sDeliveryKey]);
+                var sBody = this.translateText("claimEmailDialog.dummyBody", [sDeliveryKey, sDeepLink, oUserInfo.firstname, oUserInfo.lastname]);
+
+                this.getView().getModel("ViewSettings").setProperty("/ClaimEmail", {
+                    To: "",
+                    Subject: sSubject,
+                    Body: sBody,
+                    ToValueState: "None",
+                    SendEnabled: false
+                });
+            }.bind(this));
+        },
+
+        /**
+         * Opens the user's default email client with a mailto: link pre-filled with the
+         * given To/Subject/Body. TODO: replace with a backend-triggered email send once
+         * available.
+         * @param {object} oClaimEmail Object with To, Subject, Body properties.
+         * @private
+         */
+        _openMailClient: function (oClaimEmail) {
+            var sMailToLink = "mailto:" + encodeURIComponent(oClaimEmail.To) +
+                "?subject=" + encodeURIComponent(oClaimEmail.Subject) +
+                "&body=" + encodeURIComponent(oClaimEmail.Body);
+            window.open(sMailToLink, "_blank");
+        },
+
+        /**
+         * Builds a deep link URL to the Detail page for the given delivery key, using the
+         * Fiori Launchpad cross-application navigation service if available, falling back to
+         * the current window location otherwise.
+         * @param {string} sDeliveryKey The delivery key.
+         * @returns {string} The deep link URL.
+         * @private
+         */
+        _getDeepLinkToDetail: function (sDeliveryKey) {
+            try {
+                var oCrossAppNav = sap.ushell.Container.getService("CrossApplicationNavigation");
+                if (oCrossAppNav) {
+                    return oCrossAppNav.hrefForExternal({ // eslint-disable-line
+                        target: {
+                            semanticObject: "OutboundDelivery",
+                            action: "manage"
+                        },
+                        params: {
+                            DeliveryKey: sDeliveryKey
+                        }
+                    });
+                }
+            } catch (oError) {
+                // sap.ushell not available - fall back below
+            }
+            return window.location.href;
+        },
+
+        /**
+         * Reads the current user's first/last name from the "UserInfo" model cached on the
+         * component (populated via zvgt.hppm.addBTPCustomerNumberToHttpHeader during
+         * Component#init).
+         * @returns {object} Object with firstname/lastname/email properties.
+         * @private
+         */
+        _getUserInfo: function () {
+            var oComponent = this.getOwnerComponent();
+            var pLoaded = oComponent.getUserInfoLoaded ? oComponent.getUserInfoLoaded() : Promise.resolve();
+            return pLoaded.then(function () {
+                var oUserInfoModel = oComponent.getModel("UserInfo");
+                return oUserInfoModel ? oUserInfoModel.getData() : { firstname: "", lastname: "", email: "" };
+            }).catch(function () {
+                // request failed - fall back to whatever is currently in the model
+                // (the initial empty UserInfo model set synchronously in Component#init)
+                var oUserInfoModel = oComponent.getModel("UserInfo");
+                return oUserInfoModel ? oUserInfoModel.getData() : { firstname: "", lastname: "", email: "" };
+            });
+        },
+
+        /**
+         * Simple email format validation.
+         * @param {string} sValue The value to validate.
+         * @returns {boolean} True if sValue is a valid email address.
+         * @private
+         */
+        _isValidEmail: function (sValue) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(sValue || "");
         }
 
     });
