@@ -159,11 +159,8 @@ sap.ui.define([
         },
 
         onOpenInternalClaimPress: function () {
-            sap.ui.core.BusyIndicator.show(0);
-            this._prepareInternalClaimEmail().then(function () {
-                sap.ui.core.BusyIndicator.hide();
-                this.getFragment("ClaimEmailDialog", this).open();
-            }.bind(this));
+            this._prepareInternalClaimEmail();
+            this.getFragment("ClaimEmailDialog", this).open();
         },
 
         onOpenExternalClaimPress: function () {
@@ -997,19 +994,18 @@ sap.ui.define([
         _prepareInternalClaimEmail: function () {
             var sDeliveryKey = this._getCurrentDeliveryKey();
             var sDeepLink = this._getDeepLinkToDetail(sDeliveryKey);
+            var oUserInfo = this._getUserInfo();
 
-            return this._getUserInfo().then(function (oUserInfo) {
-                var sSubject = this.translateText("claimEmailDialog.dummySubject", [sDeliveryKey]);
-                var sBody = this.translateText("claimEmailDialog.dummyBody", [sDeliveryKey, sDeepLink, oUserInfo.firstname, oUserInfo.lastname]);
+            var sSubject = this.translateText("claimEmailDialog.dummySubject", [sDeliveryKey]);
+            var sBody = this.translateText("claimEmailDialog.dummyBody", [sDeliveryKey, sDeepLink, oUserInfo.firstname, oUserInfo.lastname]);
 
-                this.getView().getModel("ViewSettings").setProperty("/ClaimEmail", {
-                    To: "",
-                    Subject: sSubject,
-                    Body: sBody,
-                    ToValueState: "None",
-                    SendEnabled: false
-                });
-            }.bind(this));
+            this.getView().getModel("ViewSettings").setProperty("/ClaimEmail", {
+                To: "",
+                Subject: sSubject,
+                Body: sBody,
+                ToValueState: "None",
+                SendEnabled: false
+            });
         },
 
         /**
@@ -1055,24 +1051,28 @@ sap.ui.define([
         },
 
         /**
-         * Reads the current user's first/last name from the "UserInfo" model cached on the
-         * component (populated via zvgt.hppm.addBTPCustomerNumberToHttpHeader during
-         * Component#init).
+         * Reads the current user's first/last name using the Fiori Launchpad "UserInfo"
+         * shell service, which is available synchronously once the shell container has
+         * loaded (no additional request needed).
          * @returns {object} Object with firstname/lastname/email properties.
          * @private
          */
         _getUserInfo: function () {
-            var oComponent = this.getOwnerComponent();
-            var pLoaded = oComponent.getUserInfoLoaded ? oComponent.getUserInfoLoaded() : Promise.resolve();
-            return pLoaded.then(function () {
-                var oUserInfoModel = oComponent.getModel("UserInfo");
-                return oUserInfoModel ? oUserInfoModel.getData() : { firstname: "", lastname: "", email: "" };
-            }).catch(function () {
-                // request failed - fall back to whatever is currently in the model
-                // (the initial empty UserInfo model set synchronously in Component#init)
-                var oUserInfoModel = oComponent.getModel("UserInfo");
-                return oUserInfoModel ? oUserInfoModel.getData() : { firstname: "", lastname: "", email: "" };
-            });
+            try {
+                var oUserInfoService = sap.ushell.Container.getService("UserInfo");
+                if (oUserInfoService) {
+                    var sFullName = oUserInfoService.getFullName ? oUserInfoService.getFullName() : "";
+                    var aNameParts = sFullName ? sFullName.split(" ") : [];
+                    return {
+                        firstname: aNameParts[0] || "",
+                        lastname: aNameParts.slice(1).join(" ") || "",
+                        email: oUserInfoService.getEmail ? oUserInfoService.getEmail() : ""
+                    };
+                }
+            } catch (oError) {
+                // sap.ushell not available - fall back below
+            }
+            return { firstname: "", lastname: "", email: "" };
         },
 
         /**
