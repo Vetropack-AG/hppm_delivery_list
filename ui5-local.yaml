@@ -26,14 +26,14 @@ server:
           - path: /sap
             url: http://vpavd910.vetropack.corporate.ads:44300
             client: "200"
-            destination: ERP_EMBEDDED_D91
+            destination: ERP_EMBEDDED_D91_200
           - path: /webapp/resources/zvgt/hppm
-            destination: ERP_EMBEDDED_D91
+            destination: ERP_EMBEDDED_D91_200
             url: http://vpavd910.vetropack.corporate.ads:44300
             client: "200"
             pathPrefix: /sap/bc/ui5_ui5/sap/ZVGT_CONTROLS
           - path: /resources/zvgt/hppm
-            destination: ERP_EMBEDDED_D91
+            destination: ERP_EMBEDDED_D91_200
             url: http://vpavd910.vetropack.corporate.ads:44300
             client: "200"
             pathPrefix: /sap/bc/ui5_ui5/sap/ZVGT_CONTROLS
