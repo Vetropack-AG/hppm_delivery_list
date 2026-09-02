@@ -966,10 +966,9 @@ sap.ui.define([
             var oModel = this.getView().getModel();
             sap.ui.core.BusyIndicator.show(0);
             oModel.callFunction("/SetActionStatus", {
-                method: "POST",
                 urlParameters: {
                     DeliveryKey: sDeliveryKey,
-                    ActionStatus: sActionStatus
+                    Status: sActionStatus
                 },
                 success: function () {
                     sap.ui.core.BusyIndicator.hide();
