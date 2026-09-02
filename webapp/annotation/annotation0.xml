@@ -137,6 +137,9 @@
 					</Record>
 				</Annotation>
 			</Annotations>
+			<Annotations Target="Metadata.QualquanCheckStatValueHelp/Key">
+				<Annotation Term="Common.Text" Path="Text"/>
+			</Annotations>
 			<Annotations Target="Metadata.DeliveryHead/QualquanCheckStat">
 				<Annotation Term="Common.ValueList">
 					<Record Type="Common.ValueListType">
