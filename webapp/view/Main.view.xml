@@ -28,6 +28,8 @@
 					<smartFilterBar:ControlConfiguration key="InspectionStatus" visibleInAdvancedArea="true" controlType="dropDownList" displayBehaviour="descriptionOnly" />
 					<smartFilterBar:ControlConfiguration key="QualquanCheckStat" visibleInAdvancedArea="true" controlType="dropDownList" displayBehaviour="descriptionOnly"
 						label="{i18n>main.qualQuanCheckStatus}" />
+					<smartFilterBar:ControlConfiguration key="ActionStatus" visibleInAdvancedArea="true" controlType="dropDownList" displayBehaviour="descriptionOnly"
+						label="{i18n>main.actionStatus}" />
 					<smartFilterBar:ControlConfiguration key="StockType" visibleInAdvancedArea="true" controlType="dropDownList" displayBehaviour="descriptionOnly" />
 					<smartFilterBar:ControlConfiguration key="SalesAdmin" visibleInAdvancedArea="true" hasValueHelpDialog="true" preventInitialDataFetchInValueHelpDialog="false" />
 					<smartFilterBar:ControlConfiguration key="SalesRep" visibleInAdvancedArea="true" hasValueHelpDialog="true" preventInitialDataFetchInValueHelpDialog="false" />

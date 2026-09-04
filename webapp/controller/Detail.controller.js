@@ -858,6 +858,14 @@ sap.ui.define([
             });
             this.getView().getModel().read(sPath, {
                 success: function (oData) {
+                    var oBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
+                    var mActionStatusTexts = {
+                        "01": oBundle.getText("details.openInternalClaim"),
+                        "02": oBundle.getText("details.openExternalClaim"),
+                        "03": oBundle.getText("details.closeInternalClaim"),
+                        "04": oBundle.getText("details.closeExternalClaim")
+                    };
+                    oData.ActionStatusText = mActionStatusTexts[oData.ActionStatus] || "";
                     this.getView().getModel("Header").setProperty("/", oData);
                 }.bind(this)
             });
