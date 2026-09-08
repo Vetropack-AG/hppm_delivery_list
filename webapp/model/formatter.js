@@ -142,18 +142,19 @@ sap.ui.define([
 			return "None";
 		},
 
-		qualquanCheckStatState: function (sQualquanCheckStat) {
-			if (!sQualquanCheckStat) {
+		qualquanCheckStatState: function (sStatus) {
+			switch (sStatus) {
+			case "01": // Quantity failed
+				return "Warning";
+			case "02": // Quantity pass
+				return "Success";
+			case "05": // Quality/Quantity failed
+				return "Warning";
+			case "06": // Quality/Quantity pass
+				return "Success";
+			default:
 				return "None";
 			}
-			var sUpper = sQualquanCheckStat.toUpperCase();
-			if (sUpper.indexOf("PASS") !== -1) {
-				return "Success";
-			}
-			if (sUpper.indexOf("FAIL") !== -1) {
-				return "Warning";
-			}
-			return "None";
 		},
 
 		calculateLayerLineResult: function (iPieces, iPallets, iHeight, sCalculatorMode) {
