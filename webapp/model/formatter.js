@@ -142,6 +142,20 @@ sap.ui.define([
 			return "None";
 		},
 
+		qualquanCheckStatState: function (sQualquanCheckStat) {
+			if (!sQualquanCheckStat) {
+				return "None";
+			}
+			var sUpper = sQualquanCheckStat.toUpperCase();
+			if (sUpper.indexOf("PASS") !== -1) {
+				return "Success";
+			}
+			if (sUpper.indexOf("FAIL") !== -1) {
+				return "Warning";
+			}
+			return "None";
+		},
+
 		calculateLayerLineResult: function (iPieces, iPallets, iHeight, sCalculatorMode) {
 			var iConstant = this.getView().getModel("ViewSettings").getProperty("/LayerHeight");
 			var sMode = this.getView().getModel("ViewSettings").getProperty("/LayersCalculatorMode");
