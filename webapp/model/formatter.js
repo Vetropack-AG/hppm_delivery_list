@@ -142,6 +142,21 @@ sap.ui.define([
 			return "None";
 		},
 
+		qualquanCheckStatState: function (sStatus) {
+			switch (sStatus) {
+			case "01": // Quantity failed
+				return "Warning";
+			case "02": // Quantity pass
+				return "Success";
+			case "05": // Quality/Quantity failed
+				return "Warning";
+			case "06": // Quality/Quantity pass
+				return "Success";
+			default:
+				return "None";
+			}
+		},
+
 		calculateLayerLineResult: function (iPieces, iPallets, iHeight, sCalculatorMode) {
 			var iConstant = this.getView().getModel("ViewSettings").getProperty("/LayerHeight");
 			var sMode = this.getView().getModel("ViewSettings").getProperty("/LayersCalculatorMode");
